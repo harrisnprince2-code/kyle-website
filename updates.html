@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kyle | Latest Updates</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(100, 10, 45, 0.25), transparent 30%),
+        #030303;
+    }
+    header {
+      height: 78px;
+      padding: 0 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(3, 3, 3, 0.92);
+      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 8px;
+    }
+    .back {
+      color: #a52a50;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .container {
+      width: 88%;
+      max-width: 1050px;
+      margin: auto;
+      padding: 75px 0;
+    }
+    .label {
+      color: #922047;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      margin-bottom: 15px;
+    }
+    h1 {
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+    .intro {
+      max-width: 620px;
+      color: #777;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 55px;
+    }
+    .updates {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .update {
+      padding: 30px 35px;
+      border-radius: 18px;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(65, 5, 27, 0.28),
+          rgba(8, 8, 8, 0.92)
+        );
+      border: 1px solid rgba(120, 20, 55, 0.3);
+      transition: 0.3s ease;
+    }
+    .update:hover {
+      transform: translateX(6px);
+      border-color: rgba(150, 30, 75, 0.6);
+      box-shadow: 0 20px 60px rgba(60, 3, 25, 0.3);
+    }
+    .date {
+      color: #751438;
+      font-size: 11px;
+      letter-spacing: 3px;
+      margin-bottom: 15px;
+    }
+    .update h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .update p {
+      color: #858585;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #444;
+      font-size: 11px;
+      border-top: 1px solid rgba(100, 15, 45, 0.2);
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: 90%;
+        padding: 55px 0;
+      }
+      .update {
+        padding: 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      KYLE
+    </div>
+    <a href="dashboard.html" class="back">
+      ← DASHBOARD
+    </a>
+  </header>
+  <main class="container">
+    <p class="label">
+      OFFICIAL NEWS
+    </p>
+    <h1>
+      Latest<br>
+      Updates.
+    </h1>
+    <p class="intro">
+      Stay connected with the latest news, announcements,
+      special moments and updates from Kyle.
+    </p>
+    <section class="updates">
+      <article class="update">
+        <div class="date">
+          SEPTEMBER 2026
+        </div>
+        <h2>
+          Welcome to the Official Community
+        </h2>
+        <p>
+          The official Kyle community is now open.
+          Members can stay connected, discover exclusive
+          content and receive the latest updates.
+        </p>
+      </article>
+      <article class="update">
+        <div class="date">
+          NEW UPDATE
+        </div>
+        <h2>
+          Exclusive Content Is Now Available
+        </h2>
+        <p>
+          Members can now explore the exclusive collection
+          featuring special photos and behind-the-scenes
+          moments.
+        </p>
+      </article>
+      <article class="update">
+        <div class="date">
+          COMMUNITY
+        </div>
+        <h2>
+          More Experiences Coming Soon
+        </h2>
+        <p>
+          New community features, events and exclusive
+          experiences will be added to the member area.
+          Stay connected for future announcements.
+        </p>
+      </article>
+    </section>
+  </main>
+  <footer>
+    © 2026 Kyle. Official Website.
+  </footer>
+</body>
+</html>
