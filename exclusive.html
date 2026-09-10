@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kyle | Exclusive Content</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+      background:
+        radial-gradient(circle at 80% 0%, rgba(100, 10, 45, 0.25), transparent 30%),
+        #030303;
+    }
+    header {
+      height: 78px;
+      padding: 0 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(3, 3, 3, 0.92);
+      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 8px;
+    }
+    .back {
+      color: #a52a50;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .container {
+      width: 88%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 75px 0;
+    }
+    .label {
+      color: #922047;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 5px;
+      margin-bottom: 15px;
+    }
+    h1 {
+      font-size: clamp(42px, 6vw, 70px);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 20px;
+    }
+    .intro {
+      max-width: 600px;
+      color: #777;
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 55px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .item {
+      height: 360px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(120, 20, 55, 0.35);
+      background:
+        linear-gradient(
+          145deg,
+          rgba(70, 5, 30, 0.35),
+          rgba(8, 8, 8, 0.95)
+        );
+    }
+    .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #65102f;
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+    .item-info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 25px;
+      background: linear-gradient(
+        transparent,
+        rgba(0,0,0,0.9)
+      );
+    }
+    .item-info h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .item-info p {
+      color: #888;
+      font-size: 12px;
+    }
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #444;
+      font-size: 11px;
+      border-top: 1px solid rgba(100, 15, 45, 0.2);
+    }
+    @media (max-width: 800px) {
+      .container {
+        width: 90%;
+      }
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      .item {
+        height: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      KYLE
+    </div>
+    <a href="dashboard.html" class="back">
+      ← DASHBOARD
+    </a>
+  </header>
+  <main class="container">
+    <p class="label">
+      MEMBERS ONLY
+    </p>
+    <h1>
+      Exclusive<br>
+      Content.
+    </h1>
+    <p class="intro">
+      Welcome to the private collection. Explore exclusive
+      photos, special moments, behind-the-scenes content
+      and updates created for the Kyle community.
+    </p>
+    <section class="gallery">
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 01
+        </div>
+        <div class="item-info">
+          <h3>Exclusive Moment</h3>
+          <p>Members Only</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 02
+        </div>
+        <div class="item-info">
+          <h3>Behind The Scenes</h3>
+          <p>Exclusive Access</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 03
+        </div>
+        <div class="item-info">
+          <h3>Special Collection</h3>
+          <p>Members Only</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 04
+        </div>
+        <div class="item-info">
+          <h3>Latest Moments</h3>
+          <p>Exclusive Access</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 05
+        </div>
+        <div class="item-info">
+          <h3>Private Collection</h3>
+          <p>Members Only</p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="placeholder">
+          PHOTO 06
+        </div>
+        <div class="item-info">
+          <h3>Featured</h3>
+          <p>Exclusive Access</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    © 2026 Kyle. Official Website.
+  </footer>
+</body>
+</html>
