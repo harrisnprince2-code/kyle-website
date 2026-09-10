@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kyle | Dashboard</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at 80% 10%,
+          rgba(75, 5, 30, 0.3),
+          transparent 30%
+        ),
+        #030303;
+    }
+
+    header {
+      height: 75px;
+      padding: 0 7%;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      background: rgba(3, 3, 3, 0.9);
+
+      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
+    }
+
+    .logo {
+      font-size: 23px;
+      letter-spacing: 7px;
+    }
+
+    .logout {
+      color: #a52a50;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .dashboard {
+      width: 86%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 0;
+    }
+
+    .welcome {
+      color: #8e1d43;
+      font-size: 11px;
+      letter-spacing: 5px;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 65px);
+      line-height: 1;
+      margin-bottom: 50px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      min-height: 220px;
+      padding: 30px;
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(65, 5, 27, 0.28),
+          rgba(8, 8, 8, 0.9)
+        );
+
+      border: 1px solid rgba(120, 20, 55, 0.3);
+
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, 0.45);
+
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(145, 30, 70, 0.6);
+    }
+
+    .card-number {
+      color: #711337;
+      font-size: 12px;
+      letter-spacing: 3px;
+    }
+
+    .card h2 {
+      margin-top: 45px;
+      margin-bottom: 12px;
+      font-size: 23px;
+    }
+
+    .card p {
+      color: #888;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .profile {
+      margin-top: 25px;
+      padding: 30px;
+
+      border-radius: 18px;
+
+      border: 1px solid rgba(120, 20, 55, 0.3);
+
+      background: rgba(20, 3, 10, 0.35);
+    }
+
+    .profile h2 {
+      margin-bottom: 10px;
+    }
+
+    .profile p {
+      color: #888;
+    }
+
+    @media (max-width: 800px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard {
+        width: 90%;
+        padding: 55px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <div class="logo">
+      KYLE
+    </div>
+
+    <a href="index.html" class="logout">
+      LOG OUT
+    </a>
+
+  </header>
+
+
+  <main class="dashboard">
+
+    <p class="welcome">
+      MEMBER AREA
+    </p>
+
+    <h1>
+      Welcome Back.
+    </h1>
+
+
+    <div class="grid">
+
+      <div class="card">
+        <span class="card-number">01</span>
+
+        <h2>Latest Updates</h2>
+
+        <p>
+          View the latest updates, announcements,
+          and exclusive information.
+        </p>
+      </div>
+
+
+      <div class="card">
+        <span class="card-number">02</span>
+
+        <h2>Exclusive Content</h2>
+
+        <p>
+          Access special content and experiences
+          available to members.
+        </p>
+      </div>
+
+
+      <div class="card">
+        <span class="card-number">03</span>
+
+        <h2>Community</h2>
+
+        <p>
+          Stay connected with the community
+          and discover what's happening.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="profile">
+
+      <h2>Your Account</h2>
+
+      <p>
+        Your member dashboard will become the central
+        place for your account, updates, and exclusive
+        features.
+      </p>
+
+    </div>
+
+  </main>
+
+</body>
+</html>
