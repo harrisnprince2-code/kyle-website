@@ -314,7 +314,7 @@
 
     <!-- LOGIN -->
 
-    <form id="login">
+    <form id="login" onsubmit="loginUser(event)">
 
       <div class="form-group">
         <label>Email Address</label>
@@ -423,30 +423,28 @@
   </div>
 
 
-  <script>
+ <script>
 
-    function showLogin() {
+  function showLogin() {
+    document.getElementById("login").style.display = "block";
+    document.getElementById("signup").style.display = "none";
 
-      document.getElementById("login").style.display = "block";
-      document.getElementById("signup").style.display = "none";
+    document.getElementById("loginTab").classList.add("active");
+    document.getElementById("signupTab").classList.remove("active");
+  }
 
-      document.getElementById("loginTab").classList.add("active");
-      document.getElementById("signupTab").classList.remove("active");
+  function showSignup() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("signup").style.display = "block";
 
-    }
+    document.getElementById("loginTab").classList.remove("active");
+    document.getElementById("signupTab").classList.add("active");
+  }
 
+  function loginUser(event) {
+    event.preventDefault();
 
-    function showSignup() {
+    window.location.href = "dashboard.html";
+  }
 
-      document.getElementById("login").style.display = "none";
-      document.getElementById("signup").style.display = "block";
-
-      document.getElementById("loginTab").classList.remove("active");
-      document.getElementById("signupTab").classList.add("active");
-
-    }
-
-  </script>
-
-</body>
-</html>
+</script>
