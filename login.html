@@ -423,28 +423,77 @@
   </div>
 
 
- <script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-  function showLogin() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+    authDomain: "kyle-official-website.firebaseapp.com",
+    projectId: "kyle-official-website",
+    storageBucket: "kyle-official-website.firebasestorage.app",
+    messagingSenderId: "547868923755",
+    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+    measurementId: "G-799CW529X9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  window.showLogin = function () {
     document.getElementById("login").style.display = "block";
     document.getElementById("signup").style.display = "none";
 
     document.getElementById("loginTab").classList.add("active");
     document.getElementById("signupTab").classList.remove("active");
-  }
+  };
 
-  function showSignup() {
+  window.showSignup = function () {
     document.getElementById("login").style.display = "none";
     document.getElementById("signup").style.display = "block";
 
     document.getElementById("loginTab").classList.remove("active");
     document.getElementById("signupTab").classList.add("active");
-  }
+  };
 
-  function loginUser(event) {
+  window.loginUser = async function (event) {
     event.preventDefault();
 
-    window.location.href = "dashboard.html";
-  }
+    const email = document.querySelector("#login input[type='email']").value;
+    const password = document.querySelector("#login input[type='password']").value;
 
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+
+      window.location.href = "dashboard.html";
+
+    } catch (error) {
+      alert("Login failed: " + error.message);
+    }
+  };
+
+  document.getElementById("signup").addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const inputs = document.querySelectorAll("#signup input");
+
+    const name = inputs[0].value;
+    const email = inputs[1].value;
+    const password = inputs[2].value;
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      alert("Account created successfully! Welcome, " + name + ".");
+
+      window.location.href = "dashboard.html";
+
+    } catch (error) {
+      alert("Sign up failed: " + error.message);
+    }
+  });
 </script>
