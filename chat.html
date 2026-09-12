@@ -4,12 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kyle | Fan Chat</title>
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       min-height: 100vh;
       font-family: Arial, Helvetica, sans-serif;
@@ -18,6 +20,7 @@
         radial-gradient(circle at 80% 0%, rgba(100, 10, 45, 0.25), transparent 30%),
         #030303;
     }
+
     header {
       height: 78px;
       padding: 0 6%;
@@ -27,17 +30,20 @@
       background: rgba(3, 3, 3, 0.95);
       border-bottom: 1px solid rgba(120, 20, 55, 0.35);
     }
+
     .logo {
       font-size: 24px;
       font-weight: bold;
       letter-spacing: 8px;
     }
+
     .back {
       color: #a52a50;
       text-decoration: none;
       font-size: 12px;
       font-weight: bold;
     }
+
     .chat-container {
       width: 92%;
       max-width: 1000px;
@@ -52,15 +58,19 @@
       background: rgba(8, 8, 8, 0.92);
       box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
     }
+
     /* SIDEBAR */
+
     .sidebar {
       border-right: 1px solid rgba(120, 20, 55, 0.25);
       background: rgba(20, 3, 10, 0.4);
     }
+
     .sidebar-title {
       padding: 25px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
+
     .sidebar-title p {
       color: #922047;
       font-size: 10px;
@@ -68,21 +78,24 @@
       letter-spacing: 3px;
       margin-bottom: 7px;
     }
+
     .sidebar-title h2 {
       font-size: 20px;
     }
+
     .chat-user {
       padding: 20px;
       display: flex;
       align-items: center;
       gap: 13px;
-      cursor: pointer;
       background: rgba(100, 10, 45, 0.12);
       border-left: 2px solid #8d1d45;
     }
+
     .avatar {
       width: 42px;
       height: 42px;
+      min-width: 42px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -93,20 +106,25 @@
       font-size: 11px;
       font-weight: bold;
     }
+
     .chat-user h3 {
       font-size: 14px;
       margin-bottom: 3px;
     }
+
     .online {
       color: #777;
       font-size: 11px;
     }
+
     /* CHAT */
+
     .chat {
       display: flex;
       flex-direction: column;
       min-width: 0;
     }
+
     .chat-header {
       height: 76px;
       padding: 0 25px;
@@ -115,14 +133,17 @@
       gap: 14px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
+
     .chat-header h2 {
       font-size: 16px;
     }
+
     .chat-header p {
       color: #777;
       font-size: 11px;
       margin-top: 3px;
     }
+
     .messages {
       flex: 1;
       padding: 30px;
@@ -131,35 +152,70 @@
       flex-direction: column;
       gap: 15px;
     }
+
+    .message-wrapper {
+      display: flex;
+      flex-direction: column;
+      max-width: 75%;
+    }
+
+    .message-wrapper.received {
+      align-self: flex-start;
+    }
+
+    .message-wrapper.sent {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .sender {
+      font-size: 10px;
+      color: #8d1d45;
+      margin: 0 0 5px 4px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+
     .message {
-      max-width: 70%;
       padding: 13px 17px;
       border-radius: 14px;
       font-size: 13px;
       line-height: 1.6;
+      word-break: break-word;
     }
-    .received {
-      align-self: flex-start;
+
+    .received .message {
       color: #bbb;
       background: rgba(255,255,255,0.045);
       border: 1px solid rgba(255,255,255,0.06);
       border-bottom-left-radius: 4px;
     }
-    .sent {
-      align-self: flex-end;
+
+    .sent .message {
       background: linear-gradient(135deg, #43091e, #7d1639);
       border-bottom-right-radius: 4px;
     }
+
     .time {
       display: block;
       margin-top: 5px;
       color: #666;
       font-size: 9px;
     }
+
     .sent .time {
       color: #c48aa0;
     }
+
+    .empty-chat {
+      margin: auto;
+      color: #666;
+      font-size: 13px;
+      text-align: center;
+    }
+
     /* INPUT */
+
     .chat-input {
       padding: 18px;
       display: flex;
@@ -167,6 +223,7 @@
       border-top: 1px solid rgba(255,255,255,0.06);
       background: rgba(3,3,3,0.7);
     }
+
     .chat-input input {
       flex: 1;
       min-width: 0;
@@ -178,9 +235,11 @@
       outline: none;
       font-size: 13px;
     }
+
     .chat-input input:focus {
       border-color: #8e1d43;
     }
+
     .send {
       padding: 0 22px;
       border: none;
@@ -190,114 +249,497 @@
       font-weight: bold;
       cursor: pointer;
     }
+
     .send:hover {
       background: linear-gradient(135deg, #5a0c28, #941e49);
     }
+
+    .send:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 700px) {
+
       .chat-container {
         width: 94%;
         height: calc(100vh - 110px);
         min-height: 550px;
         grid-template-columns: 1fr;
       }
+
       .sidebar {
         display: none;
       }
-      .message {
+
+      .message-wrapper {
         max-width: 85%;
       }
+
       .messages {
         padding: 20px;
+      }
+
+      .chat-input {
+        padding: 12px;
+      }
+
+      .send {
+        padding: 0 16px;
       }
     }
   </style>
 </head>
+
 <body>
+
   <header>
     <div class="logo">
       KYLE
     </div>
+
     <a href="dashboard.html" class="back">
       ← DASHBOARD
     </a>
   </header>
+
   <main class="chat-container">
+
     <!-- SIDEBAR -->
+
     <aside class="sidebar">
+
       <div class="sidebar-title">
         <p>COMMUNITY</p>
         <h2>Fan Chat</h2>
       </div>
+
       <div class="chat-user">
+
         <div class="avatar">
           KF
         </div>
+
         <div>
           <h3>Official Community</h3>
+
           <span class="online">
-            Community chat
+            Live fan discussion
           </span>
         </div>
+
       </div>
+
     </aside>
+
+
     <!-- CHAT -->
+
     <section class="chat">
+
       <div class="chat-header">
+
         <div class="avatar">
           KF
         </div>
+
         <div>
           <h2>Official Community</h2>
-          <p>Fan discussion</p>
+
+          <p id="chatStatus">
+            Connecting...
+          </p>
         </div>
+
       </div>
+
+
       <div class="messages" id="messages">
-        <div class="message received">
-          Welcome to the Kyle fan community! 👋
-          <span class="time">
-            Today
-          </span>
+
+        <div class="empty-chat">
+          Loading community chat...
         </div>
-        <div class="message received">
-          This is the place for fans to connect
-          and share their thoughts.
-          <span class="time">
-            Today
-          </span>
-        </div>
+
       </div>
-      <form class="chat-input" onsubmit="sendMessage(event)">
+
+
+      <form class="chat-input" id="chatForm">
+
         <input
           id="messageInput"
           type="text"
           placeholder="Write a message..."
           autocomplete="off"
+          maxlength="500"
           required
         >
-        <button class="send" type="submit">
+
+        <button
+          class="send"
+          id="sendButton"
+          type="submit"
+        >
           SEND
         </button>
+
       </form>
+
     </section>
+
   </main>
-  <script>
-    function sendMessage(event) {
-      event.preventDefault();
-      const input = document.getElementById("messageInput");
-      const messages = document.getElementById("messages");
-      const text = input.value.trim();
-      if (text === "") {
+
+
+  <!-- FIREBASE -->
+
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      orderBy,
+      onSnapshot,
+      serverTimestamp,
+      limit,
+      getDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+    /* FIREBASE CONFIG */
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+      authDomain: "kyle-official-website.firebaseapp.com",
+      projectId: "kyle-official-website",
+      storageBucket: "kyle-official-website.firebasestorage.app",
+      messagingSenderId: "547868923755",
+      appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+      measurementId: "G-799CW529X9"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    const messagesBox =
+      document.getElementById("messages");
+
+    const messageInput =
+      document.getElementById("messageInput");
+
+    const chatForm =
+      document.getElementById("chatForm");
+
+    const sendButton =
+      document.getElementById("sendButton");
+
+    const chatStatus =
+      document.getElementById("chatStatus");
+
+
+    let currentUser = null;
+    let currentName = "Fan";
+
+
+    /* CHECK LOGIN */
+
+    onAuthStateChanged(auth, async (user) => {
+
+      if (!user) {
+
+        window.location.href = "login.html";
+
         return;
       }
-      const message = document.createElement("div");
-      message.className = "message sent";
-      message.innerHTML =
-        text +
-        '<span class="time">Just now</span>';
-      messages.appendChild(message);
-      input.value = "";
-      messages.scrollTop = messages.scrollHeight;
+
+
+      currentUser = user;
+
+
+      /*
+        Get the user's name from Firestore.
+      */
+
+      try {
+
+        const userDoc = await getDoc(
+          doc(db, "users", user.uid)
+        );
+
+
+        if (userDoc.exists()) {
+
+          const data = userDoc.data();
+
+          currentName =
+            data.name ||
+            user.displayName ||
+            user.email.split("@")[0];
+
+        } else {
+
+          currentName =
+            user.displayName ||
+            user.email.split("@")[0];
+
+        }
+
+      } catch (error) {
+
+        currentName =
+          user.displayName ||
+          user.email.split("@")[0];
+
+      }
+
+
+      chatStatus.textContent =
+        "Live fan discussion";
+
+
+      startChat();
+
+    });
+
+
+    /* START REAL-TIME CHAT */
+
+    function startChat() {
+
+      const messagesQuery = query(
+
+        collection(db, "messages"),
+
+        orderBy("createdAt", "asc"),
+
+        limit(100)
+
+      );
+
+
+      onSnapshot(
+
+        messagesQuery,
+
+        (snapshot) => {
+
+          messagesBox.innerHTML = "";
+
+
+          if (snapshot.empty) {
+
+            messagesBox.innerHTML = `
+              <div class="empty-chat">
+                No messages yet. Be the first to say hello! 👋
+              </div>
+            `;
+
+            return;
+          }
+
+
+          snapshot.forEach((messageDoc) => {
+
+            const data = messageDoc.data();
+
+
+            const isMine =
+              data.senderId === currentUser.uid;
+
+
+            const wrapper =
+              document.createElement("div");
+
+            wrapper.className =
+              "message-wrapper " +
+              (isMine ? "sent" : "received");
+
+
+            const sender =
+              document.createElement("div");
+
+            sender.className = "sender";
+
+
+            sender.textContent =
+              isMine
+                ? "You"
+                : (data.senderName || "Fan");
+
+
+            const message =
+              document.createElement("div");
+
+            message.className = "message";
+
+
+            /*
+              textContent is used instead of innerHTML
+              so users cannot inject HTML into the chat.
+            */
+
+            message.textContent =
+              data.message || "";
+
+
+            const time =
+              document.createElement("span");
+
+            time.className = "time";
+
+
+            if (data.createdAt) {
+
+              const date =
+                data.createdAt.toDate();
+
+              time.textContent =
+                formatTime(date);
+
+            } else {
+
+              time.textContent =
+                "Just now";
+
+            }
+
+
+            message.appendChild(time);
+
+            wrapper.appendChild(sender);
+
+            wrapper.appendChild(message);
+
+            messagesBox.appendChild(wrapper);
+
+          });
+
+
+          messagesBox.scrollTop =
+            messagesBox.scrollHeight;
+
+        },
+
+        (error) => {
+
+          console.error(
+            "Chat error:",
+            error
+          );
+
+          chatStatus.textContent =
+            "Unable to load chat";
+
+        }
+
+      );
+
     }
+
+
+    /* SEND MESSAGE */
+
+    chatForm.addEventListener(
+      "submit",
+      async (event) => {
+
+        event.preventDefault();
+
+
+        const text =
+          messageInput.value.trim();
+
+
+        if (!text || !currentUser) {
+
+          return;
+        }
+
+
+        sendButton.disabled = true;
+
+        sendButton.textContent =
+          "SENDING...";
+
+
+        try {
+
+          await addDoc(
+            collection(db, "messages"),
+            {
+              senderId: currentUser.uid,
+
+              senderName: currentName,
+
+              email: currentUser.email || "",
+
+              message: text,
+
+              createdAt: serverTimestamp()
+            }
+          );
+
+
+          messageInput.value = "";
+
+
+        } catch (error) {
+
+          console.error(
+            "Send message error:",
+            error
+          );
+
+          alert(
+            "Message could not be sent. Please try again."
+          );
+
+        }
+
+
+        sendButton.disabled = false;
+
+        sendButton.textContent =
+          "SEND";
+
+        messageInput.focus();
+
+      }
+    );
+
+
+    /* FORMAT TIME */
+
+    function formatTime(date) {
+
+      return date.toLocaleTimeString(
+        [],
+        {
+          hour: "numeric",
+          minute: "2-digit"
+        }
+      );
+
+    }
+
   </script>
+
 </body>
 </html>
