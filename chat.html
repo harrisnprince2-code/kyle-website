@@ -390,39 +390,70 @@
 
     @media (max-width: 700px) {
 
-      .chat-container {
-        width: 94%;
-        height: calc(100vh - 110px);
-        min-height: 550px;
-        grid-template-columns: 1fr;
-      }
+  .chat-container {
+    width: 94%;
+    height: calc(100vh - 105px);
+    min-height: 550px;
+    grid-template-columns: 1fr;
+    position: relative;
+  }
 
-      .sidebar {
-        display: none;
-      }
+  .sidebar {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 104px;
+    z-index: 10;
+    border-right: none;
+    background: #080808;
+  }
 
-      .message-wrapper {
-        max-width: 85%;
-      }
+  .sidebar-title,
+  .chat-user {
+    display: none;
+  }
 
-      .messages,
-      .members,
-      .inbox {
-        padding: 20px;
-      }
+  .tabs {
+    height: 104px;
+    align-items: flex-end;
+  }
 
-      .chat-input {
-        padding: 12px;
-      }
+  .tab {
+    height: 55px;
+    padding: 15px 5px;
+  }
 
-      .send {
-        padding: 0 16px;
-      }
+  .chat {
+    margin-top: 104px;
+    height: calc(100% - 104px);
+  }
 
-      .inbox-last {
-        max-width: 130px;
-      }
-    }
+  .message-wrapper {
+    max-width: 85%;
+  }
+
+  .messages,
+  .members,
+  .inbox {
+    padding: 20px;
+  }
+
+  .chat-input {
+    padding: 12px;
+  }
+
+  .send {
+    padding: 0 16px;
+  }
+
+  .inbox-last {
+    max-width: 130px;
+  }
+
+}
+    
   </style>
 </head>
 
