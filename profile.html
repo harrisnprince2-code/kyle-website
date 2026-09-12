@@ -1,545 +1,528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyle | Fan Profile</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      color: white;
-      background:
-        radial-gradient(circle at 80% 0%, rgba(100, 10, 45, 0.25), transparent 30%),
-        #030303;
-    }
-    header {
-      height: 78px;
-      padding: 0 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(3, 3, 3, 0.92);
-      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 8px;
-    }
-    .back {
-      color: #a52a50;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .container {
-      width: 88%;
-      max-width: 1100px;
-      margin: auto;
-      padding: 70px 0;
-    }
-    .label {
-      color: #922047;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 5px;
-      margin-bottom: 15px;
-    }
-    h1 {
-      font-size: clamp(42px, 6vw, 68px);
-      line-height: 1;
-      letter-spacing: -3px;
-      margin-bottom: 45px;
-    }
-    .profile-card {
-      padding: 45px;
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 45px;
-      align-items: center;
-      border-radius: 22px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(70, 5, 28, 0.3),
-          rgba(8, 8, 8, 0.92)
-        );
-      border: 1px solid rgba(120, 20, 55, 0.35);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-    }
-    .avatar {
-      width: 190px;
-      height: 190px;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background:
-        radial-gradient(
-          circle,
-          rgba(120, 20, 55, 0.35),
-          rgba(5, 5, 5, 0.9)
-        );
-      border: 1px solid rgba(145, 35, 75, 0.6);
-      box-shadow: 0 0 70px rgba(100, 10, 45, 0.2);
-      color: #8d1d45;
-      font-size: 38px;
-      font-weight: bold;
-      letter-spacing: 5px;
-    }
-    .profile-info h2 {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-    .username {
-      color: #8e1d43;
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-    .email {
-      color: #777;
-      font-size: 13px;
-      margin-bottom: 15px;
-    }
-    .bio {
-      max-width: 600px;
-      color: #888;
-      font-size: 14px;
-      line-height: 1.8;
-      margin-bottom: 25px;
-    }
-    .status {
-      display: inline-block;
-      padding: 9px 15px;
-      border: 1px solid rgba(130, 25, 65, 0.5);
-      border-radius: 30px;
-      color: #a52a50;
-      font-size: 11px;
-      letter-spacing: 1px;
-    }
-    .details {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 25px;
-    }
-    .detail {
-      padding: 25px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(120, 20, 55, 0.25);
-    }
-    .detail span {
-      display: block;
-      color: #666;
-      font-size: 10px;
-      letter-spacing: 2px;
-      margin-bottom: 9px;
-    }
-    .detail strong {
-      font-size: 14px;
-    }
-    .section {
-      margin-top: 25px;
-      padding: 35px;
-      border-radius: 20px;
-      background: rgba(20, 3, 10, 0.4);
-      border: 1px solid rgba(120, 20, 55, 0.3);
-    }
-    .section h2 {
-      font-size: 21px;
-      margin-bottom: 10px;
-    }
-    .section p {
-      color: #777;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-    .edit-btn {
-      display: inline-block;
-      margin-top: 22px;
-      padding: 13px 22px;
-      color: white;
-      background: linear-gradient(135deg, #43091e, #7d1639);
-      border: 1px solid rgba(145, 35, 75, 0.45);
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .edit-box {
-      display: none;
-      margin-top: 25px;
-    }
-    .edit-box input,
-    .edit-box textarea {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 15px;
-      color: white;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(120, 20, 55, 0.35);
-      border-radius: 6px;
-      outline: none;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    .edit-box textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-    .edit-box input:focus,
-    .edit-box textarea:focus {
-      border-color: #8e1d43;
-    }
-    .save-btn {
-      padding: 13px 22px;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      background: linear-gradient(135deg, #43091e, #7d1639);
-      font-weight: bold;
-      cursor: pointer;
-    }
-    #message {
-      margin-top: 15px;
-      color: #a52a50;
-      font-size: 12px;
-    }
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #444;
-      font-size: 11px;
-      border-top: 1px solid rgba(100, 15, 45, 0.2);
-    }
-    @media (max-width: 750px) {
-      .container {
-        width: 90%;
-      }
-      .profile-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 30px;
-      }
-      .avatar {
-        margin: auto;
-      }
-      .bio {
-        margin-left: auto;
-        margin-right: auto;
-      }
-      .details {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyle | Fan Profile</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  color:white;
+  background:
+    radial-gradient(circle at 80% 0%,rgba(100,10,45,.25),transparent 30%),
+    #030303;
+}
+header{
+  height:78px;
+  padding:0 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(3,3,3,.92);
+  border-bottom:1px solid rgba(120,20,55,.35);
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:8px;
+}
+.back{
+  color:#a52a50;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+}
+.container{
+  width:88%;
+  max-width:1100px;
+  margin:auto;
+  padding:70px 0;
+}
+.label{
+  color:#922047;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:5px;
+  margin-bottom:15px;
+}
+h1{
+  font-size:clamp(42px,6vw,68px);
+  line-height:1;
+  letter-spacing:-3px;
+  margin-bottom:45px;
+}
+.profile-card{
+  padding:45px;
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:45px;
+  align-items:center;
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(70,5,28,.3),rgba(8,8,8,.92));
+  border:1px solid rgba(120,20,55,.35);
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+}
+.avatar{
+  width:190px;
+  height:190px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle,rgba(120,20,55,.35),rgba(5,5,5,.9));
+  border:1px solid rgba(145,35,75,.6);
+  box-shadow:0 0 70px rgba(100,10,45,.2);
+  color:#8d1d45;
+  font-size:38px;
+  font-weight:bold;
+  letter-spacing:5px;
+}
+.profile-info h2{
+  font-size:32px;
+  margin-bottom:8px;
+}
+.username{
+  color:#8e1d43;
+  font-size:13px;
+  margin-bottom:20px;
+}
+.email{
+  color:#777;
+  font-size:13px;
+  margin-bottom:15px;
+}
+.bio{
+  max-width:600px;
+  color:#888;
+  font-size:14px;
+  line-height:1.8;
+  margin-bottom:25px;
+}
+.status{
+  display:inline-block;
+  padding:9px 15px;
+  border:1px solid rgba(130,25,65,.5);
+  border-radius:30px;
+  color:#a52a50;
+  font-size:11px;
+  letter-spacing:1px;
+}
+.details{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:25px;
+}
+.detail{
+  padding:25px;
+  border-radius:15px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(120,20,55,.25);
+}
+.detail span{
+  display:block;
+  color:#666;
+  font-size:10px;
+  letter-spacing:2px;
+  margin-bottom:9px;
+}
+.detail strong{
+  font-size:14px;
+}
+.section{
+  margin-top:25px;
+  padding:35px;
+  border-radius:20px;
+  background:rgba(20,3,10,.4);
+  border:1px solid rgba(120,20,55,.3);
+}
+.section h2{
+  font-size:21px;
+  margin-bottom:10px;
+}
+.section p{
+  color:#777;
+  font-size:14px;
+  line-height:1.8;
+}
+.edit-btn{
+  display:inline-block;
+  margin-top:22px;
+  padding:13px 22px;
+  color:white;
+  background:linear-gradient(135deg,#43091e,#7d1639);
+  border:1px solid rgba(145,35,75,.45);
+  border-radius:5px;
+  text-decoration:none;
+  font-size:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.edit-box{
+  display:none;
+  margin-top:25px;
+}
+.edit-box input,
+.edit-box textarea{
+  width:100%;
+  padding:14px;
+  margin-bottom:15px;
+  color:white;
+  background:rgba(0,0,0,.5);
+  border:1px solid rgba(120,20,55,.35);
+  border-radius:6px;
+  outline:none;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.edit-box textarea{
+  min-height:120px;
+  resize:vertical;
+}
+.edit-box input:focus,
+.edit-box textarea:focus{
+  border-color:#8e1d43;
+}
+.save-btn{
+  padding:13px 22px;
+  border:none;
+  border-radius:5px;
+  color:white;
+  background:linear-gradient(135deg,#43091e,#7d1639);
+  font-weight:bold;
+  cursor:pointer;
+}
+#message{
+  margin-top:15px;
+  color:#a52a50;
+  font-size:12px;
+}
+footer{
+  text-align:center;
+  padding:40px;
+  color:#444;
+  font-size:11px;
+  border-top:1px solid rgba(100,15,45,.2);
+}
+@media(max-width:750px){
+  .container{
+    width:90%;
+  }
+  .profile-card{
+    grid-template-columns:1fr;
+    text-align:center;
+    padding:30px;
+  }
+  .avatar{
+    margin:auto;
+  }
+  .bio{
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .details{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 <body>
 <header>
-  <div class="logo">
-    KYLE
-  </div>
+  <div class="logo">KYLE</div>
   <a href="dashboard.html" class="back">
     ← DASHBOARD
   </a>
 </header>
 <main class="container">
-  <p class="label">
-    FAN PROFILE
-  </p>
-  <h1>
-    My Profile.
-  </h1>
+  <p class="label">FAN PROFILE</p>
+  <h1>My Profile.</h1>
   <section class="profile-card">
-    <div class="avatar" id="avatar">
-      FAN
-    </div>
-    <div class="profile-info">
-      <h2 id="profileName">
-        Fan Member
-      </h2>
-      <p class="username" id="username">
-        @fanmember
-      </p>
-      <p class="email" id="email">
-        Loading account...
-      </p>
-      <p class="bio" id="bio">
-        Welcome to your official Kyle fan profile.
-      </p>
-      <span class="status">
-        ACTIVE MEMBER
-      </span>
-    </div>
+<div class="avatar" id="avatar">
+  FAN
+</div>
+<div class="profile-info">
+  <h2 id="profileName">
+    Fan Member
+  </h2>
+  <p class="username" id="username">
+    @fanmember
+  </p>
+  <p class="email" id="email">
+    Loading account...
+  </p>
+  <p class="bio" id="bio">
+    Welcome to your official Kyle fan profile.
+  </p>
+  <span class="status">
+    ACTIVE MEMBER
+  </span>
+</div>
   </section>
   <section class="details">
-    <div class="detail">
-      <span>MEMBER SINCE</span>
-      <strong id="memberSince">Loading...</strong>
-    </div>
-    <div class="detail">
-      <span>MEMBERSHIP</span>
-      <strong>Official Fan</strong>
-    </div>
-    <div class="detail">
-      <span>STATUS</span>
-      <strong>Active</strong>
-    </div>
+<div class="detail">
+  <span>MEMBER SINCE</span>
+  <strong id="memberSince">Loading...</strong>
+</div>
+<div class="detail">
+  <span>MEMBERSHIP</span>
+  <strong>Official Fan</strong>
+</div>
+<div class="detail">
+  <span>STATUS</span>
+  <strong>Active</strong>
+</div>
   </section>
   <section class="section">
-    <h2>
-      About Me
-    </h2>
-    <p id="aboutText">
-      Tell the community a little about yourself.
-    </p>
-    <button class="edit-btn" onclick="toggleEdit()">
-      EDIT PROFILE
-    </button>
-    <div class="edit-box" id="editBox">
-      <input
-        type="text"
-        id="nameInput"
-        placeholder="Your name"
-      >
-      <textarea
-        id="bioInput"
-        placeholder="Tell the community about yourself..."
-      ></textarea>
-      <button class="save-btn" onclick="saveProfile()">
-        SAVE PROFILE
-      </button>
-      <p id="message"></p>
-    </div>
+<h2>About Me</h2>
+<p id="aboutText">
+  Tell the community a little about yourself.
+</p>
+<button class="edit-btn" onclick="toggleEdit()">
+  EDIT PROFILE
+</button>
+<div class="edit-box" id="editBox">
+  <input
+    type="text"
+    id="nameInput"
+    placeholder="Your name"
+  >
+  <textarea
+    id="bioInput"
+    placeholder="Tell the community about yourself..."
+  ></textarea>
+  <button class="save-btn" onclick="saveProfile()">
+    SAVE PROFILE
+  </button>
+  <p id="message"></p>
+</div>
   </section>
 </main>
 <footer>
-  © 2026 Kyle. Official Website.
+  ©️ 2026 Kyle. Official Website.
 </footer>
 <script type="module">
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-  import {
-    getAuth,
-    onAuthStateChanged,
-    updateProfile
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-  const firebaseConfig = {
-    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
-    authDomain: "kyle-official-website.firebaseapp.com",
-    projectId: "kyle-official-website",
-    storageBucket: "kyle-official-website.firebasestorage.app",
-    messagingSenderId: "547868923755",
-    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
-    measurementId: "G-799CW529X9"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  let currentUser = null;
-  /* LOAD PROFILE */
-  onAuthStateChanged(auth, async function(user) {
-    if (!user) {
-      window.location.href = "login.html";
-      return;
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  updateProfile
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey:"AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+  authDomain:"kyle-official-website.firebaseapp.com",
+  projectId:"kyle-official-website",
+  storageBucket:"kyle-official-website.firebasestorage.app",
+  messagingSenderId:"547868923755",
+  appId:"1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+  measurementId:"G-799CW529X9"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let currentUser = null;
+function createUsername(name){
+  return "@"+name
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g,"");
+}
+onAuthStateChanged(auth,async function(user){
+  if(!user){
+    window.location.href="login.html";
+    return;
+  }
+  currentUser=user;
+  const email=user.email || "No email";
+  let name=
+    user.displayName ||
+    email.split("@")[0] ||
+    "Fan Member";
+  /*
+  DISPLAY ACCOUNT IMMEDIATELY
+  */
+  document.getElementById("profileName")
+    .textContent=name;
+  document.getElementById("username")
+    .textContent=createUsername(name);
+  document.getElementById("email")
+    .textContent=email;
+  /*
+  MEMBER SINCE
+  */
+  if(user.metadata.creationTime){
+    const memberDate=
+      new Date(user.metadata.creationTime);
+    document.getElementById("memberSince")
+      .textContent=memberDate.getFullYear();
+  }else{
+    document.getElementById("memberSince")
+      .textContent="2026";
+  }
+  /*
+  AVATAR
+  */
+  document.getElementById("avatar")
+    .textContent=
+      name.substring(0,2).toUpperCase();
+  /*
+  EDIT FORM
+  */
+  document.getElementById("nameInput")
+    .value=name;
+  /*
+  LOAD FIRESTORE PROFILE
+  */
+  try{
+    const userRef=
+      doc(db,"users",user.uid);
+    const userSnap=
+      await getDoc(userRef);
+    if(userSnap.exists()){
+      const userData=userSnap.data();
+      if(userData.name){
+        name=userData.name;
+        document.getElementById("profileName")
+          .textContent=name;
+        document.getElementById("username")
+          .textContent=createUsername(name);
+        document.getElementById("nameInput")
+          .value=name;
+        document.getElementById("avatar")
+          .textContent=
+            name.substring(0,2).toUpperCase();
+      }
+      if(userData.bio){
+        document.getElementById("bio")
+          .textContent=userData.bio;
+        document.getElementById("aboutText")
+          .textContent=userData.bio;
+        document.getElementById("bioInput")
+          .value=userData.bio;
+      }
     }
-    currentUser = user;
-    const email = user.email || "No email";
-    let name = user.displayName || "";
-    let bio = "";
-    /* LOAD SAVED FIRESTORE PROFILE */
-    try {
-      const userRef = doc(
+  }catch(error){
+    console.error(
+      "Firestore profile error:",
+      error
+    );
+  }
+});
+window.toggleEdit=function(){
+  const box=
+    document.getElementById("editBox");
+  if(box.style.display==="block"){
+    box.style.display="none";
+  }else{
+    box.style.display="block";
+  }
+};
+window.saveProfile=async function(){
+  if(!currentUser){
+    return;
+  }
+  const name=
+    document.getElementById("nameInput")
+      .value.trim();
+  const bio=
+    document.getElementById("bioInput")
+      .value.trim();
+  const message=
+    document.getElementById("message");
+  if(name===""){
+    message.textContent=
+      "Please enter your name.";
+    return;
+  }
+  message.textContent=
+    "Saving profile...";
+  try{
+    /*
+    UPDATE FIREBASE AUTH
+    */
+    await updateProfile(
+      currentUser,
+      {
+        displayName:name
+      }
+    );
+    /*
+    SAVE USER PROFILE
+    */
+    await setDoc(
+      doc(
         db,
         "users",
-        user.uid
-      );
-      const userSnap = await getDoc(userRef);
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        if (userData.name) {
-          name = userData.name;
-        }
-        if (userData.bio) {
-          bio = userData.bio;
-        }
+        currentUser.uid
+      ),
+      {
+        name:name,
+        email:currentUser.email || "",
+        bio:bio
+      },
+      {
+        merge:true
       }
-    } catch (error) {
-      console.error(
-        "Could not load profile:",
-        error
-      );
-    }
-    /* FALLBACK NAME */
-    if (!name) {
-      name =
-        email.split("@")[0] ||
-        "Fan Member";
-    }
-    /* DISPLAY PROFILE */
-    document.getElementById(
-      "profileName"
-    ).textContent = name;
-    document.getElementById(
-      "username"
-    ).textContent =
-      "@" +
-      name
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, "");
-    document.getElementById(
-      "email"
-    ).textContent = email;
-    /* DISPLAY BIO */
-    if (bio) {
-      document.getElementById(
-        "bio"
-      ).textContent = bio;
-      document.getElementById(
-        "aboutText"
-      ).textContent = bio;
-    }
-    /* MEMBER SINCE */
-    const date =
-      user.metadata.creationTime;
-    if (date) {
-      const memberDate =
-        new Date(date);
-      document.getElementById(
-        "memberSince"
-      ).textContent =
-        memberDate.getFullYear();
-    }
-    /* EDIT NAME FIELD */
-    document.getElementById(
-      "nameInput"
-    ).value = name;
-    /* EDIT BIO FIELD */
-    document.getElementById(
-      "bioInput"
-    ).value = bio;
-  });
-  /* SHOW / HIDE EDIT BOX */
-  window.toggleEdit = function() {
-    const box =
-      document.getElementById(
-        "editBox"
-      );
-    if (box.style.display === "block") {
-      box.style.display = "none";
-    } else {
-      box.style.display = "block";
-    }
-  };
-  /* SAVE PROFILE */
-  window.saveProfile = async function() {
-    if (!currentUser) {
-      return;
-    }
-    const name =
-      document
-        .getElementById("nameInput")
-        .value
-        .trim();
-    const bio =
-      document
-        .getElementById("bioInput")
-        .value
-        .trim();
-    const message =
-      document.getElementById(
-        "message"
-      );
-    if (name === "") {
-      message.textContent =
-        "Please enter your name.";
-      return;
-    }
-    message.textContent =
-      "Saving profile...";
-    try {
-      /* UPDATE FIREBASE AUTH NAME */
-      await updateProfile(
-        currentUser,
-        {
-          displayName: name
-        }
-      );
-      /* UPDATE FIRESTORE */
-      await setDoc(
-        doc(
-          db,
-          "users",
-          currentUser.uid
-        ),
-        {
-          name: name,
-          email: currentUser.email || "",
-          bio: bio
-        },
-        {
-          merge: true
-        }
-        await setDoc(
-  doc(db, "publicProfiles", currentUser.uid),
-  {
-    uid: currentUser.uid,
-    name: name,
-    bio: bio
-  },
-  { merge: true }
-);
-      );
-      /* UPDATE PAGE */
-      document.getElementById(
-        "profileName"
-      ).textContent = name;
-      document.getElementById(
-        "username"
-      ).textContent =
-        "@" +
-        name
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, "");
-      if (bio !== "") {
-        document.getElementById(
-          "bio"
-        ).textContent = bio;
-        document.getElementById(
-          "aboutText"
-        ).textContent = bio;
-      } else {
-        document.getElementById(
-          "bio"
-        ).textContent =
+    );
+    /*
+    SAVE PUBLIC PROFILE
+    */
+    await setDoc(
+      doc(
+        db,
+        "publicProfiles",
+        currentUser.uid
+      ),
+      {
+        uid:currentUser.uid,
+        name:name,
+        bio:bio
+      },
+      {
+        merge:true
+      }
+    );
+    /*
+    UPDATE PAGE
+    */
+    document.getElementById("profileName")
+      .textContent=name;
+    document.getElementById("username")
+      .textContent=createUsername(name);
+    document.getElementById("avatar")
+      .textContent=
+        name.substring(0,2).toUpperCase();
+    if(bio!==""){
+      document.getElementById("bio")
+        .textContent=bio;
+      document.getElementById("aboutText")
+        .textContent=bio;
+    }else{
+      document.getElementById("bio")
+        .textContent=
           "Welcome to your official Kyle fan profile.";
-        document.getElementById(
-          "aboutText"
-        ).textContent =
+      document.getElementById("aboutText")
+        .textContent=
           "Tell the community a little about yourself.";
-      }
-      message.textContent =
-        "Profile saved successfully ✓";
-    } catch (error) {
-      console.error(error);
-      message.textContent =
-        "Could not save profile. Please try again.";
     }
-  };
+    message.textContent=
+      "Profile saved successfully ✓";
+  }catch(error){
+    console.error(
+      "Profile save error:",
+      error
+    );
+    message.textContent=
+      "Could not save profile. Please try again.";
+  }
+};
 </script>
 </body>
 </html>
