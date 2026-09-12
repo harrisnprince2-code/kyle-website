@@ -324,11 +324,20 @@
   © 2026 Kyle. Official Website.
 </footer>
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
   import {
     getAuth,
-    onAuthStateChanged
+    onAuthStateChanged,
+    updateProfile
   } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
     authDomain: "kyle-official-website.firebaseapp.com",
@@ -340,61 +349,187 @@
   };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  onAuthStateChanged(auth, function(user) {
+  const db = getFirestore(app);
+  let currentUser = null;
+  /* LOAD PROFILE */
+  onAuthStateChanged(auth, async function(user) {
     if (!user) {
       window.location.href = "login.html";
       return;
     }
+    currentUser = user;
     const email = user.email || "No email";
-    const name =
-      email.split("@")[0] || "Fan Member";
-    document.getElementById("profileName").textContent = name;
-    document.getElementById("username").textContent =
-      "@" + name.toLowerCase().replace(/[^a-z0-9]/g, "");
-    document.getElementById("email").textContent =
-      email;
+    let name = user.displayName || "";
+    let bio = "";
+    /* LOAD SAVED FIRESTORE PROFILE */
+    try {
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        const userData = userSnap.data();
+        if (userData.name) {
+          name = userData.name;
+        }
+        if (userData.bio) {
+          bio = userData.bio;
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Could not load profile:",
+        error
+      );
+    }
+    /* FALLBACK NAME */
+    if (!name) {
+      name =
+        email.split("@")[0] ||
+        "Fan Member";
+    }
+    /* DISPLAY PROFILE */
+    document.getElementById(
+      "profileName"
+    ).textContent = name;
+    document.getElementById(
+      "username"
+    ).textContent =
+      "@" +
+      name
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "");
+    document.getElementById(
+      "email"
+    ).textContent = email;
+    /* DISPLAY BIO */
+    if (bio) {
+      document.getElementById(
+        "bio"
+      ).textContent = bio;
+      document.getElementById(
+        "aboutText"
+      ).textContent = bio;
+    }
+    /* MEMBER SINCE */
     const date =
       user.metadata.creationTime;
     if (date) {
       const memberDate =
         new Date(date);
-      document.getElementById("memberSince").textContent =
+      document.getElementById(
+        "memberSince"
+      ).textContent =
         memberDate.getFullYear();
     }
-    document.getElementById("nameInput").value =
-      name;
+    /* EDIT NAME FIELD */
+    document.getElementById(
+      "nameInput"
+    ).value = name;
+    /* EDIT BIO FIELD */
+    document.getElementById(
+      "bioInput"
+    ).value = bio;
   });
+  /* SHOW / HIDE EDIT BOX */
   window.toggleEdit = function() {
     const box =
-      document.getElementById("editBox");
+      document.getElementById(
+        "editBox"
+      );
     if (box.style.display === "block") {
       box.style.display = "none";
     } else {
       box.style.display = "block";
     }
   };
-  window.saveProfile = function() {
+  /* SAVE PROFILE */
+  window.saveProfile = async function() {
+    if (!currentUser) {
+      return;
+    }
     const name =
-      document.getElementById("nameInput").value.trim();
+      document
+        .getElementById("nameInput")
+        .value
+        .trim();
     const bio =
-      document.getElementById("bioInput").value.trim();
+      document
+        .getElementById("bioInput")
+        .value
+        .trim();
+    const message =
+      document.getElementById(
+        "message"
+      );
     if (name === "") {
-      document.getElementById("message").textContent =
+      message.textContent =
         "Please enter your name.";
       return;
     }
-    document.getElementById("profileName").textContent =
-      name;
-    document.getElementById("username").textContent =
-      "@" + name.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (bio !== "") {
-      document.getElementById("bio").textContent =
-        bio;
-      document.getElementById("aboutText").textContent =
-        bio;
+    message.textContent =
+      "Saving profile...";
+    try {
+      /* UPDATE FIREBASE AUTH NAME */
+      await updateProfile(
+        currentUser,
+        {
+          displayName: name
+        }
+      );
+      /* UPDATE FIRESTORE */
+      await setDoc(
+        doc(
+          db,
+          "users",
+          currentUser.uid
+        ),
+        {
+          name: name,
+          email: currentUser.email || "",
+          bio: bio
+        },
+        {
+          merge: true
+        }
+      );
+      /* UPDATE PAGE */
+      document.getElementById(
+        "profileName"
+      ).textContent = name;
+      document.getElementById(
+        "username"
+      ).textContent =
+        "@" +
+        name
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, "");
+      if (bio !== "") {
+        document.getElementById(
+          "bio"
+        ).textContent = bio;
+        document.getElementById(
+          "aboutText"
+        ).textContent = bio;
+      } else {
+        document.getElementById(
+          "bio"
+        ).textContent =
+          "Welcome to your official Kyle fan profile.";
+        document.getElementById(
+          "aboutText"
+        ).textContent =
+          "Tell the community a little about yourself.";
+      }
+      message.textContent =
+        "Profile saved successfully ✓";
+    } catch (error) {
+      console.error(error);
+      message.textContent =
+        "Could not save profile. Please try again.";
     }
-    document.getElementById("message").textContent =
-      "Profile updated successfully.";
   };
 </script>
 </body>
