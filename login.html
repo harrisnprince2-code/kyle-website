@@ -203,215 +203,375 @@
 </head>
 <body>
   <div class="login-container">
-    <div class="logo">
-      <h1>KYLE</h1>
-      <p>OFFICIAL WEBSITE</p>
-    </div>
-    <div class="tabs">
-      <button
-        id="loginTab"
-        class="active"
-        onclick="showLogin()">
-        Login
-      </button>
-      <button
-        id="signupTab"
-        onclick="showSignup()">
-        Sign Up
-      </button>
-    </div>
-    <!-- LOGIN -->
-    <form id="login" onsubmit="loginUser(event)">
-      <div class="form-group">
-        <label>Email Address</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          required>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          required>
-      </div>
-      <div class="options">
-        <label class="remember">
-          <input type="checkbox">
-          Remember me
-        </label>
-        <a href="#" class="forgot">
-          Forgot password?
-        </a>
-      </div>
-      <button type="submit" class="submit-btn">
-        LOGIN
-      </button>
-    </form>
-    <!-- SIGN UP -->
-    <form id="signup">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input
-          type="text"
-          placeholder="Enter your name"
-          required>
-      </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input
-          type="email"
-          placeholder="Enter your email"
-          required>
-      </div>
-      <div class="form-group">
-        <label>Create Password</label>
-        <input
-          type="password"
-          placeholder="Create a password"
-          required>
-      </div>
-      <button type="submit" class="submit-btn">
-        CREATE ACCOUNT
-      </button>
-    </form>
-    <div class="divider">
-      OR CONTINUE WITH
-    </div>
-    <div class="social-login">
-      <button type="button">
-        Google
-      </button>
-      <button type="button">
-        Apple
-      </button>
-    </div>
-    <a href="index.html" class="back">
-      ← Back to website
+<div class="logo">
+  <h1>KYLE</h1>
+  <p>OFFICIAL WEBSITE</p>
+</div>
+<div class="tabs">
+  <button
+    id="loginTab"
+    class="active"
+    onclick="showLogin()">
+    Login
+  </button>
+  <button
+    id="signupTab"
+    onclick="showSignup()">
+    Sign Up
+  </button>
+</div>
+<!-- LOGIN -->
+<form
+  id="login"
+  onsubmit="loginUser(event)"
+>
+  <div class="form-group">
+    <label>
+      Email Address
+    </label>
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Enter your email"
+      required
+    >
+  </div>
+  <div class="form-group">
+    <label>
+      Password
+    </label>
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Enter your password"
+      required
+    >
+  </div>
+  <div class="options">
+    <label class="remember">
+      <input
+        type="checkbox"
+        id="rememberMe"
+      >
+      Remember me
+    </label>
+    <a
+      href="#"
+      class="forgot"
+      onclick="return false;"
+    >
+      Forgot password?
     </a>
+  </div>
+  <button
+    type="submit"
+    class="submit-btn"
+    id="loginButton"
+  >
+    LOGIN
+  </button>
+</form>
+<!-- SIGN UP -->
+<form id="signup">
+  <div class="form-group">
+    <label>
+      Full Name
+    </label>
+    <input
+      type="text"
+      placeholder="Enter your name"
+      required
+    >
+  </div>
+  <div class="form-group">
+    <label>
+      Email Address
+    </label>
+    <input
+      type="email"
+      placeholder="Enter your email"
+      required
+    >
+  </div>
+  <div class="form-group">
+    <label>
+      Create Password
+    </label>
+    <input
+      type="password"
+      placeholder="Create a password"
+      required
+    >
+  </div>
+  <button
+    type="submit"
+    class="submit-btn"
+  >
+    CREATE ACCOUNT
+  </button>
+</form>
+<div class="divider">
+  OR CONTINUE WITH
+</div>
+<div class="social-login">
+  <button type="button">
+    Google
+  </button>
+  <button type="button">
+    Apple
+  </button>
+</div>
+<a
+  href="index.html"
+  class="back"
+>
+  ← Back to website
+</a>
   </div>
   <!-- FIREBASE -->
   <script type="module">
     import {
       initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
     import {
       getAuth,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
-      updateProfile
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+      updateProfile,
+      setPersistence,
+      browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
     import {
       getFirestore,
       doc,
       setDoc,
       serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
     const firebaseConfig = {
-      apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
-      authDomain: "kyle-official-website.firebaseapp.com",
-      projectId: "kyle-official-website",
-      storageBucket: "kyle-official-website.firebasestorage.app",
-      messagingSenderId: "547868923755",
-      appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
-      measurementId: "G-799CW529X9"
+      apiKey:
+        "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+      authDomain:
+        "kyle-official-website.firebaseapp.com",
+      projectId:
+        "kyle-official-website",
+      storageBucket:
+        "kyle-official-website.firebasestorage.app",
+      messagingSenderId:
+        "547868923755",
+      appId:
+        "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+      measurementId:
+        "G-799CW529X9"
     };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    const app =
+      initializeApp(firebaseConfig);
+    const auth =
+      getAuth(app);
+    const db =
+      getFirestore(app);
+    /*
+      IMPORTANT:
+      Keep Firebase login persistent
+      when moving between pages.
+    */
+    setPersistence(
+      auth,
+      browserLocalPersistence
+    )
+    .catch(error => {
+      console.error(
+        "Auth persistence error:",
+        error
+      );
+    });
     /* LOGIN / SIGNUP TABS */
-    window.showLogin = function () {
-      document.getElementById("login").style.display = "block";
-      document.getElementById("signup").style.display = "none";
-      document.getElementById("loginTab").classList.add("active");
-      document.getElementById("signupTab").classList.remove("active");
-    };
-    window.showSignup = function () {
-      document.getElementById("login").style.display = "none";
-      document.getElementById("signup").style.display = "block";
-      document.getElementById("loginTab").classList.remove("active");
-      document.getElementById("signupTab").classList.add("active");
-    };
+    window.showLogin =
+      function(){
+        document
+          .getElementById("login")
+          .style.display =
+          "block";
+        document
+          .getElementById("signup")
+          .style.display =
+          "none";
+        document
+          .getElementById("loginTab")
+          .classList
+          .add("active");
+        document
+          .getElementById("signupTab")
+          .classList
+          .remove("active");
+      };
+    window.showSignup =
+      function(){
+        document
+          .getElementById("login")
+          .style.display =
+          "none";
+        document
+          .getElementById("signup")
+          .style.display =
+          "block";
+        document
+          .getElementById("loginTab")
+          .classList
+          .remove("active");
+        document
+          .getElementById("signupTab")
+          .classList
+          .add("active");
+      };
     /* LOGIN */
-    window.loginUser = async function (event) {
-      event.preventDefault();
-      const email =
-        document.querySelector(
-          "#login input[type='email']"
-        ).value;
-      const password =
-        document.querySelector(
-          "#login input[type='password']"
-        ).value;
-      try {
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Login failed: " + error.message);
-      }
-    };
+    window.loginUser =
+      async function(event){
+        event.preventDefault();
+        const email =
+          document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+        const password =
+          document
+            .getElementById("loginPassword")
+            .value;
+        const loginButton =
+          document
+            .getElementById("loginButton");
+        loginButton.disabled =
+          true;
+        loginButton.textContent =
+          "LOGGING IN...";
+        try{
+          /*
+            Remember me:
+            local persistence keeps the
+            Firebase login available across
+            dashboard/chat/profile pages.
+          */
+          await setPersistence(
+            auth,
+            browserLocalPersistence
+          );
+          await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          /*
+            Firebase has successfully
+            authenticated the user.
+          */
+          window.location.href =
+            "dashboard.html";
+        }catch(error){
+          console.error(
+            "Login error:",
+            error
+          );
+          alert(
+            "Login failed: " +
+            error.message
+          );
+          loginButton.disabled =
+            false;
+          loginButton.textContent =
+            "LOGIN";
+        }
+      };
     /* SIGN UP */
     document
       .getElementById("signup")
-      .addEventListener("submit", async function (event) {
-        event.preventDefault();
-        const inputs =
-          document.querySelectorAll("#signup input");
-        const name = inputs[0].value.trim();
-        const email = inputs[1].value.trim();
-        const password = inputs[2].value;
-        try {
-          /* CREATE FIREBASE ACCOUNT */
-          const userCredential =
-            await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
+      .addEventListener(
+        "submit",
+        async function(event){
+          event.preventDefault();
+          const inputs =
+            document.querySelectorAll(
+              "#signup input"
             );
-          const user = userCredential.user;
-          /* SAVE NAME TO FIREBASE AUTH PROFILE */
-          await updateProfile(user, {
-            displayName: name
-          });
-          /* SAVE PROFILE TO FIRESTORE */
-         await setDoc(
-  doc(db, "users", user.uid),
-  {
-    name: name,
-    email: email,
-    bio: "",
-    createdAt: serverTimestamp()
-  }
-);
-
-await setDoc(
-  doc(db, "publicProfiles", user.uid),
-  {
-    uid: user.uid,
-    name: name,
-    bio: "",
-    createdAt: serverTimestamp()
-  }
-);
-          alert(
-            "Account created successfully! Welcome, " +
-            name +
-            "."
-          );
-          window.location.href =
-            "dashboard.html";
-        } catch (error) {
-          alert(
-            "Sign up failed: " +
-            error.message
-          );
+          const name =
+            inputs[0]
+              .value
+              .trim();
+          const email =
+            inputs[1]
+              .value
+              .trim();
+          const password =
+            inputs[2]
+              .value;
+          try{
+            const userCredential =
+              await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+              );
+            const user =
+              userCredential.user;
+            await updateProfile(
+              user,
+              {
+                displayName:name
+              }
+            );
+            await setDoc(
+              doc(
+                db,
+                "users",
+                user.uid
+              ),
+              {
+                name:name,
+                email:email,
+                bio:"",
+                createdAt:
+                  serverTimestamp()
+              }
+            );
+            await setDoc(
+              doc(
+                db,
+                "publicProfiles",
+                user.uid
+              ),
+              {
+                uid:user.uid,
+                name:name,
+                bio:"",
+                createdAt:
+                  serverTimestamp()
+              }
+            );
+            /*
+              Make sure the newly-created
+              account also stays logged in.
+            */
+            await setPersistence(
+              auth,
+              browserLocalPersistence
+            );
+            alert(
+              "Account created successfully! Welcome, " +
+              name +
+              "."
+            );
+            window.location.href =
+              "dashboard.html";
+          }catch(error){
+            console.error(
+              "Signup error:",
+              error
+            );
+            alert(
+              "Sign up failed: " +
+              error.message
+            );
+          }
         }
-      });
+      );
   </script>
 </body>
 </html>
