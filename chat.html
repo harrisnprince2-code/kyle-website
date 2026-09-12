@@ -1314,56 +1314,51 @@ function loadMembers() {
    OPEN PRIVATE USER
 ========================= */
 async function showPrivateUser(user) {
-  currentview = "private";
-  currentPrivateUser =
-    user;
-  privateView.classList.add(
-    "active"
-  );
-  communityView.classList.remove(
-    "active"
-  );
-  membersView.classList.remove(
-    "active"
-  );
-  inboxView.classList.remove(
-    "active"
-  );
-  document
-    .querySelectorAll(".side-tab")
-    .forEach(tab => {
-      tab.classList.remove("active");
-    });
-  backButton.style.display =
-    "block";
-  composer.style.display =
-    "block";
+  // IMPORTANT: switch the app to private-chat mode
+  currentView = "private";
+
+  currentPrivateUser = user;
+
+  // Stop the list listeners while inside a private chat
+  stopMembersListener();
+  stopInboxListener();
+
+  // Hide all other views
+  communityView.classList.remove("active");
+  membersView.classList.remove("active");
+  inboxView.classList.remove("active");
+  privateView.classList.add("active");
+
+  // Show back button and message box
+  backButton.style.display = "block";
+  composer.style.display = "block";
+
   const name =
     user.name ||
     user.displayName ||
     user.email?.split("@")[0] ||
     "Fan";
-  chatTitle.textContent =
-    name;
-  chatStatus.textContent =
-    "Private conversation";
-  sidebarStatus.textContent =
-    "Private conversation";
+
+  // Update header
+  chatTitle.textContent = name;
+  chatStatus.textContent = "Private conversation";
+  sidebarStatus.textContent = "Private conversation";
+
+  // Show profile picture or initials
   headerAvatar.innerHTML =
     user.profileImage
       ? `<img
-          src="${escapeHTML(
-            user.profileImage
-          )}"
+          src="${escapeHTML(user.profileImage)}"
           alt="${escapeHTML(name)}"
         >`
       : `<span>${escapeHTML(
           getInitials(name)
         )}</span>`;
-  await openPrivateChat(
-    user.uid
-  );
+
+  // Open the actual private conversation
+  await openPrivateChat(user.uid);
 }
+  
 /* =========================
    PRIVATE CHAT
 ========================= */
