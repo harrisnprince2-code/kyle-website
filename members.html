@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Members | Kyle Official</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(104,17,47,0.22), transparent 35%),
+        #030303;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 80px;
+      padding: 0 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(3,3,3,0.92);
+      border-bottom: 1px solid #241216;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 4px;
+    }
+
+    .back-btn {
+      text-decoration: none;
+      color: white;
+      border: 1px solid #68112f;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background: #68112f;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 0;
+    }
+
+    .eyebrow {
+      color: #a83b61;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .intro {
+      color: #aaa;
+      max-width: 650px;
+      line-height: 1.7;
+      margin-bottom: 45px;
+    }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .member-card {
+      background: linear-gradient(
+        145deg,
+        rgba(61,7,27,0.45),
+        rgba(10,10,10,0.95)
+      );
+      border: 1px solid #2d151c;
+      border-radius: 18px;
+      padding: 28px;
+      transition: 0.3s ease;
+    }
+
+    .member-card:hover {
+      transform: translateY(-5px);
+      border-color: #68112f;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+    }
+
+    .avatar {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #3d071b, #8d1d45);
+      border: 1px solid #8d1d45;
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .member-name {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .username {
+      color: #8d1d45;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .bio {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 45px;
+      margin-bottom: 22px;
+    }
+
+    .message-btn {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 13px;
+      background: linear-gradient(135deg, #68112f, #8d1d45);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .message-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.15);
+    }
+
+    .empty,
+    .loading,
+    .error {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: #999;
+      border: 1px solid #241216;
+      border-radius: 18px;
+      background: rgba(10,10,10,0.7);
+    }
+
+    .error {
+      color: #d66;
+    }
+
+    @media (max-width: 850px) {
+      .members-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      header {
+        padding: 0 5%;
+      }
+
+      .container {
+        width: 92%;
+        padding: 50px 0;
+      }
+
+      .members-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+
+      .back-btn {
+        padding: 9px 13px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">KYLE</div>
+
+  <a href="dashboard.html" class="back-btn">
+    DASHBOARD
+  </a>
+</header>
+
+<main class="container">
+
+  <div class="eyebrow">FAN COMMUNITY</div>
+
+  <h1>Meet the Fans.</h1>
+
+  <p class="intro">
+    Connect with members of the Kyle Official community.
+    Find other fans and start a private conversation.
+  </p>
+
+  <div class="members-grid" id="membersGrid">
+
+    <div class="loading">
+      Loading community members...
+    </div>
+
+  </div>
+
+</main>
+
+<script type="module">
+
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from
+    "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    collection,
+    getDocs,
+    query,
+    orderBy
+  } from
+    "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+    authDomain: "kyle-official-website.firebaseapp.com",
+    projectId: "kyle-official-website",
+    storageBucket: "kyle-official-website.firebasestorage.app",
+    messagingSenderId: "547868923755",
+    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+    measurementId: "G-799CW529X9"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const membersGrid = document.getElementById("membersGrid");
+
+
+  function getInitials(name) {
+
+    if (!name) return "FAN";
+
+    const words = name.trim().split(/\s+/);
+
+    if (words.length === 1) {
+      return words[0].substring(0, 2).toUpperCase();
+    }
+
+    return (
+      words[0].charAt(0) +
+      words[words.length - 1].charAt(0)
+    ).toUpperCase();
+  }
+
+
+  function createUsername(name) {
+
+    if (!name) return "@fan";
+
+    return "@" + name
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "")
+      .replace(/[^a-z0-9]/g, "");
+  }
+
+
+  function openPrivateChat(uid, name) {
+
+    window.location.href =
+      "private-chat.html?uid=" +
+      encodeURIComponent(uid) +
+      "&name=" +
+      encodeURIComponent(name);
+  }
+
+
+  async function loadMembers() {
+
+    try {
+
+      const membersQuery = query(
+        collection(db, "publicProfiles"),
+        orderBy("name")
+      );
+
+      const snapshot = await getDocs(membersQuery);
+
+      membersGrid.innerHTML = "";
+
+      let count = 0;
+
+      snapshot.forEach((docSnap) => {
+
+        const member = docSnap.data();
+
+        const uid = docSnap.id;
+
+        // Don't show yourself in your own members list
+        if (auth.currentUser && uid === auth.currentUser.uid) {
+          return;
+        }
+
+        count++;
+
+        const name = member.name || "Fan Member";
+
+        const bio =
+          member.bio ||
+          "Kyle fan community member.";
+
+        const card = document.createElement("div");
+
+        card.className = "member-card";
+
+        const avatar = document.createElement("div");
+
+        avatar.className = "avatar";
+
+        avatar.textContent = getInitials(name);
+
+        const nameElement = document.createElement("div");
+
+        nameElement.className = "member-name";
+
+        nameElement.textContent = name;
+
+        const usernameElement = document.createElement("div");
+
+        usernameElement.className = "username";
+
+        usernameElement.textContent =
+          createUsername(name);
+
+        const bioElement = document.createElement("div");
+
+        bioElement.className = "bio";
+
+        bioElement.textContent = bio;
+
+        const button = document.createElement("button");
+
+        button.className = "message-btn";
+
+        button.textContent = "MESSAGE";
+
+        button.addEventListener("click", () => {
+          openPrivateChat(uid, name);
+        });
+
+        card.appendChild(avatar);
+        card.appendChild(nameElement);
+        card.appendChild(usernameElement);
+        card.appendChild(bioElement);
+        card.appendChild(button);
+
+        membersGrid.appendChild(card);
+
+      });
+
+
+      if (count === 0) {
+
+        membersGrid.innerHTML = `
+          <div class="empty">
+            <h3>No other fans yet.</h3>
+            <p style="margin-top:10px;">
+              Invite more fans to join the community.
+            </p>
+          </div>
+        `;
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      membersGrid.innerHTML = `
+        <div class="error">
+          <h3>Unable to load members.</h3>
+          <p style="margin-top:10px;">
+            Please refresh the page and try again.
+          </p>
+        </div>
+      `;
+
+    }
+
+  }
+
+
+  onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+      window.location.href = "login.html";
+
+      return;
+
+    }
+
+    loadMembers();
+
+  });
+
+</script>
+
+</body>
+</html>
