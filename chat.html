@@ -81,8 +81,6 @@
       font-size: 20px;
     }
 
-    /* TABS */
-
     .tabs {
       display: flex;
       border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -236,8 +234,6 @@
       text-align: center;
     }
 
-    /* MEMBERS */
-
     .members {
       flex: 1;
       padding: 25px;
@@ -366,6 +362,23 @@
       cursor: not-allowed;
     }
 
+    .private-back {
+      margin-left: auto;
+      padding: 8px 12px;
+      border: 1px solid rgba(140,30,70,0.4);
+      border-radius: 6px;
+      background: transparent;
+      color: #b1325c;
+      font-size: 9px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .private-back:hover {
+      background: #4a0b25;
+      color: white;
+    }
+
     @media (max-width: 700px) {
 
       .chat-container {
@@ -412,10 +425,7 @@
   </a>
 </header>
 
-
 <main class="chat-container">
-
-  <!-- SIDEBAR -->
 
   <aside class="sidebar">
 
@@ -438,14 +448,16 @@
 
     <div class="chat-user">
 
-      <div class="avatar">
+      <div class="avatar" id="sidebarAvatar">
         KF
       </div>
 
       <div>
-        <h3>Official Community</h3>
+        <h3 id="sidebarTitle">
+          Official Community
+        </h3>
 
-        <span class="online">
+        <span class="online" id="sidebarStatus">
           Live fan discussion
         </span>
       </div>
@@ -453,9 +465,6 @@
     </div>
 
   </aside>
-
-
-  <!-- CHAT -->
 
   <section class="chat">
 
@@ -477,10 +486,15 @@
 
       </div>
 
+      <button
+        id="communityBack"
+        class="private-back"
+        style="display:none;"
+      >
+        COMMUNITY
+      </button>
+
     </div>
-
-
-    <!-- MESSAGES -->
 
     <div class="messages" id="messages">
 
@@ -490,9 +504,6 @@
 
     </div>
 
-
-    <!-- MEMBERS -->
-
     <div class="members" id="members">
 
       <div class="loading-members">
@@ -500,9 +511,6 @@
       </div>
 
     </div>
-
-
-    <!-- INPUT -->
 
     <form class="chat-input" id="chatForm">
 
@@ -529,7 +537,6 @@
 
 </main>
 
-
 <script type="module">
 
 import {
@@ -552,7 +559,8 @@ import {
   limit,
   getDoc,
   doc,
-  getDocs
+  getDocs,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
@@ -614,10 +622,44 @@ const membersTab =
 const headerTitle =
   document.getElementById("headerTitle");
 
+const headerAvatar =
+  document.getElementById("headerAvatar");
+
+const sidebarTitle =
+  document.getElementById("sidebarTitle");
+
+const sidebarStatus =
+  document.getElementById("sidebarStatus");
+
+const sidebarAvatar =
+  document.getElementById("sidebarAvatar");
+
+const communityBack =
+  document.getElementById("communityBack");
+
 
 let currentUser = null;
 
 let currentName = "Fan";
+
+let privateUser = null;
+
+let privateUserName = "Member";
+
+let privateConversationId = null;
+
+let unsubscribePrivate = null;
+
+
+/* URL */
+
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
+
+const targetUid =
+  urlParams.get("with");
 
 
 /* AUTH */
@@ -631,23 +673,24 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-
   currentUser = user;
 
 
   try {
 
-    const userDoc = await getDoc(
-      doc(db, "users", user.uid)
-    );
-
+    const userDoc =
+      await getDoc(
+        doc(db, "users", user.uid)
+      );
 
     if (userDoc.exists()) {
 
-      const data = userDoc.data();
+      const data =
+        userDoc.data();
 
       currentName =
         data.name ||
+        data.displayName ||
         user.displayName ||
         user.email.split("@")[0];
 
@@ -668,11 +711,18 @@ onAuthStateChanged(auth, async (user) => {
   }
 
 
-  chatStatus.textContent =
-    "Live fan discussion";
+  if (
+    targetUid &&
+    targetUid !== currentUser.uid
+  ) {
 
+    await startPrivateChat(targetUid);
 
-  startChat();
+  } else {
+
+    startCommunityChat();
+
+  }
 
 });
 
@@ -681,36 +731,24 @@ onAuthStateChanged(auth, async (user) => {
 
 messagesTab.addEventListener("click", () => {
 
-  messagesTab.classList.add("active");
-
-  membersTab.classList.remove("active");
-
-  messagesBox.style.display = "flex";
-
-  membersBox.classList.remove("active");
-
-  chatForm.style.display = "flex";
-
-  headerTitle.textContent =
-    "Official Community";
-
-  chatStatus.textContent =
-    "Live fan discussion";
+  showCommunityChat();
 
 });
 
 
 membersTab.addEventListener("click", () => {
 
-  membersTab.classList.add("active");
-
   messagesTab.classList.remove("active");
+
+  membersTab.classList.add("active");
 
   messagesBox.style.display = "none";
 
   membersBox.classList.add("active");
 
   chatForm.style.display = "none";
+
+  communityBack.style.display = "none";
 
   headerTitle.textContent =
     "Community Members";
@@ -723,23 +761,74 @@ membersTab.addEventListener("click", () => {
 });
 
 
-/* CHAT */
+communityBack.addEventListener(
+  "click",
+  () => {
 
-function startChat() {
+    window.location.href =
+      "chat.html";
 
-  const messagesQuery = query(
+  }
+);
 
-    collection(db, "messages"),
 
-    orderBy("createdAt", "asc"),
+/* COMMUNITY */
 
-    limit(100)
+function showCommunityChat() {
 
-  );
+  messagesTab.classList.add("active");
+
+  membersTab.classList.remove("active");
+
+  messagesBox.style.display = "flex";
+
+  membersBox.classList.remove("active");
+
+  chatForm.style.display = "flex";
+
+  communityBack.style.display = "none";
+
+  headerAvatar.textContent = "KF";
+
+  sidebarAvatar.textContent = "KF";
+
+  headerTitle.textContent =
+    "Official Community";
+
+  sidebarTitle.textContent =
+    "Official Community";
+
+  chatStatus.textContent =
+    "Live fan discussion";
+
+  sidebarStatus.textContent =
+    "Live fan discussion";
+
+  startCommunityChat();
+
+}
+
+
+function startCommunityChat() {
+
+  if (unsubscribePrivate) {
+
+    unsubscribePrivate();
+
+    unsubscribePrivate = null;
+
+  }
+
+
+  const messagesQuery =
+    query(
+      collection(db, "messages"),
+      orderBy("createdAt", "asc"),
+      limit(100)
+    );
 
 
   onSnapshot(
-
     messagesQuery,
 
     (snapshot) => {
@@ -764,73 +853,14 @@ function startChat() {
         const data =
           messageDoc.data();
 
-
         const isMine =
           data.senderId === currentUser.uid;
 
 
-        const wrapper =
-          document.createElement("div");
-
-        wrapper.className =
-          "message-wrapper " +
-          (isMine ? "sent" : "received");
-
-
-        const sender =
-          document.createElement("div");
-
-        sender.className =
-          "sender";
-
-
-        sender.textContent =
+        renderMessage(
+          data,
           isMine
-            ? "You"
-            : (data.senderName || "Fan");
-
-
-        const message =
-          document.createElement("div");
-
-        message.className =
-          "message";
-
-
-        message.textContent =
-          data.message || "";
-
-
-        const time =
-          document.createElement("span");
-
-        time.className =
-          "time";
-
-
-        if (data.createdAt) {
-
-          const date =
-            data.createdAt.toDate();
-
-          time.textContent =
-            formatTime(date);
-
-        } else {
-
-          time.textContent =
-            "Just now";
-
-        }
-
-
-        message.appendChild(time);
-
-        wrapper.appendChild(sender);
-
-        wrapper.appendChild(message);
-
-        messagesBox.appendChild(wrapper);
+        );
 
       });
 
@@ -843,7 +873,7 @@ function startChat() {
     (error) => {
 
       console.error(
-        "Chat error:",
+        "Community chat error:",
         error
       );
 
@@ -851,8 +881,434 @@ function startChat() {
         "Unable to load chat";
 
     }
-
   );
+
+}
+
+
+/* PRIVATE CHAT */
+
+async function startPrivateChat(uid) {
+
+  messagesTab.classList.add("active");
+
+  membersTab.classList.remove("active");
+
+  messagesBox.style.display = "flex";
+
+  membersBox.classList.remove("active");
+
+  chatForm.style.display = "flex";
+
+  communityBack.style.display = "block";
+
+
+  try {
+
+    const targetDoc =
+      await getDoc(
+        doc(db, "users", uid)
+      );
+
+
+    if (!targetDoc.exists()) {
+
+      alert(
+        "This member could not be found."
+      );
+
+      window.location.href =
+        "chat.html";
+
+      return;
+    }
+
+
+    const data =
+      targetDoc.data();
+
+
+    privateUser =
+      uid;
+
+    privateUserName =
+      data.name ||
+      data.displayName ||
+      data.email?.split("@")[0] ||
+      "Member";
+
+
+    privateConversationId =
+      [currentUser.uid, uid]
+        .sort()
+        .join("_");
+
+
+    await setDoc(
+      doc(
+        db,
+        "conversations",
+        privateConversationId
+      ),
+      {
+        participants: [
+          currentUser.uid,
+          uid
+        ],
+        updatedAt:
+          serverTimestamp()
+      },
+      {
+        merge: true
+      }
+    );
+
+
+    const initials =
+      getInitials(privateUserName);
+
+
+    headerAvatar.textContent =
+      initials;
+
+    sidebarAvatar.textContent =
+      initials;
+
+    headerTitle.textContent =
+      privateUserName;
+
+    sidebarTitle.textContent =
+      privateUserName;
+
+    chatStatus.textContent =
+      "Private conversation";
+
+    sidebarStatus.textContent =
+      "Private message";
+
+
+    messageInput.placeholder =
+      "Message " +
+      privateUserName +
+      "...";
+
+
+    loadPrivateMessages();
+
+  } catch (error) {
+
+    console.error(
+      "Private chat error:",
+      error
+    );
+
+    alert(
+      "Unable to open private chat. Please try again."
+    );
+
+  }
+
+}
+
+
+/* PRIVATE MESSAGES */
+
+function loadPrivateMessages() {
+
+  if (unsubscribePrivate) {
+
+    unsubscribePrivate();
+
+  }
+
+
+  const privateMessagesQuery =
+    query(
+      collection(
+        db,
+        "conversations",
+        privateConversationId,
+        "messages"
+      ),
+      orderBy("createdAt", "asc"),
+      limit(100)
+    );
+
+
+  unsubscribePrivate =
+    onSnapshot(
+
+      privateMessagesQuery,
+
+      (snapshot) => {
+
+        messagesBox.innerHTML = "";
+
+
+        if (snapshot.empty) {
+
+          messagesBox.innerHTML = `
+            <div class="empty-chat">
+              Start your private conversation with
+              ${escapeHTML(privateUserName)} 💬
+            </div>
+          `;
+
+          return;
+        }
+
+
+        snapshot.forEach(
+          (messageDoc) => {
+
+            const data =
+              messageDoc.data();
+
+            const isMine =
+              data.senderId ===
+              currentUser.uid;
+
+
+            renderMessage(
+              data,
+              isMine
+            );
+
+          }
+        );
+
+
+        messagesBox.scrollTop =
+          messagesBox.scrollHeight;
+
+      },
+
+      (error) => {
+
+        console.error(
+          "Private messages error:",
+          error
+        );
+
+        chatStatus.textContent =
+          "Unable to load private messages";
+
+      }
+
+    );
+
+}
+
+
+/* SEND */
+
+chatForm.addEventListener(
+  "submit",
+  async (event) => {
+
+    event.preventDefault();
+
+
+    const text =
+      messageInput.value.trim();
+
+
+    if (
+      !text ||
+      !currentUser
+    ) {
+
+      return;
+
+    }
+
+
+    sendButton.disabled =
+      true;
+
+    sendButton.textContent =
+      "SENDING...";
+
+
+    try {
+
+      if (
+        privateUser &&
+        privateConversationId
+      ) {
+
+        await addDoc(
+          collection(
+            db,
+            "conversations",
+            privateConversationId,
+            "messages"
+          ),
+          {
+
+            senderId:
+              currentUser.uid,
+
+            senderName:
+              currentName,
+
+            receiverId:
+              privateUser,
+
+            message:
+              text,
+
+            createdAt:
+              serverTimestamp()
+
+          }
+        );
+
+
+        await setDoc(
+          doc(
+            db,
+            "conversations",
+            privateConversationId
+          ),
+          {
+            updatedAt:
+              serverTimestamp(),
+
+            lastMessage:
+              text
+          },
+          {
+            merge: true
+          }
+        );
+
+
+      } else {
+
+        await addDoc(
+          collection(db, "messages"),
+          {
+
+            senderId:
+              currentUser.uid,
+
+            senderName:
+              currentName,
+
+            email:
+              currentUser.email || "",
+
+            message:
+              text,
+
+            createdAt:
+              serverTimestamp()
+
+          }
+        );
+
+      }
+
+
+      messageInput.value = "";
+
+
+    } catch (error) {
+
+      console.error(
+        "Send message error:",
+        error
+      );
+
+
+      alert(
+        "Message could not be sent. Please try again."
+      );
+
+    }
+
+
+    sendButton.disabled =
+      false;
+
+    sendButton.textContent =
+      "SEND";
+
+    messageInput.focus();
+
+  }
+);
+
+
+/* RENDER MESSAGE */
+
+function renderMessage(
+  data,
+  isMine
+) {
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "message-wrapper " +
+    (isMine
+      ? "sent"
+      : "received");
+
+
+  const sender =
+    document.createElement("div");
+
+  sender.className =
+    "sender";
+
+  sender.textContent =
+    isMine
+      ? "You"
+      : (data.senderName || "Fan");
+
+
+  const message =
+    document.createElement("div");
+
+  message.className =
+    "message";
+
+  message.textContent =
+    data.message || "";
+
+
+  const time =
+    document.createElement("span");
+
+  time.className =
+    "time";
+
+
+  if (data.createdAt) {
+
+    time.textContent =
+      formatTime(
+        data.createdAt.toDate()
+      );
+
+  } else {
+
+    time.textContent =
+      "Just now";
+
+  }
+
+
+  message.appendChild(time);
+
+  wrapper.appendChild(sender);
+
+  wrapper.appendChild(message);
+
+  messagesBox.appendChild(wrapper);
 
 }
 
@@ -884,7 +1340,9 @@ async function loadMembers() {
 
         <p>
           ${usersSnapshot.size} registered fan
-          ${usersSnapshot.size === 1 ? "member" : "members"}
+          ${usersSnapshot.size === 1
+            ? "member"
+            : "members"}
         </p>
 
       </div>
@@ -901,83 +1359,94 @@ async function loadMembers() {
       `;
 
       return;
+
     }
 
 
-    usersSnapshot.forEach((userDoc) => {
+    usersSnapshot.forEach(
+      (userDoc) => {
 
-      const data =
-        userDoc.data();
-
-
-      const name =
-        data.name ||
-        data.displayName ||
-        "Fan Member";
+        const data =
+          userDoc.data();
 
 
-      const email =
-        data.email || "";
+        const name =
+          data.name ||
+          data.displayName ||
+          "Fan Member";
 
 
-      const initials =
-        getInitials(name);
+        const email =
+          data.email || "";
 
 
-      const card =
-        document.createElement("div");
-
-      card.className =
-        "member-card";
+        const initials =
+          getInitials(name);
 
 
-      card.innerHTML = `
+        const card =
+          document.createElement("div");
 
-        <div class="avatar">
-          ${initials}
-        </div>
+        card.className =
+          "member-card";
 
-        <div class="member-info">
 
-          <h3>
-            ${escapeHTML(name)}
-          </h3>
+        card.innerHTML = `
 
-          <p>
-            ${email ? escapeHTML(email) : "Fan Member"}
-          </p>
-
-          <div class="member-status">
-            Community Member
+          <div class="avatar">
+            ${escapeHTML(initials)}
           </div>
 
-        </div>
+          <div class="member-info">
 
-        <button
-          class="profile-btn"
-          type="button"
-        >
-          PROFILE
-        </button>
+            <h3>
+              ${escapeHTML(name)}
+            </h3>
 
-      `;
+            <p>
+              ${email
+                ? escapeHTML(email)
+                : "Fan Member"}
+            </p>
+
+            <div class="member-status">
+              Community Member
+            </div>
+
+          </div>
+
+          <button
+            class="profile-btn"
+            type="button"
+          >
+            PROFILE
+          </button>
+
+        `;
 
 
-      const profileButton =
-        card.querySelector(".profile-btn");
-      
-profileButton.addEventListener(
-  "click",
-  () => {
-    window.location.href =
-      "profile.html?uid=" + userDoc.id;
-  }
-);
+        const profileButton =
+          card.querySelector(
+            ".profile-btn"
+          );
 
 
-    membersBox.appendChild(card);
+        profileButton.addEventListener(
+          "click",
+          () => {
 
-    });
+            window.location.href =
+              "profile.html?uid=" +
+              userDoc.id;
+
+          }
+        );
+
+
+        membersBox.appendChild(card);
+
+      }
+    );
 
 
   } catch (error) {
@@ -1008,92 +1477,16 @@ profileButton.addEventListener(
 }
 
 
-/* SEND MESSAGE */
-
-chatForm.addEventListener(
-  "submit",
-  async (event) => {
-
-    event.preventDefault();
-
-
-    const text =
-      messageInput.value.trim();
-
-
-    if (!text || !currentUser) {
-
-      return;
-    }
-
-
-    sendButton.disabled = true;
-
-    sendButton.textContent =
-      "SENDING...";
-
-
-    try {
-
-      await addDoc(
-        collection(db, "messages"),
-        {
-
-          senderId:
-            currentUser.uid,
-
-          senderName:
-            currentName,
-
-          email:
-            currentUser.email || "",
-
-          message:
-            text,
-
-          createdAt:
-            serverTimestamp()
-
-        }
-      );
-
-
-      messageInput.value = "";
-
-
-    } catch (error) {
-
-      console.error(
-        "Send message error:",
-        error
-      );
-
-
-      alert(
-        "Message could not be sent. Please try again."
-      );
-
-    }
-
-
-    sendButton.disabled = false;
-
-    sendButton.textContent =
-      "SEND";
-
-    messageInput.focus();
-
-  }
-);
-
-
 /* HELPERS */
 
 function getInitials(name) {
 
   return name
     .split(" ")
-    .map(word => word.charAt(0))
+    .map(
+      word =>
+        word.charAt(0)
+    )
     .join("")
     .substring(0, 2)
     .toUpperCase();
