@@ -4,8 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kyle | Fan Profile</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box
+}
+
 body{
   min-height:100vh;
   font-family:Arial,Helvetica,sans-serif;
@@ -14,6 +20,7 @@ body{
     radial-gradient(circle at 80% 0%,rgba(100,10,45,.25),transparent 30%),
     #030303;
 }
+
 header{
   height:78px;
   padding:0 6%;
@@ -23,23 +30,27 @@ header{
   background:rgba(3,3,3,.92);
   border-bottom:1px solid rgba(120,20,55,.35);
 }
+
 .logo{
   font-size:24px;
   font-weight:bold;
   letter-spacing:8px;
 }
+
 .back{
   color:#a52a50;
   text-decoration:none;
   font-size:12px;
   font-weight:bold;
 }
+
 .container{
   width:88%;
   max-width:1100px;
   margin:auto;
   padding:70px 0;
 }
+
 .label{
   color:#922047;
   font-size:11px;
@@ -47,12 +58,14 @@ header{
   letter-spacing:5px;
   margin-bottom:15px;
 }
+
 h1{
   font-size:clamp(42px,6vw,68px);
   line-height:1;
   letter-spacing:-3px;
   margin-bottom:45px;
 }
+
 .profile-card{
   padding:45px;
   display:grid;
@@ -64,6 +77,7 @@ h1{
   border:1px solid rgba(120,20,55,.35);
   box-shadow:0 30px 80px rgba(0,0,0,.5);
 }
+
 .avatar{
   width:190px;
   height:190px;
@@ -78,21 +92,64 @@ h1{
   font-size:38px;
   font-weight:bold;
   letter-spacing:5px;
+  overflow:hidden;
+  position:relative;
 }
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.photo-controls{
+  margin-top:20px;
+}
+
+.photo-btn{
+  display:inline-block;
+  padding:11px 17px;
+  border-radius:5px;
+  color:white;
+  background:linear-gradient(135deg,#43091e,#7d1639);
+  border:1px solid rgba(145,35,75,.45);
+  font-size:11px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.photo-btn:hover{
+  opacity:.9;
+}
+
+#photoInput{
+  display:none;
+}
+
+.photo-status{
+  margin-top:10px;
+  color:#777;
+  font-size:11px;
+}
+
 .profile-info h2{
   font-size:32px;
   margin-bottom:8px;
 }
+
 .username{
   color:#8e1d43;
   font-size:13px;
   margin-bottom:20px;
 }
+
 .email{
   color:#777;
   font-size:13px;
   margin-bottom:15px;
 }
+
 .bio{
   max-width:600px;
   color:#888;
@@ -100,6 +157,7 @@ h1{
   line-height:1.8;
   margin-bottom:25px;
 }
+
 .status{
   display:inline-block;
   padding:9px 15px;
@@ -109,18 +167,21 @@ h1{
   font-size:11px;
   letter-spacing:1px;
 }
+
 .details{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:18px;
   margin-top:25px;
 }
+
 .detail{
   padding:25px;
   border-radius:15px;
   background:rgba(255,255,255,.025);
   border:1px solid rgba(120,20,55,.25);
 }
+
 .detail span{
   display:block;
   color:#666;
@@ -128,9 +189,11 @@ h1{
   letter-spacing:2px;
   margin-bottom:9px;
 }
+
 .detail strong{
   font-size:14px;
 }
+
 .section{
   margin-top:25px;
   padding:35px;
@@ -138,15 +201,18 @@ h1{
   background:rgba(20,3,10,.4);
   border:1px solid rgba(120,20,55,.3);
 }
+
 .section h2{
   font-size:21px;
   margin-bottom:10px;
 }
+
 .section p{
   color:#777;
   font-size:14px;
   line-height:1.8;
 }
+
 .edit-btn,
 .message-btn{
   display:inline-block;
@@ -158,20 +224,24 @@ h1{
   font-weight:bold;
   cursor:pointer;
 }
+
 .edit-btn{
   color:white;
   background:linear-gradient(135deg,#43091e,#7d1639);
   border:1px solid rgba(145,35,75,.45);
 }
+
 .message-btn{
   color:white;
   background:linear-gradient(135deg,#43091e,#7d1639);
   border:1px solid rgba(145,35,75,.6);
 }
+
 .edit-box{
   display:none;
   margin-top:25px;
 }
+
 .edit-box input,
 .edit-box textarea{
   width:100%;
@@ -184,14 +254,17 @@ h1{
   outline:none;
   font-family:Arial,Helvetica,sans-serif;
 }
+
 .edit-box textarea{
   min-height:120px;
   resize:vertical;
 }
+
 .edit-box input:focus,
 .edit-box textarea:focus{
   border-color:#8e1d43;
 }
+
 .save-btn{
   padding:13px 22px;
   border:none;
@@ -201,11 +274,13 @@ h1{
   font-weight:bold;
   cursor:pointer;
 }
+
 #message{
   margin-top:15px;
   color:#a52a50;
   font-size:12px;
 }
+
 footer{
   text-align:center;
   padding:40px;
@@ -213,113 +288,252 @@ footer{
   font-size:11px;
   border-top:1px solid rgba(100,15,45,.2);
 }
+
 @media(max-width:750px){
+
   .container{
     width:90%;
   }
+
   .profile-card{
     grid-template-columns:1fr;
     text-align:center;
     padding:30px;
   }
+
   .avatar{
     margin:auto;
   }
+
+  .photo-controls{
+    text-align:center;
+  }
+
   .bio{
     margin-left:auto;
     margin-right:auto;
   }
+
   .details{
     grid-template-columns:1fr;
   }
+
 }
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="logo">KYLE</div>
-  <a href="chat.html" class="back" id="backLink">
+
+  <div class="logo">
+    KYLE
+  </div>
+
+  <a
+    href="chat.html"
+    class="back"
+    id="backLink"
+  >
     ← MEMBERS
   </a>
+
 </header>
+
+
 <main class="container">
-  <p class="label" id="pageLabel">
+
+  <p
+    class="label"
+    id="pageLabel"
+  >
     FAN PROFILE
   </p>
+
   <h1 id="pageTitle">
     My Profile.
   </h1>
+
+
   <section class="profile-card">
-    <div class="avatar" id="avatar">
-      FAN
+
+    <div>
+
+      <div
+        class="avatar"
+        id="avatar"
+      >
+        FAN
+      </div>
+
+
+      <!-- PHOTO UPLOAD -->
+
+      <div
+        class="photo-controls"
+        id="photoControls"
+      >
+
+        <label
+          for="photoInput"
+          class="photo-btn"
+        >
+          CHANGE PHOTO
+        </label>
+
+        <input
+          type="file"
+          id="photoInput"
+          accept="image/jpeg,image/png,image/webp"
+        >
+
+        <p
+          class="photo-status"
+          id="photoStatus"
+        >
+          JPG, PNG or WEBP
+        </p>
+
+      </div>
+
     </div>
+
+
     <div class="profile-info">
+
       <h2 id="profileName">
         Fan Member
       </h2>
-      <p class="username" id="username">
+
+      <p
+        class="username"
+        id="username"
+      >
         @fanmember
       </p>
-      <p class="email" id="email">
+
+      <p
+        class="email"
+        id="email"
+      >
         Loading account...
       </p>
-      <p class="bio" id="bio">
+
+      <p
+        class="bio"
+        id="bio"
+      >
         Welcome to your official Kyle fan profile.
       </p>
+
       <span class="status">
         ACTIVE MEMBER
       </span>
+
     </div>
+
   </section>
+
+
   <section class="details">
+
     <div class="detail">
-      <span>MEMBER SINCE</span>
-      <strong id="memberSince">Loading...</strong>
+
+      <span>
+        MEMBER SINCE
+      </span>
+
+      <strong id="memberSince">
+        Loading...
+      </strong>
+
     </div>
+
+
     <div class="detail">
-      <span>MEMBERSHIP</span>
-      <strong>Official Fan</strong>
+
+      <span>
+        MEMBERSHIP
+      </span>
+
+      <strong>
+        Official Fan
+      </strong>
+
     </div>
+
+
     <div class="detail">
-      <span>STATUS</span>
-      <strong>Active</strong>
+
+      <span>
+        STATUS
+      </span>
+
+      <strong>
+        Active
+      </strong>
+
     </div>
+
   </section>
+
+
   <section class="section">
-    <h2>About Me</h2>
+
+    <h2>
+      About Me
+    </h2>
+
     <p id="aboutText">
       Tell the community a little about yourself.
     </p>
+
+
     <div id="ownProfileControls">
+
       <button
         class="edit-btn"
         onclick="toggleEdit()"
       >
         EDIT PROFILE
       </button>
+
+
       <div
         class="edit-box"
         id="editBox"
       >
+
         <input
           type="text"
           id="nameInput"
           placeholder="Your name"
         >
+
         <textarea
           id="bioInput"
           placeholder="Tell the community about yourself..."
         ></textarea>
+
         <button
           class="save-btn"
           onclick="saveProfile()"
         >
           SAVE PROFILE
         </button>
+
         <p id="message"></p>
+
       </div>
+
     </div>
-    <div id="memberControls" style="display:none">
+
+
+    <div
+      id="memberControls"
+      style="display:none"
+    >
+
       <a
         href="#"
         class="message-btn"
@@ -327,136 +541,298 @@ footer{
       >
         MESSAGE MEMBER
       </a>
+
     </div>
+
   </section>
+
 </main>
+
+
 <footer>
   ©️ 2026 Kyle. Official Website.
 </footer>
+
+
 <script type="module">
+
 import {
   initializeApp
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
 import {
   getAuth,
   onAuthStateChanged,
   updateProfile
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
 import {
   getFirestore,
   doc,
   getDoc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+
+/* FIREBASE */
+
 const firebaseConfig = {
+
   apiKey:
     "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+
   authDomain:
     "kyle-official-website.firebaseapp.com",
+
   projectId:
     "kyle-official-website",
+
   storageBucket:
     "kyle-official-website.firebasestorage.app",
+
   messagingSenderId:
     "547868923755",
+
   appId:
     "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+
   measurementId:
     "G-799CW529X9"
+
 };
+
+
 const app =
   initializeApp(firebaseConfig);
+
 const auth =
   getAuth(app);
+
 const db =
   getFirestore(app);
+
+
+/* CLOUDINARY */
+
+const CLOUDINARY_CLOUD_NAME =
+  "jgq7zrej";
+
+const CLOUDINARY_UPLOAD_PRESET =
+  "kyle profiles";
+
+
+/* VARIABLES */
+
 let currentUser = null;
+
+let currentProfileImage = "";
+
+
 const params =
   new URLSearchParams(
     window.location.search
   );
+
 const requestedUid =
   params.get("uid");
+
+
+/* ELEMENTS */
+
+const avatar =
+  document.getElementById(
+    "avatar"
+  );
+
+const photoInput =
+  document.getElementById(
+    "photoInput"
+  );
+
+const photoStatus =
+  document.getElementById(
+    "photoStatus"
+  );
+
+const photoControls =
+  document.getElementById(
+    "photoControls"
+  );
+
+
+/* HELPERS */
+
 function createUsername(name){
+
   return "@"
     + name
       .toLowerCase()
       .replace(/[^a-z0-9]/g,"");
+
 }
+
+
 function getInitials(name){
+
   return name
     .split(" ")
-    .map(word => word.charAt(0))
+    .map(
+      word =>
+        word.charAt(0)
+    )
     .join("")
     .substring(0,2)
     .toUpperCase();
+
 }
+
+
+/* DISPLAY PROFILE PHOTO */
+
+function displayProfilePhoto(
+  photoURL,
+  name
+){
+
+  if(photoURL){
+
+    avatar.innerHTML = `
+      <img
+        src="${photoURL}"
+        alt="${name} profile photo"
+      >
+    `;
+
+    currentProfileImage =
+      photoURL;
+
+  }else{
+
+    avatar.innerHTML =
+      getInitials(name);
+
+    currentProfileImage =
+      "";
+
+  }
+
+}
+
+
+/* AUTH */
+
 onAuthStateChanged(
   auth,
   async function(user){
+
     if(!user){
+
       window.location.href =
         "login.html";
+
       return;
+
     }
-    currentUser = user;
+
+
+    currentUser =
+      user;
+
+
     if(
       requestedUid &&
       requestedUid !== user.uid
     ){
+
       await loadMemberProfile(
         requestedUid
       );
+
       return;
+
     }
-    await loadOwnProfile(user);
+
+
+    await loadOwnProfile(
+      user
+    );
+
   }
 );
-/*
-LOAD OWN PROFILE
-*/
-async function loadOwnProfile(user){
+
+
+/* OWN PROFILE */
+
+async function loadOwnProfile(
+  user
+){
+
   document.getElementById(
     "pageLabel"
   ).textContent =
     "FAN PROFILE";
+
+
   document.getElementById(
     "pageTitle"
   ).textContent =
     "My Profile.";
+
+
   document.getElementById(
     "backLink"
   ).textContent =
     "← DASHBOARD";
+
+
   document.getElementById(
     "backLink"
   ).href =
     "dashboard.html";
+
+
   document.getElementById(
     "ownProfileControls"
   ).style.display =
     "block";
+
+
   document.getElementById(
     "memberControls"
   ).style.display =
     "none";
+
+
+  photoControls.style.display =
+    "block";
+
+
   const email =
     user.email ||
     "No email";
+
+
   let name =
     user.displayName ||
     email.split("@")[0] ||
     "Fan Member";
+
+
   updateProfileDisplay(
     name,
     email,
     user.metadata.creationTime
   );
+
+
   document.getElementById(
     "nameInput"
   ).value =
     name;
+
+
   try{
+
     const userSnap =
       await getDoc(
         doc(
@@ -465,82 +841,135 @@ async function loadOwnProfile(user){
           user.uid
         )
       );
+
+
     if(userSnap.exists()){
+
       const data =
         userSnap.data();
+
+
       if(data.name){
-        name = data.name;
+
+        name =
+          data.name;
+
         updateProfileDisplay(
           name,
           email,
           user.metadata.creationTime
         );
+
         document.getElementById(
           "nameInput"
         ).value =
           name;
+
       }
+
+
       if(data.bio){
+
         document.getElementById(
           "bio"
         ).textContent =
           data.bio;
+
         document.getElementById(
           "aboutText"
         ).textContent =
           data.bio;
+
         document.getElementById(
           "bioInput"
         ).value =
           data.bio;
+
       }
+
+
+      if(data.profileImage){
+
+        displayProfilePhoto(
+          data.profileImage,
+          name
+        );
+
+      }
+
     }
+
   }catch(error){
+
     console.error(
       "Own profile error:",
       error
     );
+
   }
+
 }
-/*
-LOAD OTHER MEMBER
-*/
-async function loadMemberProfile(uid){
+
+
+/* OTHER MEMBER */
+
+async function loadMemberProfile(
+  uid
+){
+
   document.getElementById(
     "pageLabel"
   ).textContent =
     "COMMUNITY MEMBER";
+
+
   document.getElementById(
     "pageTitle"
   ).textContent =
     "Fan Profile.";
+
+
   document.getElementById(
     "backLink"
   ).textContent =
     "← MEMBERS";
+
+
   document.getElementById(
     "backLink"
   ).href =
     "chat.html";
+
+
   document.getElementById(
     "ownProfileControls"
   ).style.display =
     "none";
+
+
   document.getElementById(
     "memberControls"
   ).style.display =
     "block";
-  /*
-  SET THE PRIVATE MESSAGE TARGET
-  */
+
+
+  photoControls.style.display =
+    "none";
+
+
   const messageButton =
     document.getElementById(
       "messageMemberBtn"
     );
+
+
   messageButton.href =
     "chat.html?with=" +
     encodeURIComponent(uid);
+
+
   try{
+
     const publicSnap =
       await getDoc(
         doc(
@@ -549,34 +978,64 @@ async function loadMemberProfile(uid){
           uid
         )
       );
+
+
     if(publicSnap.exists()){
+
       const data =
         publicSnap.data();
+
+
       const name =
         data.name ||
         "Fan Member";
+
+
       updateProfileDisplay(
         name,
         "",
         null
       );
+
+
+      if(data.profileImage){
+
+        displayProfilePhoto(
+          data.profileImage,
+          name
+        );
+
+      }
+
+
       const bio =
         data.bio ||
         "This fan has joined the Kyle Fuller community.";
+
+
       document.getElementById(
         "bio"
       ).textContent =
         bio;
+
+
       document.getElementById(
         "aboutText"
       ).textContent =
         bio;
+
+
       document.getElementById(
         "memberSince"
       ).textContent =
         "Community Member";
+
+
       return;
+
     }
+
+
     const userSnap =
       await getDoc(
         doc(
@@ -585,161 +1044,252 @@ async function loadMemberProfile(uid){
           uid
         )
       );
+
+
     if(userSnap.exists()){
+
       const data =
         userSnap.data();
+
+
       const name =
         data.name ||
         "Fan Member";
+
+
       updateProfileDisplay(
         name,
         "",
         null
       );
+
+
+      if(data.profileImage){
+
+        displayProfilePhoto(
+          data.profileImage,
+          name
+        );
+
+      }
+
+
       const bio =
         data.bio ||
         "This fan has joined the Kyle Fuller community.";
+
+
       document.getElementById(
         "bio"
       ).textContent =
         bio;
+
+
       document.getElementById(
         "aboutText"
       ).textContent =
         bio;
+
+
       document.getElementById(
         "memberSince"
       ).textContent =
         "Community Member";
+
     }else{
+
       showMemberError();
+
     }
+
   }catch(error){
+
     console.error(
       "Member profile error:",
       error
     );
+
     showMemberError();
+
   }
+
 }
-/*
-UPDATE DISPLAY
-*/
+
+
+/* UPDATE DISPLAY */
+
 function updateProfileDisplay(
   name,
   email,
   creationTime
 ){
+
   document.getElementById(
     "profileName"
   ).textContent =
     name;
+
+
   document.getElementById(
     "username"
   ).textContent =
     createUsername(name);
+
+
   document.getElementById(
     "email"
   ).textContent =
     email ||
     "Community Member";
-  document.getElementById(
-    "avatar"
-  ).textContent =
-    getInitials(name);
+
+
+  if(!currentProfileImage){
+
+    avatar.textContent =
+      getInitials(name);
+
+  }
+
+
   if(creationTime){
+
     const date =
-      new Date(creationTime);
+      new Date(
+        creationTime
+      );
+
     document.getElementById(
       "memberSince"
     ).textContent =
       date.getFullYear();
+
   }else{
+
     document.getElementById(
       "memberSince"
     ).textContent =
       "Active Member";
+
   }
+
 }
-/*
-MEMBER ERROR
-*/
+
+
+/* ERROR */
+
 function showMemberError(){
+
   document.getElementById(
     "profileName"
   ).textContent =
     "Member Not Found";
+
   document.getElementById(
     "username"
   ).textContent =
     "";
+
   document.getElementById(
     "email"
   ).textContent =
     "This profile could not be loaded.";
+
   document.getElementById(
     "bio"
   ).textContent =
     "The member profile is unavailable.";
+
   document.getElementById(
     "aboutText"
   ).textContent =
     "The member profile could not be found.";
+
 }
-/*
-EDIT PROFILE
-*/
+
+
+/* EDIT */
+
 window.toggleEdit =
 function(){
+
   const box =
     document.getElementById(
       "editBox"
     );
+
+
   if(
     box.style.display ===
     "block"
   ){
+
     box.style.display =
       "none";
+
   }else{
+
     box.style.display =
       "block";
+
   }
+
 };
-/*
-SAVE PROFILE
-*/
+
+
+/* SAVE PROFILE */
+
 window.saveProfile =
 async function(){
+
   if(!currentUser){
+
     return;
+
   }
+
+
   const name =
     document.getElementById(
       "nameInput"
     ).value.trim();
+
+
   const bio =
     document.getElementById(
       "bioInput"
     ).value.trim();
+
+
   const message =
     document.getElementById(
       "message"
     );
+
+
   if(name === ""){
+
     message.textContent =
       "Please enter your name.";
+
     return;
+
   }
+
+
   message.textContent =
     "Saving profile...";
+
+
   try{
+
     await updateProfile(
       currentUser,
       {
         displayName:name
       }
     );
+
+
     await setDoc(
       doc(
         db,
@@ -747,15 +1297,24 @@ async function(){
         currentUser.uid
       ),
       {
+
         name:name,
+
         email:
           currentUser.email || "",
-        bio:bio
+
+        bio:bio,
+
+        profileImage:
+          currentProfileImage || ""
+
       },
       {
         merge:true
       }
     );
+
+
     await setDoc(
       doc(
         db,
@@ -763,41 +1322,247 @@ async function(){
         currentUser.uid
       ),
       {
+
         uid:
           currentUser.uid,
+
         name:name,
-        bio:bio
+
+        bio:bio,
+
+        profileImage:
+          currentProfileImage || ""
+
       },
       {
         merge:true
       }
     );
+
+
     updateProfileDisplay(
       name,
       currentUser.email || "",
       currentUser.metadata.creationTime
     );
+
+
     if(bio !== ""){
+
       document.getElementById(
         "bio"
       ).textContent =
         bio;
+
       document.getElementById(
         "aboutText"
       ).textContent =
         bio;
+
     }
+
+
     message.textContent =
       "Profile saved successfully ✓";
+
+
   }catch(error){
+
     console.error(
       "Profile save error:",
       error
     );
+
+
     message.textContent =
       "Could not save profile. Please try again.";
+
   }
+
 };
+
+
+/* PHOTO UPLOAD */
+
+photoInput.addEventListener(
+  "change",
+  async function(){
+
+    const file =
+      this.files[0];
+
+
+    if(!file){
+
+      return;
+
+    }
+
+
+    if(
+      !file.type.startsWith(
+        "image/"
+      )
+    ){
+
+      photoStatus.textContent =
+        "Please choose an image.";
+
+      return;
+
+    }
+
+
+    if(
+      file.size >
+      5 * 1024 * 1024
+    ){
+
+      photoStatus.textContent =
+        "Image must be under 5MB.";
+
+      return;
+
+    }
+
+
+    photoStatus.textContent =
+      "Uploading photo...";
+
+
+    try{
+
+      const formData =
+        new FormData();
+
+
+      formData.append(
+        "file",
+        file
+      );
+
+
+      formData.append(
+        "upload_preset",
+        CLOUDINARY_UPLOAD_PRESET
+      );
+
+
+      const response =
+        await fetch(
+          `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+          {
+            method:"POST",
+            body:formData
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if(!response.ok){
+
+        console.error(
+          "Cloudinary error:",
+          data
+        );
+
+        throw new Error(
+          data.error?.message ||
+          "Upload failed"
+        );
+
+      }
+
+
+      const imageURL =
+        data.secure_url;
+
+
+      currentProfileImage =
+        imageURL;
+
+
+      const name =
+        document.getElementById(
+          "profileName"
+        ).textContent;
+
+
+      displayProfilePhoto(
+        imageURL,
+        name
+      );
+
+
+      /* SAVE URL TO FIREBASE */
+
+      await setDoc(
+        doc(
+          db,
+          "users",
+          currentUser.uid
+        ),
+        {
+
+          profileImage:
+            imageURL
+
+        },
+        {
+          merge:true
+        }
+      );
+
+
+      await setDoc(
+        doc(
+          db,
+          "publicProfiles",
+          currentUser.uid
+        ),
+        {
+
+          uid:
+            currentUser.uid,
+
+          profileImage:
+            imageURL
+
+        },
+        {
+          merge:true
+        }
+      );
+
+
+      photoStatus.textContent =
+        "Profile photo updated ✓";
+
+
+    }catch(error){
+
+      console.error(
+        "Photo upload error:",
+        error
+      );
+
+
+      photoStatus.textContent =
+        "Photo upload failed. Check your Cloudinary preset.";
+
+    }
+
+
+    this.value =
+      "";
+
+  }
+);
+
 </script>
+
 </body>
 </html>
