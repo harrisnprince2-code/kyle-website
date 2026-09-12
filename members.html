@@ -338,7 +338,6 @@
 
         const uid = docSnap.id;
 
-        // Don't show yourself in your own members list
         if (auth.currentUser && uid === auth.currentUser.uid) {
           return;
         }
