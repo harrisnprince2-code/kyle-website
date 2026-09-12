@@ -59,8 +59,6 @@
       box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
     }
 
-    /* SIDEBAR */
-
     .sidebar {
       border-right: 1px solid rgba(120, 20, 55, 0.25);
       background: rgba(20, 3, 10, 0.4);
@@ -116,8 +114,6 @@
       color: #777;
       font-size: 11px;
     }
-
-    /* CHAT */
 
     .chat {
       display: flex;
@@ -214,8 +210,6 @@
       text-align: center;
     }
 
-    /* INPUT */
-
     .chat-input {
       padding: 18px;
       display: flex;
@@ -305,8 +299,6 @@
 
   <main class="chat-container">
 
-    <!-- SIDEBAR -->
-
     <aside class="sidebar">
 
       <div class="sidebar-title">
@@ -332,9 +324,6 @@
 
     </aside>
 
-
-    <!-- CHAT -->
-
     <section class="chat">
 
       <div class="chat-header">
@@ -353,7 +342,6 @@
 
       </div>
 
-
       <div class="messages" id="messages">
 
         <div class="empty-chat">
@@ -361,7 +349,6 @@
         </div>
 
       </div>
-
 
       <form class="chat-input" id="chatForm">
 
@@ -389,20 +376,16 @@
   </main>
 
 
-  <!-- FIREBASE -->
-
   <script type="module">
 
     import {
       initializeApp
     } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-
     import {
       getAuth,
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-
 
     import {
       getFirestore,
@@ -417,8 +400,6 @@
       doc
     } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-
-    /* FIREBASE CONFIG */
 
     const firebaseConfig = {
       apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
@@ -455,10 +436,9 @@
 
 
     let currentUser = null;
+
     let currentName = "Fan";
 
-
-    /* CHECK LOGIN */
 
     onAuthStateChanged(auth, async (user) => {
 
@@ -472,10 +452,6 @@
 
       currentUser = user;
 
-
-      /*
-        Get the user's name from Firestore.
-      */
 
       try {
 
@@ -518,8 +494,6 @@
 
     });
 
-
-    /* START REAL-TIME CHAT */
 
     function startChat() {
 
@@ -590,11 +564,6 @@
             message.className = "message";
 
 
-            /*
-              textContent is used instead of innerHTML
-              so users cannot inject HTML into the chat.
-            */
-
             message.textContent =
               data.message || "";
 
@@ -653,8 +622,6 @@
 
     }
 
-
-    /* SEND MESSAGE */
 
     chatForm.addEventListener(
       "submit",
@@ -724,8 +691,6 @@
       }
     );
 
-
-    /* FORMAT TIME */
 
     function formatTime(date) {
 
