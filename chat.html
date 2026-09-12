@@ -1,706 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyle | Fan Community</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community Chat | Kyle Fuller Official Web</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
-      color: white;
-      background:
-        radial-gradient(circle at 80% 0%, rgba(100, 10, 45, 0.25), transparent 30%),
-        #030303;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#050505;
+  color:#fff;
+  min-height:100vh;
+}
 
-    header {
-      height: 78px;
-      padding: 0 6%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(3, 3, 3, 0.95);
-      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
-    }
+.chat-container{
+  width:92%;
+  max-width:1200px;
+  height:88vh;
+  min-height:600px;
+  margin:40px auto;
+  background:#0b0b0b;
+  border:1px solid #241216;
+  border-radius:18px;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:250px 1fr;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 8px;
-    }
+/* SIDEBAR */
 
-    .back {
-      color: #a52a50;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-    }
+.sidebar{
+  background:#080808;
+  border-right:1px solid #241216;
+  display:flex;
+  flex-direction:column;
+}
 
-    .chat-container {
-      width: 92%;
-      max-width: 1000px;
-      height: calc(100vh - 120px);
-      min-height: 600px;
-      margin: 25px auto;
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      overflow: hidden;
-      border: 1px solid rgba(120, 20, 55, 0.35);
-      border-radius: 20px;
-      background: rgba(8, 8, 8, 0.92);
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
-    }
+.sidebar-title{
+  padding:25px 20px;
+  font-size:20px;
+  font-weight:bold;
+  color:#fff;
+  border-bottom:1px solid #241216;
+}
 
-    .sidebar {
-      border-right: 1px solid rgba(120, 20, 55, 0.25);
-      background: rgba(20, 3, 10, 0.4);
-    }
+.chat-user{
+  padding:18px 20px;
+  border-bottom:1px solid #241216;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .sidebar-title {
-      padding: 25px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
+.chat-user-info{
+  min-width:0;
+}
 
-    .sidebar-title p {
-      color: #922047;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      margin-bottom: 7px;
-    }
+.chat-user-name{
+  font-size:14px;
+  font-weight:bold;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-    .sidebar-title h2 {
-      font-size: 20px;
-    }
+.chat-user-status{
+  font-size:11px;
+  color:#888;
+  margin-top:4px;
+}
 
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
+.tabs{
+  display:flex;
+  flex-direction:column;
+}
 
-    .tab {
-      flex: 1;
-      padding: 15px 5px;
-      border: none;
-      background: transparent;
-      color: #777;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 0.7px;
-      cursor: pointer;
-    }
+.tab{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  padding:18px 20px;
+  text-align:left;
+  cursor:pointer;
+  font-size:14px;
+  border-bottom:1px solid #151515;
+  transition:.2s;
+}
 
-    .tab.active {
-      color: white;
-      background: rgba(100, 10, 45, 0.18);
-      border-bottom: 2px solid #8d1d45;
-    }
+.tab:hover,
+.tab.active{
+  color:#fff;
+  background:#14090c;
+}
 
-    .chat-user {
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      background: rgba(100, 10, 45, 0.12);
-      border-left: 2px solid #8d1d45;
-    }
+.tab.active{
+  border-left:3px solid #8b3949;
+}
 
-    .avatar {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(145deg, #4b0925, #12030a);
-      border: 1px solid rgba(145, 35, 75, 0.5);
-      color: #b1325c;
-      font-size: 11px;
-      font-weight: bold;
-    }
+/* AVATARS */
 
-    .chat-user h3 {
-      font-size: 14px;
-      margin-bottom: 3px;
-    }
+.avatar{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:50%;
+  background:#8b3949;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  color:#fff;
+  font-weight:bold;
+  font-size:14px;
+}
 
-    .online {
-      color: #777;
-      font-size: 11px;
-    }
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
 
-    .chat {
-      display: flex;
-      flex-direction: column;
-      min-width: 0;
-    }
+/* CHAT AREA */
 
-    .chat-header {
-      height: 76px;
-      padding: 0 25px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
+.chat{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+}
 
-    .chat-header h2 {
-      font-size: 16px;
-    }
+.chat-header{
+  height:76px;
+  border-bottom:1px solid #241216;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .chat-header p {
-      color: #777;
-      font-size: 11px;
-      margin-top: 3px;
-    }
+.chat-header-info{
+  min-width:0;
+}
 
-    .messages {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+.chat-header-title{
+  font-size:17px;
+  font-weight:bold;
+}
 
-    .message-wrapper {
-      display: flex;
-      flex-direction: column;
-      max-width: 75%;
-    }
+.chat-status{
+  color:#777;
+  font-size:12px;
+  margin-top:4px;
+}
 
-    .message-wrapper.received {
-      align-self: flex-start;
-    }
+.messages{
+  flex:1;
+  overflow-y:auto;
+  padding:25px;
+}
 
-    .message-wrapper.sent {
-      align-self: flex-end;
-      align-items: flex-end;
-    }
+.message-wrapper{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+  max-width:75%;
+}
 
-    .sender {
-      font-size: 10px;
-      color: #8d1d45;
-      margin: 0 0 5px 4px;
-      font-weight: bold;
-    }
+.message-wrapper.mine{
+  margin-left:auto;
+  flex-direction:row-reverse;
+}
 
-    .message {
-      padding: 13px 17px;
-      border-radius: 14px;
-      font-size: 13px;
-      line-height: 1.6;
-      word-break: break-word;
-    }
+.message-avatar{
+  width:34px;
+  height:34px;
+  min-width:34px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#8b3949;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:11px;
+  font-weight:bold;
+}
 
-    .received .message {
-      color: #bbb;
-      background: rgba(255,255,255,0.045);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-bottom-left-radius: 4px;
-    }
+.message-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .sent .message {
-      background: linear-gradient(135deg, #43091e, #7d1639);
-      border-bottom-right-radius: 4px;
-    }
+.message-content{
+  min-width:0;
+}
 
-    .time {
-      display: block;
-      margin-top: 5px;
-      color: #666;
-      font-size: 9px;
-    }
+.message-name{
+  font-size:11px;
+  color:#999;
+  margin-bottom:5px;
+}
 
-    .sent .time {
-      color: #c48aa0;
-    }
+.message-bubble{
+  background:#151515;
+  border:1px solid #25171a;
+  padding:10px 13px;
+  border-radius:12px;
+  line-height:1.5;
+  font-size:14px;
+  word-wrap:break-word;
+}
 
-    .empty-chat,
-    .loading {
-      margin: auto;
-      color: #666;
-      font-size: 13px;
-      text-align: center;
-    }
+.mine .message-bubble{
+  background:#6d2d3b;
+  border-color:#8b3949;
+}
 
-    .members,
-    .inbox {
-      flex: 1;
-      padding: 25px;
-      overflow-y: auto;
-      display: none;
-    }
+.message-time{
+  font-size:9px;
+  color:#666;
+  margin-top:4px;
+}
 
-    .members.active,
-    .inbox.active {
-      display: block;
-    }
+/* INPUT */
 
-    .section-heading {
-      margin-bottom: 20px;
-    }
+.chat-input{
+  display:flex;
+  gap:10px;
+  padding:15px;
+  border-top:1px solid #241216;
+}
 
-    .section-heading h2 {
-      font-size: 20px;
-      margin-bottom: 5px;
-    }
+.chat-input input{
+  flex:1;
+  min-width:0;
+  background:#111;
+  color:#fff;
+  border:1px solid #302024;
+  border-radius:10px;
+  padding:13px;
+  outline:none;
+}
 
-    .section-heading p {
-      color: #777;
-      font-size: 12px;
-    }
+.chat-input input:focus{
+  border-color:#8b3949;
+}
 
-    .member-card,
-    .inbox-card {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 15px;
-      margin-bottom: 10px;
-      border: 1px solid rgba(120,20,55,0.2);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.025);
-      transition: 0.2s;
-    }
+.send{
+  border:0;
+  background:#8b3949;
+  color:#fff;
+  padding:0 22px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .member-card:hover,
-    .inbox-card:hover {
-      background: rgba(100,10,45,0.12);
-      border-color: rgba(120,20,55,0.45);
-    }
+.send:hover{
+  background:#a8475a;
+}
 
-    .member-info,
-    .inbox-info {
-      flex: 1;
-      min-width: 0;
-    }
+/* MEMBERS */
 
-    .member-info h3,
-    .inbox-info h3 {
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
+.members,
+.inbox{
+  flex:1;
+  overflow-y:auto;
+  padding:25px;
+  display:none;
+}
 
-    .member-info p,
-    .inbox-info p {
-      color: #777;
-      font-size: 11px;
-    }
+.member-card,
+.inbox-card{
+  background:#101010;
+  border:1px solid #241216;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .inbox-last {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 300px;
-      color: #888 !important;
-    }
+.member-info,
+.inbox-info{
+  flex:1;
+  min-width:0;
+}
 
-    .inbox-time {
-      color: #666;
-      font-size: 9px;
-      white-space: nowrap;
-    }
+.member-name,
+.inbox-name{
+  font-weight:bold;
+  font-size:14px;
+}
 
-    .member-status {
-      color: #777;
-      font-size: 9px;
-      margin-top: 5px;
-    }
+.member-email,
+.inbox-last{
+  color:#777;
+  font-size:11px;
+  margin-top:5px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
 
-    .member-status::before {
-      content: "●";
-      color: #8d1d45;
-      margin-right: 5px;
-    }
+.member-button{
+  background:#8b3949;
+  color:#fff;
+  border:0;
+  padding:9px 12px;
+  border-radius:7px;
+  cursor:pointer;
+  text-decoration:none;
+  font-size:11px;
+}
 
-    .profile-btn,
-    .open-chat-btn {
-      padding: 8px 12px;
-      border: 1px solid rgba(140,30,70,0.4);
-      border-radius: 6px;
-      background: transparent;
-      color: #b1325c;
-      font-size: 9px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.member-button:hover{
+  background:#a8475a;
+}
 
-    .profile-btn:hover,
-    .open-chat-btn:hover {
-      background: #4a0b25;
-      color: white;
-    }
+.inbox-time{
+  color:#666;
+  font-size:10px;
+  margin-top:4px;
+}
 
-    .chat-input {
-      padding: 18px;
-      display: flex;
-      gap: 10px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      background: rgba(3,3,3,0.7);
-    }
+.open-button{
+  background:#8b3949;
+  color:white;
+  border:0;
+  padding:9px 12px;
+  border-radius:7px;
+  cursor:pointer;
+}
 
-    .chat-input input {
-      flex: 1;
-      min-width: 0;
-      padding: 14px 16px;
-      color: white;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(120,20,55,0.3);
-      border-radius: 7px;
-      outline: none;
-      font-size: 13px;
-    }
+/* BACK BUTTON */
 
-    .send {
-      padding: 0 22px;
-      border: none;
-      border-radius: 7px;
-      color: white;
-      background: linear-gradient(135deg, #43091e, #7d1639);
-      font-weight: bold;
-      cursor: pointer;
-    }
+.back-button{
+  display:inline-block;
+  position:fixed;
+  top:15px;
+  left:15px;
+  color:#aaa;
+  text-decoration:none;
+  font-size:13px;
+}
 
-    .send:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+.back-button:hover{
+  color:#fff;
+}
 
-    .private-back {
-      margin-left: auto;
-      padding: 8px 12px;
-      border: 1px solid rgba(140,30,70,0.4);
-      border-radius: 6px;
-      background: transparent;
-      color: #b1325c;
-      font-size: 9px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* MOBILE */
 
-    @media (max-width: 700px) {
+@media(max-width:700px){
 
-  .chat-container {
-    width: 94%;
-    height: calc(100vh - 105px);
-    min-height: 550px;
-    grid-template-columns: 1fr;
-    position: relative;
+  .chat-container{
+    width:94%;
+    height:calc(100vh - 105px);
+    min-height:550px;
+    grid-template-columns:1fr;
+    position:relative;
+    margin:20px auto;
   }
 
-  .sidebar {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 104px;
-    z-index: 10;
-    border-right: none;
-    background: #080808;
+  .sidebar{
+    display:block;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:104px;
+    z-index:10;
+    border-right:none;
+    background:#080808;
   }
 
   .sidebar-title,
-  .chat-user {
-    display: none;
+  .chat-user{
+    display:none;
   }
 
-  .tabs {
-    height: 104px;
-    align-items: flex-end;
+  .tabs{
+    height:104px;
+    display:flex;
+    flex-direction:row;
+    align-items:flex-end;
   }
 
-  .tab {
-    height: 55px;
-    padding: 15px 5px;
+  .tab{
+    flex:1;
+    height:55px;
+    padding:15px 5px;
+    text-align:center;
+    font-size:11px;
   }
 
-  .chat {
-    margin-top: 104px;
-    height: calc(100% - 104px);
+  .tab.active{
+    border-left:0;
+    border-bottom:3px solid #8b3949;
   }
 
-  .message-wrapper {
-    max-width: 85%;
+  .chat{
+    margin-top:104px;
+    height:calc(100% - 104px);
+  }
+
+  .message-wrapper{
+    max-width:85%;
   }
 
   .messages,
   .members,
-  .inbox {
-    padding: 20px;
+  .inbox{
+    padding:20px;
   }
 
-  .chat-input {
-    padding: 12px;
+  .chat-input{
+    padding:12px;
   }
 
-  .send {
-    padding: 0 16px;
+  .send{
+    padding:0 16px;
   }
 
-  .inbox-last {
-    max-width: 130px;
+  .inbox-last{
+    max-width:130px;
   }
-
 }
-    
-  </style>
+</style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">KYLE</div>
+<a href="dashboard.html" class="back-button">← Dashboard</a>
 
-  <a href="dashboard.html" class="back">
-    ← DASHBOARD
-  </a>
-</header>
+<div class="chat-container">
 
-<main class="chat-container">
+  <!-- SIDEBAR -->
 
   <aside class="sidebar">
 
     <div class="sidebar-title">
-      <p>COMMUNITY</p>
-      <h2>Fan Community</h2>
+      FAN COMMUNITY
+    </div>
+
+    <div class="chat-user">
+
+      <div class="avatar" id="sidebarAvatar">
+        <span id="sidebarInitials">?</span>
+      </div>
+
+      <div class="chat-user-info">
+        <div class="chat-user-name" id="sidebarName">
+          Loading...
+        </div>
+
+        <div class="chat-user-status" id="sidebarStatus">
+          Connecting...
+        </div>
+      </div>
+
     </div>
 
     <div class="tabs">
 
-      <button class="tab active" id="messagesTab">
-        MESSAGES
-      </button>
-
-      <button class="tab" id="inboxTab">
-        INBOX
+      <button class="tab active" id="communityTab">
+        COMMUNITY
       </button>
 
       <button class="tab" id="membersTab">
         MEMBERS
       </button>
 
-    </div>
-
-    <div class="chat-user">
-
-      <div class="avatar" id="sidebarAvatar">
-        KF
-      </div>
-
-      <div>
-
-        <h3 id="sidebarTitle">
-          Official Community
-        </h3>
-
-        <span class="online" id="sidebarStatus">
-          Live fan discussion
-        </span>
-
-      </div>
+      <button class="tab" id="inboxTab">
+        INBOX
+      </button>
 
     </div>
 
   </aside>
 
-  <section class="chat">
 
-    <div class="chat-header">
+  <!-- COMMUNITY CHAT -->
+
+  <main class="chat" id="chatSection">
+
+    <header class="chat-header">
 
       <div class="avatar" id="headerAvatar">
-        KF
+        <span id="headerInitials">KF</span>
       </div>
 
-      <div>
+      <div class="chat-header-info">
 
-        <h2 id="headerTitle">
-          Official Community
-        </h2>
+        <div class="chat-header-title" id="chatTitle">
+          Kyle Fuller Community
+        </div>
 
-        <p id="chatStatus">
+        <div class="chat-status" id="chatStatus">
           Connecting...
-        </p>
+        </div>
 
       </div>
 
-      <button
-        id="communityBack"
-        class="private-back"
-        style="display:none;"
-      >
-        COMMUNITY
-      </button>
+    </header>
 
-    </div>
 
-    <!-- PUBLIC / PRIVATE MESSAGES -->
+    <div class="messages" id="messages"></div>
 
-    <div class="messages" id="messages">
 
-      <div class="empty-chat">
-        Loading community chat...
-      </div>
-
-    </div>
-
-    <!-- INBOX -->
-
-    <div class="inbox" id="inbox">
-
-      <div class="loading">
-        Loading conversations...
-      </div>
-
-    </div>
-
-    <!-- MEMBERS -->
-
-    <div class="members" id="members">
-
-      <div class="loading">
-        Loading members...
-      </div>
-
-    </div>
-
-    <!-- INPUT -->
-
-    <form class="chat-input" id="chatForm">
+    <form class="chat-input" id="messageForm">
 
       <input
-        id="messageInput"
         type="text"
+        id="messageInput"
         placeholder="Write a message..."
         autocomplete="off"
-        maxlength="500"
-        required
       >
 
-      <button
-        class="send"
-        id="sendButton"
-        type="submit"
-      >
+      <button class="send" type="submit">
         SEND
       </button>
 
     </form>
 
+  </main>
+
+
+  <!-- MEMBERS -->
+
+  <section class="members" id="membersSection">
+
+    <h2 style="margin-bottom:20px;">
+      Community Members
+    </h2>
+
+    <div id="membersList"></div>
+
   </section>
 
-</main>
+
+  <!-- INBOX -->
+
+  <section class="inbox" id="inboxSection">
+
+    <h2 style="margin-bottom:20px;">
+      Private Inbox
+    </h2>
+
+    <div id="inboxList"></div>
+
+  </section>
+
+</div>
+
 
 <script type="module">
 
 import {
   initializeApp
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 import {
   getAuth,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
   getFirestore,
   collection,
+  doc,
+  getDoc,
+  setDoc,
   addDoc,
   query,
+  where,
   orderBy,
   onSnapshot,
-  serverTimestamp,
-  limit,
-  getDoc,
-  doc,
-  getDocs,
-  setDoc,
-  where
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
+/* FIREBASE */
 
 const firebaseConfig = {
-
   apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
-
-  authDomain:
-    "kyle-official-website.firebaseapp.com",
-
-  projectId:
-    "kyle-official-website",
-
-  storageBucket:
-    "kyle-official-website.firebasestorage.app",
-
-  messagingSenderId:
-    "547868923755",
-
-  appId:
-    "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
-
-  measurementId:
-    "G-799CW529X9"
+  authDomain: "kyle-official-website.firebaseapp.com",
+  projectId: "kyle-official-website",
+  storageBucket: "kyle-official-website.firebasestorage.app",
+  messagingSenderId: "547868923755",
+  appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+  measurementId: "G-799CW529X9"
 };
 
+const app = initializeApp(firebaseConfig);
 
-const app =
-  initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-const auth =
-  getAuth(app);
+const db = getFirestore(app);
 
-const db =
-  getFirestore(app);
 
+/* ELEMENTS */
 
 const messagesBox =
   document.getElementById("messages");
 
-const inboxBox =
-  document.getElementById("inbox");
-
-const membersBox =
-  document.getElementById("members");
+const messageForm =
+  document.getElementById("messageForm");
 
 const messageInput =
   document.getElementById("messageInput");
 
-const chatForm =
-  document.getElementById("chatForm");
+const membersSection =
+  document.getElementById("membersSection");
 
-const sendButton =
-  document.getElementById("sendButton");
+const inboxSection =
+  document.getElementById("inboxSection");
+
+const chatSection =
+  document.getElementById("chatSection");
+
+const membersList =
+  document.getElementById("membersList");
+
+const inboxList =
+  document.getElementById("inboxList");
+
+const chatTitle =
+  document.getElementById("chatTitle");
 
 const chatStatus =
   document.getElementById("chatStatus");
 
-const messagesTab =
-  document.getElementById("messagesTab");
-
-const inboxTab =
-  document.getElementById("inboxTab");
-
-const membersTab =
-  document.getElementById("membersTab");
-
-const headerTitle =
-  document.getElementById("headerTitle");
-
-const headerAvatar =
-  document.getElementById("headerAvatar");
-
-const sidebarTitle =
-  document.getElementById("sidebarTitle");
+const sidebarName =
+  document.getElementById("sidebarName");
 
 const sidebarStatus =
   document.getElementById("sidebarStatus");
@@ -708,885 +648,584 @@ const sidebarStatus =
 const sidebarAvatar =
   document.getElementById("sidebarAvatar");
 
-const communityBack =
-  document.getElementById("communityBack");
+const headerAvatar =
+  document.getElementById("headerAvatar");
 
+
+/* STATE */
 
 let currentUser = null;
 
-let currentName = "Fan";
+let currentUserProfile = {};
 
-let privateUser = null;
+let unsubscribeMessages = null;
 
-let privateUserName = "Member";
-
-let privateConversationId = null;
-
-let unsubscribePrivate = null;
+let currentPrivateUser = null;
 
 
 /* URL */
 
 const urlParams =
-  new URLSearchParams(
-    window.location.search
-  );
+  new URLSearchParams(window.location.search);
 
-const targetUid =
+const privateUid =
   urlParams.get("with");
+
+
+/* HELPERS */
+
+function getInitials(name){
+
+  if(!name){
+    return "?";
+  }
+
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0,2)
+    .map(word => word[0])
+    .join("")
+    .toUpperCase();
+
+}
+
+
+function escapeHTML(text){
+
+  if(text === null || text === undefined){
+    return "";
+  }
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatTime(timestamp){
+
+  if(!timestamp){
+    return "";
+  }
+
+  try{
+
+    const date =
+      timestamp.toDate
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+    return date.toLocaleTimeString([],{
+      hour:"2-digit",
+      minute:"2-digit"
+    });
+
+  }catch(error){
+
+    return "";
+
+  }
+
+}
+
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "";
+  }
+
+  try{
+
+    const date =
+      timestamp.toDate
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+    return date.toLocaleDateString([],{
+      day:"numeric",
+      month:"short"
+    });
+
+  }catch(error){
+
+    return "";
+
+  }
+
+}
+
+
+/* PROFILE PHOTO HTML */
+
+function avatarHTML(profile,name,className=""){
+
+  const initials =
+    getInitials(name);
+
+  const image =
+    profile?.profileImage;
+
+  if(image){
+
+    return `
+      <div class="avatar ${className}">
+        <img
+          src="${escapeHTML(image)}"
+          alt="${escapeHTML(name || "Profile")}"
+        >
+      </div>
+    `;
+
+  }
+
+  return `
+    <div class="avatar ${className}">
+      ${escapeHTML(initials)}
+    </div>
+  `;
+
+}
+
+
+function messageAvatarHTML(profile,name){
+
+  const initials =
+    getInitials(name);
+
+  const image =
+    profile?.profileImage;
+
+  if(image){
+
+    return `
+      <div class="message-avatar">
+        <img
+          src="${escapeHTML(image)}"
+          alt="${escapeHTML(name || "Profile")}"
+        >
+      </div>
+    `;
+
+  }
+
+  return `
+    <div class="message-avatar">
+      ${escapeHTML(initials)}
+    </div>
+  `;
+
+}
+
+
+/* LOAD USER PROFILE */
+
+async function loadCurrentUser(){
+
+  const userDoc =
+    await getDoc(
+      doc(db,"users",currentUser.uid)
+    );
+
+  if(userDoc.exists()){
+
+    currentUserProfile =
+      userDoc.data();
+
+  }
+
+  const name =
+    currentUserProfile.name ||
+    currentUser.displayName ||
+    currentUser.email?.split("@")[0] ||
+    "Fan";
+
+  sidebarName.textContent =
+    name;
+
+  sidebarAvatar.innerHTML =
+    currentUserProfile.profileImage
+      ? `<img src="${escapeHTML(currentUserProfile.profileImage)}" alt="Profile">`
+      : `<span>${escapeHTML(getInitials(name))}</span>`;
+
+}
 
 
 /* AUTH */
 
-onAuthStateChanged(
-  auth,
-  async (user) => {
+onAuthStateChanged(auth, async(user)=>{
 
-    if (!user) {
-
-      window.location.href =
-        "login.html";
-
-      return;
-    }
-
-    currentUser = user;
-
-
-    try {
-
-      const userDoc =
-        await getDoc(
-          doc(
-            db,
-            "users",
-            user.uid
-          )
-        );
-
-
-      if (userDoc.exists()) {
-
-        const data =
-          userDoc.data();
-
-        currentName =
-          data.name ||
-          data.displayName ||
-          user.displayName ||
-          user.email.split("@")[0];
-
-      } else {
-
-        currentName =
-          user.displayName ||
-          user.email.split("@")[0];
-
-      }
-
-    } catch (error) {
-
-      currentName =
-        user.displayName ||
-        user.email.split("@")[0];
-
-    }
-
-
-    if (
-      targetUid &&
-      targetUid !== currentUser.uid
-    ) {
-
-      await startPrivateChat(
-        targetUid
-      );
-
-    } else {
-
-      startCommunityChat();
-
-    }
-
-  }
-);
-
-
-/* TABS */
-
-messagesTab.addEventListener(
-  "click",
-  () => {
-
-    showCommunityChat();
-
-  }
-);
-
-
-inboxTab.addEventListener(
-  "click",
-  () => {
-
-    showInbox();
-
-  }
-);
-
-
-membersTab.addEventListener(
-  "click",
-  () => {
-
-    showMembers();
-
-  }
-);
-
-
-/* COMMUNITY BUTTON */
-
-communityBack.addEventListener(
-  "click",
-  () => {
+  if(!user){
 
     window.location.href =
-      "chat.html";
+      "login.html";
+
+    return;
 
   }
-);
 
+  currentUser =
+    user;
 
-/* SHOW COMMUNITY */
+  await loadCurrentUser();
 
-function showCommunityChat() {
+  if(privateUid){
 
-  messagesTab.classList.add(
-    "active"
-  );
+    await openPrivateChat(privateUid);
 
-  inboxTab.classList.remove(
-    "active"
-  );
+  }else{
 
-  membersTab.classList.remove(
-    "active"
-  );
+    openCommunityChat();
 
+  }
 
-  messagesBox.style.display =
-    "flex";
+  loadMembers();
 
-  inboxBox.classList.remove(
-    "active"
-  );
+  loadInbox();
 
-  membersBox.classList.remove(
-    "active"
-  );
-
-  chatForm.style.display =
-    "flex";
-
-  communityBack.style.display =
-    "none";
-
-
-  privateUser = null;
-
-  privateUserName =
-    "Member";
-
-  privateConversationId =
-    null;
-
-
-  headerAvatar.textContent =
-    "KF";
-
-  sidebarAvatar.textContent =
-    "KF";
-
-
-  headerTitle.textContent =
-    "Official Community";
-
-  sidebarTitle.textContent =
-    "Official Community";
-
-
-  chatStatus.textContent =
-    "Live fan discussion";
-
-  sidebarStatus.textContent =
-    "Live fan discussion";
-
-
-  messageInput.placeholder =
-    "Write a message...";
-
-
-  startCommunityChat();
-
-}
+});
 
 
 /* COMMUNITY CHAT */
 
-function startCommunityChat() {
+function openCommunityChat(){
 
-  if (unsubscribePrivate) {
+  currentPrivateUser = null;
 
-    unsubscribePrivate();
+  chatTitle.textContent =
+    "Kyle Fuller Community";
 
-    unsubscribePrivate =
-      null;
+  chatStatus.textContent =
+    "Live fan discussion";
+
+  sidebarStatus.textContent =
+    "Live fan discussion";
+
+  messagesBox.innerHTML =
+    "";
+
+  if(unsubscribeMessages){
+
+    unsubscribeMessages();
 
   }
 
-
   const messagesQuery =
     query(
-      collection(
-        db,
-        "messages"
-      ),
-      orderBy(
-        "createdAt",
-        "asc"
-      ),
-      limit(100)
+      collection(db,"messages"),
+      orderBy("createdAt","asc")
     );
 
+  unsubscribeMessages =
+    onSnapshot(
+      messagesQuery,
+      async(snapshot)=>{
 
-  onSnapshot(
-    messagesQuery,
+        messagesBox.innerHTML =
+          "";
 
-    (snapshot) => {
+        const messages =
+          snapshot.docs;
 
-      messagesBox.innerHTML =
-        "";
+        const profileCache =
+          {};
 
-
-      if (snapshot.empty) {
-
-        messagesBox.innerHTML = `
-          <div class="empty-chat">
-            No messages yet.
-            Be the first to say hello! 👋
-          </div>
-        `;
-
-        return;
-
-      }
-
-
-      snapshot.forEach(
-        (messageDoc) => {
+        for(const messageDoc of messages){
 
           const data =
             messageDoc.data();
 
-          const isMine =
-            data.senderId ===
-            currentUser.uid;
+          let profile =
+            profileCache[data.senderId];
 
+          if(!profile){
 
-          renderMessage(
-            data,
-            isMine
-          );
+            try{
 
-        }
-      );
+              const userDoc =
+                await getDoc(
+                  doc(db,"users",data.senderId)
+                );
 
+              profile =
+                userDoc.exists()
+                  ? userDoc.data()
+                  : {};
 
-      messagesBox.scrollTop =
-        messagesBox.scrollHeight;
+              profileCache[data.senderId] =
+                profile;
 
-    },
+            }catch(error){
 
-    (error) => {
+              profile = {};
 
-      console.error(
-        "Community chat error:",
-        error
-      );
+            }
 
-      chatStatus.textContent =
-        "Unable to load chat";
+          }
 
-    }
-  );
+          const senderName =
+            data.senderName ||
+            profile.name ||
+            "Fan";
 
-}
+          const wrapper =
+            document.createElement("div");
 
+          wrapper.className =
+            "message-wrapper" +
+            (data.senderId === currentUser.uid
+              ? " mine"
+              : "");
 
-/* INBOX */
+          wrapper.innerHTML = `
 
-async function showInbox() {
+            ${messageAvatarHTML(
+              profile,
+              senderName
+            )}
 
-  messagesTab.classList.remove(
-    "active"
-  );
+            <div class="message-content">
 
-  inboxTab.classList.add(
-    "active"
-  );
+              <div class="message-name">
+                ${escapeHTML(senderName)}
+              </div>
 
-  membersTab.classList.remove(
-    "active"
-  );
+              <div class="message-bubble">
+                ${escapeHTML(data.text)}
+              </div>
 
+              <div class="message-time">
+                ${formatTime(data.createdAt)}
+              </div>
 
-  messagesBox.style.display =
-    "none";
+            </div>
 
-  membersBox.classList.remove(
-    "active"
-  );
+          `;
 
-  inboxBox.classList.add(
-    "active"
-  );
-
-  chatForm.style.display =
-    "none";
-
-  communityBack.style.display =
-    "none";
-
-
-  headerAvatar.textContent =
-    "IN";
-
-  sidebarAvatar.textContent =
-    "IN";
-
-
-  headerTitle.textContent =
-    "Private Inbox";
-
-  sidebarTitle.textContent =
-    "Private Inbox";
-
-
-  chatStatus.textContent =
-    "Your conversations";
-
-  sidebarStatus.textContent =
-    "Private messages";
-
-
-  loadInbox();
-
-}
-
-
-/* LOAD INBOX */
-
-async function loadInbox() {
-
-  inboxBox.innerHTML = `
-    <div class="loading">
-      Loading conversations...
-    </div>
-  `;
-
-
-  try {
-
-    const conversationQuery =
-      query(
-        collection(
-          db,
-          "conversations"
-        ),
-        where(
-          "participants",
-          "array-contains",
-          currentUser.uid
-        )
-      );
-
-
-    const snapshot =
-      await getDocs(
-        conversationQuery
-      );
-
-
-    inboxBox.innerHTML = `
-
-      <div class="section-heading">
-
-        <h2>Private Inbox</h2>
-
-        <p>
-          ${snapshot.size}
-          ${snapshot.size === 1
-            ? "conversation"
-            : "conversations"}
-        </p>
-
-      </div>
-
-    `;
-
-
-    if (snapshot.empty) {
-
-      inboxBox.innerHTML += `
-
-        <div class="empty-chat">
-
-          No private conversations yet.
-
-          <br><br>
-
-          Go to MEMBERS and message
-          someone to start a conversation. 💬
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    const conversations = [];
-
-
-    for (
-      const conversationDoc
-      of snapshot.docs
-    ) {
-
-      const data =
-        conversationDoc.data();
-
-
-      const otherUid =
-        data.participants.find(
-          uid =>
-            uid !== currentUser.uid
-        );
-
-
-      if (!otherUid) {
-        continue;
-      }
-
-
-      let otherName =
-        "Fan Member";
-
-
-      let otherEmail =
-        "";
-
-
-      try {
-
-        const otherDoc =
-          await getDoc(
-            doc(
-              db,
-              "users",
-              otherUid
-            )
-          );
-
-
-        if (otherDoc.exists()) {
-
-          const otherData =
-            otherDoc.data();
-
-
-          otherName =
-            otherData.name ||
-            otherData.displayName ||
-            otherData.email?.split("@")[0] ||
-            "Fan Member";
-
-
-          otherEmail =
-            otherData.email || "";
+          messagesBox.appendChild(wrapper);
 
         }
 
-      } catch (error) {
+        messagesBox.scrollTop =
+          messagesBox.scrollHeight;
+
+        chatStatus.textContent =
+          "Live fan discussion";
+
+        sidebarStatus.textContent =
+          "Live fan discussion";
+
+      },
+      (error)=>{
 
         console.error(
-          "User lookup error:",
+          "Community chat error:",
           error
         );
 
+        chatStatus.textContent =
+          "Chat unavailable";
+
       }
+    );
+
+}
 
 
-      conversations.push({
+/* SEND COMMUNITY MESSAGE */
 
-        id:
-          conversationDoc.id,
+messageForm.addEventListener(
+  "submit",
+  async(event)=>{
 
-        uid:
-          otherUid,
+    event.preventDefault();
 
-        name:
-          otherName,
+    const text =
+      messageInput.value.trim();
 
-        email:
-          otherEmail,
+    if(!text || !currentUser){
+      return;
+    }
 
-        lastMessage:
-          data.lastMessage ||
-          "No messages yet",
+    const senderName =
+      currentUserProfile.name ||
+      currentUser.displayName ||
+      currentUser.email?.split("@")[0] ||
+      "Fan";
 
-        updatedAt:
-          data.updatedAt || null
+    try{
 
-      });
+      await addDoc(
+        collection(db,"messages"),
+        {
+          text:text,
+          senderId:currentUser.uid,
+          senderName:senderName,
+          createdAt:serverTimestamp()
+        }
+      );
+
+      messageInput.value =
+        "";
+
+    }catch(error){
+
+      console.error(
+        "Send message error:",
+        error
+      );
+
+      alert(
+        "Message could not be sent."
+      );
 
     }
 
+  }
+);
 
-    conversations.sort(
-      (a, b) => {
 
-        const aTime =
-          a.updatedAt?.toMillis?.() ||
-          0;
+/* LOAD MEMBERS */
 
-        const bTime =
-          b.updatedAt?.toMillis?.() ||
-          0;
+async function loadMembers(){
 
-        return bTime - aTime;
-
-      }
+  const usersQuery =
+    query(
+      collection(db,"users")
     );
 
+  onSnapshot(
+    usersQuery,
+    (snapshot)=>{
 
-    conversations.forEach(
-      (conversation) => {
+      membersList.innerHTML =
+        "";
 
-        const card =
-          document.createElement(
-            "div"
-          );
+      snapshot.forEach(
+        (userDoc)=>{
 
+          const data =
+            userDoc.data();
 
-        card.className =
-          "inbox-card";
+          if(userDoc.id === currentUser.uid){
+            return;
+          }
 
+          const name =
+            data.name ||
+            data.email?.split("@")[0] ||
+            "Fan";
 
-        const initials =
-          getInitials(
-            conversation.name
-          );
+          const card =
+            document.createElement("div");
 
+          card.className =
+            "member-card";
 
-        let timeText =
-          "";
+          card.innerHTML = `
 
+            ${avatarHTML(data,name)}
 
-        if (
-          conversation.updatedAt
-        ) {
+            <div class="member-info">
 
-          timeText =
-            formatTime(
-              conversation.updatedAt.toDate()
-            );
+              <div class="member-name">
+                ${escapeHTML(name)}
+              </div>
+
+              <div class="member-email">
+                Fan community member
+              </div>
+
+            </div>
+
+            <a
+              class="member-button"
+              href="chat.html?with=${encodeURIComponent(userDoc.id)}"
+            >
+              MESSAGE
+            </a>
+
+          `;
+
+          membersList.appendChild(card);
 
         }
 
+      if(!membersList.children.length){
 
-        card.innerHTML = `
-
-          <div class="avatar">
-            ${escapeHTML(initials)}
-          </div>
-
-          <div class="inbox-info">
-
-            <h3>
-              ${escapeHTML(
-                conversation.name
-              )}
-            </h3>
-
-            <p class="inbox-last">
-              ${escapeHTML(
-                conversation.lastMessage
-              )}
-            </p>
-
-          </div>
-
-          <span class="inbox-time">
-            ${escapeHTML(timeText)}
-          </span>
-
-          <button
-            class="open-chat-btn"
-            type="button"
-          >
-            OPEN
-          </button>
-
-        `;
-
-
-        const openButton =
-          card.querySelector(
-            ".open-chat-btn"
-          );
-
-
-        openButton.addEventListener(
-          "click",
-          () => {
-
-            window.location.href =
-              "chat.html?with=" +
-              encodeURIComponent(
-                conversation.uid
-              );
-
-          }
-        );
-
-
-        inboxBox.appendChild(
-          card
-        );
+        membersList.innerHTML =
+          `<p style="color:#777;">No other members yet.</p>`;
 
       }
-    );
+
+    },
+    (error)=>{
+
+      console.error(
+        "Members error:",
+        error
+      );
+
+      membersList.innerHTML =
+        `<p style="color:#777;">Unable to load members.</p>`;
+
+    }
+  );
+
+}
 
 
-  } catch (error) {
+/* OPEN PRIVATE CHAT */
 
-    console.error(
-      "Inbox error:",
-      error
-    );
+async function openPrivateChat(uid){
 
+  if(uid === currentUser.uid){
 
-    inboxBox.innerHTML = `
+    openCommunityChat();
 
-      <div class="empty-chat">
-
-        Unable to load your inbox.
-
-        <br><br>
-
-        ${escapeHTML(
-          error.message ||
-          "Please try again."
-        )}
-
-      </div>
-
-    `;
+    return;
 
   }
 
-}
+  try{
 
-
-/* MEMBERS */
-
-function showMembers() {
-
-  messagesTab.classList.remove(
-    "active"
-  );
-
-  inboxTab.classList.remove(
-    "active"
-  );
-
-  membersTab.classList.add(
-    "active"
-  );
-
-
-  messagesBox.style.display =
-    "none";
-
-  inboxBox.classList.remove(
-    "active"
-  );
-
-  membersBox.classList.add(
-    "active"
-  );
-
-  chatForm.style.display =
-    "none";
-
-  communityBack.style.display =
-    "none";
-
-
-  headerAvatar.textContent =
-    "KF";
-
-  sidebarAvatar.textContent =
-    "KF";
-
-
-  headerTitle.textContent =
-    "Community Members";
-
-  sidebarTitle.textContent =
-    "Community Members";
-
-
-  chatStatus.textContent =
-    "Registered fan members";
-
-  sidebarStatus.textContent =
-    "Fan community";
-
-
-  loadMembers();
-
-}
-
-
-/* PRIVATE CHAT */
-
-async function startPrivateChat(uid) {
-
-  messagesTab.classList.add(
-    "active"
-  );
-
-  inboxTab.classList.remove(
-    "active"
-  );
-
-  membersTab.classList.remove(
-    "active"
-  );
-
-
-  messagesBox.style.display =
-    "flex";
-
-  inboxBox.classList.remove(
-    "active"
-  );
-
-  membersBox.classList.remove(
-    "active"
-  );
-
-  chatForm.style.display =
-    "flex";
-
-  communityBack.style.display =
-    "block";
-
-
-  try {
-
-    const targetDoc =
+    const userDoc =
       await getDoc(
-        doc(
-          db,
-          "users",
-          uid
-        )
+        doc(db,"users",uid)
       );
 
+    if(!userDoc.exists()){
 
-    if (!targetDoc.exists()) {
+      chatTitle.textContent =
+        "Member not found";
 
-      alert(
-        "This member could not be found."
-      );
-
-      window.location.href =
-        "chat.html";
+      chatStatus.textContent =
+        "";
 
       return;
 
     }
 
+    const otherUser =
+      userDoc.data();
 
-    const data =
-      targetDoc.data();
+    currentPrivateUser = {
+      uid:uid,
+      ...otherUser
+    };
 
+    const name =
+      otherUser.name ||
+      otherUser.email?.split("@")[0] ||
+      "Fan";
 
-    privateUser =
-      uid;
-
-
-    privateUserName =
-      data.name ||
-      data.displayName ||
-      data.email?.split("@")[0] ||
-      "Member";
-
-
-    privateConversationId =
-      [
-        currentUser.uid,
-        uid
-      ]
-      .sort()
-      .join("_");
-
-
-    await setDoc(
-      doc(
-        db,
-        "conversations",
-        privateConversationId
-      ),
-      {
-        participants: [
-          currentUser.uid,
-          uid
-        ],
-
-        updatedAt:
-          serverTimestamp()
-      },
-      {
-        merge: true
-      }
-    );
-
-
-    const initials =
-      getInitials(
-        privateUserName
-      );
-
-
-    headerAvatar.textContent =
-      initials;
-
-    sidebarAvatar.textContent =
-      initials;
-
-
-    headerTitle.textContent =
-      privateUserName;
-
-    sidebarTitle.textContent =
-      privateUserName;
-
+    chatTitle.textContent =
+      name;
 
     chatStatus.textContent =
       "Private conversation";
@@ -1594,606 +1233,553 @@ async function startPrivateChat(uid) {
     sidebarStatus.textContent =
       "Private message";
 
+    headerAvatar.innerHTML =
+      otherUser.profileImage
+        ? `<img src="${escapeHTML(otherUser.profileImage)}" alt="${escapeHTML(name)}">`
+        : `<span>${escapeHTML(getInitials(name))}</span>`;
 
-    messageInput.placeholder =
-      "Message " +
-      privateUserName +
-      "...";
+    if(unsubscribeMessages){
 
+      unsubscribeMessages();
 
-    loadPrivateMessages();
+    }
 
-  } catch (error) {
+    messagesBox.innerHTML =
+      "";
 
-    console.error(
-      "Private chat error:",
-      error
-    );
+    const conversationId =
+      [currentUser.uid,uid]
+        .sort()
+        .join("_");
 
-    alert(
-      "Unable to open private chat."
-    );
-
-  }
-
-}
-
-
-/* PRIVATE MESSAGES */
-
-function loadPrivateMessages() {
-
-  if (unsubscribePrivate) {
-
-    unsubscribePrivate();
-
-  }
-
-
-  const privateMessagesQuery =
-    query(
-      collection(
+    const conversationRef =
+      doc(
         db,
         "conversations",
-        privateConversationId,
-        "messages"
-      ),
-      orderBy(
-        "createdAt",
-        "asc"
-      ),
-      limit(100)
+        conversationId
+      );
+
+    await setDoc(
+      conversationRef,
+      {
+        participants:[
+          currentUser.uid,
+          uid
+        ],
+        updatedAt:serverTimestamp()
+      },
+      {merge:true}
     );
 
+    const privateMessagesQuery =
+      query(
+        collection(
+          db,
+          "conversations",
+          conversationId,
+          "messages"
+        ),
+        orderBy("createdAt","asc")
+      );
 
-  unsubscribePrivate =
-    onSnapshot(
+    unsubscribeMessages =
+      onSnapshot(
+        privateMessagesQuery,
+        async(snapshot)=>{
 
-      privateMessagesQuery,
+          messagesBox.innerHTML =
+            "";
 
-      (snapshot) => {
-
-        messagesBox.innerHTML =
-          "";
-
-
-        if (snapshot.empty) {
-
-          messagesBox.innerHTML = `
-
-            <div class="empty-chat">
-
-              Start your private
-              conversation with
-
-              ${escapeHTML(
-                privateUserName
-              )}
-
-              💬
-
-            </div>
-
-          `;
-
-          return;
-
-        }
-
-
-        snapshot.forEach(
-          (messageDoc) => {
+          for(
+            const messageDoc of snapshot.docs
+          ){
 
             const data =
               messageDoc.data();
 
+            let profile =
+              {};
 
-            const isMine =
-              data.senderId ===
-              currentUser.uid;
+            try{
 
+              const profileDoc =
+                await getDoc(
+                  doc(
+                    db,
+                    "users",
+                    data.senderId
+                  )
+                );
 
-            renderMessage(
-              data,
-              isMine
-            );
+              if(profileDoc.exists()){
+
+                profile =
+                  profileDoc.data();
+
+              }
+
+            }catch(error){
+
+              console.error(
+                "Profile loading error:",
+                error
+              );
+
+            }
+
+            const senderName =
+              data.senderName ||
+              profile.name ||
+              "Fan";
+
+            const wrapper =
+              document.createElement("div");
+
+            wrapper.className =
+              "message-wrapper" +
+              (
+                data.senderId === currentUser.uid
+                  ? " mine"
+                  : ""
+              );
+
+            wrapper.innerHTML = `
+
+              ${messageAvatarHTML(
+                profile,
+                senderName
+              )}
+
+              <div class="message-content">
+
+                <div class="message-name">
+                  ${escapeHTML(senderName)}
+                </div>
+
+                <div class="message-bubble">
+                  ${escapeHTML(data.text)}
+                </div>
+
+                <div class="message-time">
+                  ${formatTime(data.createdAt)}
+                </div>
+
+              </div>
+
+            `;
+
+            messagesBox.appendChild(wrapper);
 
           }
-        );
 
+          messagesBox.scrollTop =
+            messagesBox.scrollHeight;
 
-        messagesBox.scrollTop =
-          messagesBox.scrollHeight;
+          chatStatus.textContent =
+            "Private conversation";
 
-      },
+          sidebarStatus.textContent =
+            "Private message";
 
-      (error) => {
+        },
+        (error)=>{
 
-        console.error(
-          "Private messages error:",
-          error
-        );
+          console.error(
+            "Private chat error:",
+            error
+          );
 
-        chatStatus.textContent =
-          "Unable to load private messages";
+          chatStatus.textContent =
+            "Private chat unavailable";
 
-      }
+        }
+      );
 
+  }catch(error){
+
+    console.error(
+      "Open private chat error:",
+      error
     );
+
+  }
 
 }
 
 
-/* SEND MESSAGE */
+/* SEND PRIVATE MESSAGE */
 
-chatForm.addEventListener(
+messageForm.addEventListener(
   "submit",
-  async (event) => {
+  async(event)=>{
 
     event.preventDefault();
 
+    if(!currentPrivateUser){
+      return;
+    }
 
     const text =
       messageInput.value.trim();
 
-
-    if (
-      !text ||
-      !currentUser
-    ) {
-
+    if(!text){
       return;
-
     }
 
+    const senderName =
+      currentUserProfile.name ||
+      currentUser.displayName ||
+      currentUser.email?.split("@")[0] ||
+      "Fan";
 
-    sendButton.disabled =
-      true;
+    try{
 
-    sendButton.textContent =
-      "SENDING...";
+      const conversationId =
+        [currentUser.uid,currentPrivateUser.uid]
+          .sort()
+          .join("_");
 
-
-    try {
-
-      if (
-        privateUser &&
-        privateConversationId
-      ) {
-
-        await addDoc(
-          collection(
-            db,
-            "conversations",
-            privateConversationId,
-            "messages"
-          ),
-          {
-
-            senderId:
-              currentUser.uid,
-
-            senderName:
-              currentName,
-
-            receiverId:
-              privateUser,
-
-            message:
-              text,
-
-            createdAt:
-              serverTimestamp()
-
-          }
+      const conversationRef =
+        doc(
+          db,
+          "conversations",
+          conversationId
         );
 
+      await setDoc(
+        conversationRef,
+        {
+          participants:[
+            currentUser.uid,
+            currentPrivateUser.uid
+          ],
+          updatedAt:serverTimestamp(),
+          lastMessage:text,
+          lastSenderId:currentUser.uid
+        },
+        {merge:true}
+      );
 
-        await setDoc(
-          doc(
-            db,
-            "conversations",
-            privateConversationId
-          ),
-          {
-
-            updatedAt:
-              serverTimestamp(),
-
-            lastMessage:
-              text
-
-          },
-          {
-            merge: true
-          }
-        );
-
-
-      } else {
-
-        await addDoc(
-          collection(
-            db,
-            "messages"
-          ),
-          {
-
-            senderId:
-              currentUser.uid,
-
-            senderName:
-              currentName,
-
-            email:
-              currentUser.email ||
-              "",
-
-            message:
-              text,
-
-            createdAt:
-              serverTimestamp()
-
-          }
-        );
-
-      }
-
+      await addDoc(
+        collection(
+          db,
+          "conversations",
+          conversationId,
+          "messages"
+        ),
+        {
+          text:text,
+          senderId:currentUser.uid,
+          senderName:senderName,
+          createdAt:serverTimestamp()
+        }
+      );
 
       messageInput.value =
         "";
 
-
-    } catch (error) {
+    }catch(error){
 
       console.error(
-        "Send message error:",
+        "Private send error:",
         error
       );
 
-
       alert(
-        "Message could not be sent. Please try again."
+        "Private message could not be sent."
       );
 
     }
-
-
-    sendButton.disabled =
-      false;
-
-    sendButton.textContent =
-      "SEND";
-
-    messageInput.focus();
 
   }
 );
 
 
-/* RENDER MESSAGE */
+/* LOAD INBOX */
 
-function renderMessage(
-  data,
-  isMine
-) {
+function loadInbox(){
 
-  const wrapper =
-    document.createElement(
-      "div"
+  const inboxQuery =
+    query(
+      collection(db,"conversations"),
+      where(
+        "participants",
+        "array-contains",
+        currentUser.uid
+      )
     );
 
+  onSnapshot(
+    inboxQuery,
+    async(snapshot)=>{
 
-  wrapper.className =
-    "message-wrapper " +
-    (
-      isMine
-        ? "sent"
-        : "received"
-    );
+      inboxList.innerHTML =
+        "";
 
+      const conversations =
+        snapshot.docs
+          .map(docSnap => ({
+            id:docSnap.id,
+            ...docSnap.data()
+          }))
+          .sort(
+            (a,b)=>{
 
-  const sender =
-    document.createElement(
-      "div"
-    );
+              const aTime =
+                a.updatedAt?.toMillis
+                  ? a.updatedAt.toMillis()
+                  : 0;
 
+              const bTime =
+                b.updatedAt?.toMillis
+                  ? b.updatedAt.toMillis()
+                  : 0;
 
-  sender.className =
-    "sender";
+              return bTime-aTime;
 
-
-  sender.textContent =
-    isMine
-      ? "You"
-      : (
-        data.senderName ||
-        "Fan"
-      );
-
-
-  const message =
-    document.createElement(
-      "div"
-    );
-
-
-  message.className =
-    "message";
-
-
-  message.textContent =
-    data.message || "";
-
-
-  const time =
-    document.createElement(
-      "span"
-    );
-
-
-  time.className =
-    "time";
-
-
-  if (data.createdAt) {
-
-    time.textContent =
-      formatTime(
-        data.createdAt.toDate()
-      );
-
-  } else {
-
-    time.textContent =
-      "Just now";
-
-  }
-
-
-  message.appendChild(
-    time
-  );
-
-  wrapper.appendChild(
-    sender
-  );
-
-  wrapper.appendChild(
-    message
-  );
-
-  messagesBox.appendChild(
-    wrapper
-  );
-
-}
-
-
-/* MEMBERS */
-
-async function loadMembers() {
-
-  membersBox.innerHTML = `
-    <div class="loading">
-      Loading members...
-    </div>
-  `;
-
-
-  try {
-
-    const usersSnapshot =
-      await getDocs(
-        collection(
-          db,
-          "users"
-        )
-      );
-
-
-    membersBox.innerHTML = `
-
-      <div class="section-heading">
-
-        <h2>
-          Community Members
-        </h2>
-
-        <p>
-          ${usersSnapshot.size}
-          registered fan
-          ${
-            usersSnapshot.size === 1
-              ? "member"
-              : "members"
-          }
-        </p>
-
-      </div>
-
-    `;
-
-
-    if (usersSnapshot.empty) {
-
-      membersBox.innerHTML += `
-        <div class="empty-chat">
-          No members found yet.
-        </div>
-      `;
-
-      return;
-
-    }
-
-
-    usersSnapshot.forEach(
-      (userDoc) => {
-
-        const data =
-          userDoc.data();
-
-
-        const name =
-          data.name ||
-          data.displayName ||
-          "Fan Member";
-
-
-        const email =
-          data.email ||
-          "";
-
-
-        const initials =
-          getInitials(
-            name
+            }
           );
 
+      for(
+        const conversation
+        of conversations
+      ){
+
+        const otherUid =
+          conversation.participants
+            ?.find(
+              uid =>
+                uid !== currentUser.uid
+            );
+
+        if(!otherUid){
+          continue;
+        }
+
+        let otherProfile =
+          {};
+
+        try{
+
+          const userDoc =
+            await getDoc(
+              doc(
+                db,
+                "users",
+                otherUid
+              )
+            );
+
+          if(userDoc.exists()){
+
+            otherProfile =
+              userDoc.data();
+
+          }
+
+        }catch(error){
+
+          console.error(
+            "Inbox profile error:",
+            error
+          );
+
+        }
+
+        const otherName =
+          otherProfile.name ||
+          otherProfile.email?.split("@")[0] ||
+          "Fan";
 
         const card =
-          document.createElement(
-            "div"
-          );
-
+          document.createElement("div");
 
         card.className =
-          "member-card";
-
+          "inbox-card";
 
         card.innerHTML = `
 
-          <div class="avatar">
-            ${escapeHTML(initials)}
-          </div>
+          ${avatarHTML(
+            otherProfile,
+            otherName
+          )}
 
-          <div class="member-info">
+          <div class="inbox-info">
 
-            <h3>
-              ${escapeHTML(name)}
-            </h3>
+            <div class="inbox-name">
+              ${escapeHTML(otherName)}
+            </div>
 
-            <p>
-              ${
-                email
-                  ? escapeHTML(email)
-                  : "Fan Member"
-              }
-            </p>
+            <div class="inbox-last">
+              ${escapeHTML(
+                conversation.lastMessage ||
+                "Private conversation"
+              )}
+            </div>
 
-            <div class="member-status">
-              Community Member
+            <div class="inbox-time">
+              ${formatDate(conversation.updatedAt)}
             </div>
 
           </div>
 
           <button
-            class="profile-btn"
-            type="button"
+            class="open-button"
+            data-uid="${escapeHTML(otherUid)}"
           >
-            PROFILE
+            OPEN
           </button>
 
         `;
 
+        card
+          .querySelector(".open-button")
+          .addEventListener(
+            "click",
+            ()=>{
 
-        const profileButton =
-          card.querySelector(
-            ".profile-btn"
+              window.location.href =
+                `chat.html?with=${encodeURIComponent(otherUid)}`;
+
+            }
           );
 
-
-        profileButton.addEventListener(
-          "click",
-          () => {
-
-            window.location.href =
-              "profile.html?uid=" +
-              userDoc.id;
-
-          }
-        );
-
-
-        membersBox.appendChild(
-          card
-        );
+        inboxList.appendChild(card);
 
       }
+
+      if(!inboxList.children.length){
+
+        inboxList.innerHTML =
+          `<p style="color:#777;">
+            No private conversations yet.
+          </p>`;
+
+      }
+
+    },
+    (error)=>{
+
+      console.error(
+        "Inbox error:",
+        error
+      );
+
+      inboxList.innerHTML =
+        `<p style="color:#777;">
+          Unable to load inbox.
+        </p>`;
+
+    }
+  );
+
+}
+
+
+/* TAB SWITCHING */
+
+document
+  .getElementById("communityTab")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      setActiveTab("community");
+
+    }
+  );
+
+
+document
+  .getElementById("membersTab")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      setActiveTab("members");
+
+    }
+  );
+
+
+document
+  .getElementById("inboxTab")
+  .addEventListener(
+    "click",
+    ()=>{
+
+      setActiveTab("inbox");
+
+    }
+  );
+
+
+function setActiveTab(tab){
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(button =>
+      button.classList.remove("active")
     );
 
+  chatSection.style.display =
+    "none";
 
-  } catch (error) {
+  membersSection.style.display =
+    "none";
 
-    console.error(
-      "Members error:",
-      error
-    );
+  inboxSection.style.display =
+    "none";
 
+  if(tab === "community"){
 
-    membersBox.innerHTML = `
+    document
+      .getElementById("communityTab")
+      .classList.add("active");
 
-      <div class="empty-chat">
+    chatSection.style.display =
+      "flex";
 
-        Unable to load members.
+    if(!privateUid){
 
-        <br><br>
+      openCommunityChat();
 
-        Please check your Firebase
-        Firestore permissions.
+    }
 
-      </div>
+  }
 
-    `;
+  if(tab === "members"){
+
+    document
+      .getElementById("membersTab")
+      .classList.add("active");
+
+    membersSection.style.display =
+      "block";
+
+  }
+
+  if(tab === "inbox"){
+
+    document
+      .getElementById("inboxTab")
+      .classList.add("active");
+
+    inboxSection.style.display =
+      "block";
 
   }
 
 }
 
 
-/* HELPERS */
+/* IF OPENING A PRIVATE CHAT */
 
-function getInitials(name) {
+if(privateUid){
 
-  return name
-    .split(" ")
-    .map(
-      word =>
-        word.charAt(0)
-    )
-    .join("")
-    .substring(0, 2)
-    .toUpperCase();
-
-}
-
-
-function escapeHTML(text) {
-
-  const div =
-    document.createElement(
-      "div"
-    );
-
-  div.textContent =
-    text;
-
-  return div.innerHTML;
-
-}
-
-
-function formatTime(date) {
-
-  return date.toLocaleTimeString(
-    [],
-    {
-      hour: "numeric",
-      minute: "2-digit"
-    }
-  );
+  document
+    .getElementById("communityTab")
+    .classList.add("active");
 
 }
 
