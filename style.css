@@ -675,3 +675,122 @@ footer .copyright {
     padding: 30px;
   }
 }
+/* =========================
+   PROFESSIONAL PROFILE CARD
+========================= */
+
+.profile-dashboard-card {
+    position: relative;
+    overflow: hidden;
+    padding: 26px;
+    border: 1px solid rgba(141, 29, 69, 0.45);
+    background:
+        linear-gradient(135deg, rgba(61, 7, 27, 0.55), rgba(8, 8, 8, 0.96));
+}
+
+.profile-dashboard-card::before {
+    content: "";
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 180px;
+    height: 180px;
+    background: rgba(141, 29, 69, 0.15);
+    border-radius: 50%;
+    filter: blur(20px);
+}
+
+.profile-card-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        145deg,
+        #68112f,
+        #250512
+    );
+
+    border: 1px solid rgba(141, 29, 69, 0.7);
+
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    box-shadow:
+        0 0 25px rgba(141, 29, 69, 0.25),
+        inset 0 0 15px rgba(255,255,255,0.04);
+}
+
+.profile-card-info {
+    position: relative;
+}
+
+.profile-label {
+    display: block;
+    margin-bottom: 5px;
+
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #8d1d45;
+    font-weight: 700;
+}
+
+.profile-card-info h3 {
+    margin: 0 0 6px;
+    font-size: 21px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-card-info p {
+    margin: 0;
+    color: #9a9a9a;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.profile-card-bottom {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 25px;
+    padding-top: 17px;
+
+    border-top: 1px solid rgba(120, 20, 55, 0.25);
+}
+
+.profile-card-bottom > span {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #777;
+    font-weight: 700;
+}
+
+.profile-dashboard-card .card-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transition: 0.3s ease;
+}
+
+.profile-dashboard-card .card-link:hover {
+    color: #8d1d45;
+    transform: translateX(4px);
+}
