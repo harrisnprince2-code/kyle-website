@@ -965,18 +965,13 @@ async function loadMembers() {
 
       const profileButton =
         card.querySelector(".profile-btn");
-
-
-      profileButton.addEventListener(
-        "click",
-        () => {
-
-          alert(
-            "Member profiles will be connected next."
-          );
-
-        }
-      );
+profileButton.addEventListener(
+  "click",
+  () => {
+    window.location.href =
+      "profile.html?uid=" + userDoc.id;
+  }
+);
 
 
       membersBox.appendChild(card);
