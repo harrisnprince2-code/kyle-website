@@ -481,19 +481,21 @@
     ========================= -->
     <div class="dashboard-profile-card">
       <div class="profile-card-header">
-        <div class="profile-avatar-large">
-          FAN
+      <div class="profile-avatar-large" id="profileAvatar">
+  FAN
+</div>
         </div>
         <div class="profile-card-title">
           <span class="profile-overline">
             OFFICIAL COMMUNITY
           </span>
-          <h2>
-            My Profile
-          </h2>
-          <p>
-            Your personal fan account
-          </p>
+          <h2 id="dashboardName">
+  My Profile
+</h2>
+
+<p id="dashboardEmail">
+  Your personal fan account
+</p>
         </div>
         <div class="profile-status">
           <span class="status-dot"></span>
@@ -514,9 +516,9 @@
           <span class="detail-label">
             ACCOUNT
           </span>
-          <strong>
-            FAN MEMBER
-          </strong>
+         <strong id="dashboardAccount">
+  FAN MEMBER
+</strong>
         </div>
         <div class="profile-detail">
           <span class="detail-label">
@@ -679,5 +681,74 @@
   <footer>
     © 2026 Kyle. Official Website.
   </footer>
+  <script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+
+  const firebaseConfig = {
+
+    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+
+    authDomain: "kyle-official-website.firebaseapp.com",
+
+    projectId: "kyle-official-website",
+
+    storageBucket: "kyle-official-website.firebasestorage.app",
+
+    messagingSenderId: "547868923755",
+
+    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+
+    measurementId: "G-799CW529X9"
+
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  const auth = getAuth(app);
+
+
+  onAuthStateChanged(auth, function(user) {
+
+    if (!user) {
+
+      window.location.href = "login.html";
+
+      return;
+
+    }
+
+
+    const email = user.email || "";
+
+    const name =
+      email.split("@")[0] || "Fan Member";
+
+
+    document.getElementById("dashboardName").textContent =
+      name;
+
+
+    document.getElementById("dashboardEmail").textContent =
+      email;
+
+
+    document.getElementById("dashboardAccount").textContent =
+      "FAN MEMBER";
+
+
+    document.getElementById("profileAvatar").textContent =
+      name.substring(0, 2).toUpperCase();
+
+  });
+
+</script>
 </body>
 </html>
