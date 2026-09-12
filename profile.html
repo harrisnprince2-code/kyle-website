@@ -102,6 +102,11 @@
       font-size: 13px;
       margin-bottom: 20px;
     }
+    .email {
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
     .bio {
       max-width: 600px;
       color: #888;
@@ -167,6 +172,45 @@
       text-decoration: none;
       font-size: 12px;
       font-weight: bold;
+      cursor: pointer;
+    }
+    .edit-box {
+      display: none;
+      margin-top: 25px;
+    }
+    .edit-box input,
+    .edit-box textarea {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 15px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(120, 20, 55, 0.35);
+      border-radius: 6px;
+      outline: none;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .edit-box textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .edit-box input:focus,
+    .edit-box textarea:focus {
+      border-color: #8e1d43;
+    }
+    .save-btn {
+      padding: 13px 22px;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      background: linear-gradient(135deg, #43091e, #7d1639);
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 15px;
+      color: #a52a50;
+      font-size: 12px;
     }
     footer {
       text-align: center;
@@ -198,72 +242,160 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      KYLE
+<header>
+  <div class="logo">
+    KYLE
+  </div>
+  <a href="dashboard.html" class="back">
+    ← DASHBOARD
+  </a>
+</header>
+<main class="container">
+  <p class="label">
+    FAN PROFILE
+  </p>
+  <h1>
+    My Profile.
+  </h1>
+  <section class="profile-card">
+    <div class="avatar" id="avatar">
+      FAN
     </div>
-    <a href="dashboard.html" class="back">
-      ← DASHBOARD
-    </a>
-  </header>
-  <main class="container">
-    <p class="label">
-      FAN PROFILE
-    </p>
-    <h1>
-      My Profile.
-    </h1>
-    <section class="profile-card">
-      <div class="avatar">
-        FAN
-      </div>
-      <div class="profile-info">
-        <h2>
-          Fan Member
-        </h2>
-        <p class="username">
-          @fanmember
-        </p>
-        <p class="bio">
-          Welcome to your official Kyle fan profile.
-          Your profile will be your personal space within
-          the community.
-        </p>
-        <span class="status">
-          ACTIVE MEMBER
-        </span>
-      </div>
-    </section>
-    <section class="details">
-      <div class="detail">
-        <span>MEMBER SINCE</span>
-        <strong>2026</strong>
-      </div>
-      <div class="detail">
-        <span>MEMBERSHIP</span>
-        <strong>Official Fan</strong>
-      </div>
-      <div class="detail">
-        <span>STATUS</span>
-        <strong>Active</strong>
-      </div>
-    </section>
-    <section class="section">
-      <h2>
-        About Me
+    <div class="profile-info">
+      <h2 id="profileName">
+        Fan Member
       </h2>
-      <p>
-        Tell the community a little about yourself.
-        Your bio and profile information can be customized
-        when the account system is connected.
+      <p class="username" id="username">
+        @fanmember
       </p>
-      <a href="#" class="edit-btn">
-        EDIT PROFILE
-      </a>
-    </section>
-  </main>
-  <footer>
-    © 2026 Kyle. Official Website.
-  </footer>
+      <p class="email" id="email">
+        Loading account...
+      </p>
+      <p class="bio" id="bio">
+        Welcome to your official Kyle fan profile.
+      </p>
+      <span class="status">
+        ACTIVE MEMBER
+      </span>
+    </div>
+  </section>
+  <section class="details">
+    <div class="detail">
+      <span>MEMBER SINCE</span>
+      <strong id="memberSince">Loading...</strong>
+    </div>
+    <div class="detail">
+      <span>MEMBERSHIP</span>
+      <strong>Official Fan</strong>
+    </div>
+    <div class="detail">
+      <span>STATUS</span>
+      <strong>Active</strong>
+    </div>
+  </section>
+  <section class="section">
+    <h2>
+      About Me
+    </h2>
+    <p id="aboutText">
+      Tell the community a little about yourself.
+    </p>
+    <button class="edit-btn" onclick="toggleEdit()">
+      EDIT PROFILE
+    </button>
+    <div class="edit-box" id="editBox">
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="Your name"
+      >
+      <textarea
+        id="bioInput"
+        placeholder="Tell the community about yourself..."
+      ></textarea>
+      <button class="save-btn" onclick="saveProfile()">
+        SAVE PROFILE
+      </button>
+      <p id="message"></p>
+    </div>
+  </section>
+</main>
+<footer>
+  © 2026 Kyle. Official Website.
+</footer>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    getAuth,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+    authDomain: "kyle-official-website.firebaseapp.com",
+    projectId: "kyle-official-website",
+    storageBucket: "kyle-official-website.firebasestorage.app",
+    messagingSenderId: "547868923755",
+    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+    measurementId: "G-799CW529X9"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  onAuthStateChanged(auth, function(user) {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+    const email = user.email || "No email";
+    const name =
+      email.split("@")[0] || "Fan Member";
+    document.getElementById("profileName").textContent = name;
+    document.getElementById("username").textContent =
+      "@" + name.toLowerCase().replace(/[^a-z0-9]/g, "");
+    document.getElementById("email").textContent =
+      email;
+    const date =
+      user.metadata.creationTime;
+    if (date) {
+      const memberDate =
+        new Date(date);
+      document.getElementById("memberSince").textContent =
+        memberDate.getFullYear();
+    }
+    document.getElementById("nameInput").value =
+      name;
+  });
+  window.toggleEdit = function() {
+    const box =
+      document.getElementById("editBox");
+    if (box.style.display === "block") {
+      box.style.display = "none";
+    } else {
+      box.style.display = "block";
+    }
+  };
+  window.saveProfile = function() {
+    const name =
+      document.getElementById("nameInput").value.trim();
+    const bio =
+      document.getElementById("bioInput").value.trim();
+    if (name === "") {
+      document.getElementById("message").textContent =
+        "Please enter your name.";
+      return;
+    }
+    document.getElementById("profileName").textContent =
+      name;
+    document.getElementById("username").textContent =
+      "@" + name.toLowerCase().replace(/[^a-z0-9]/g, "");
+    if (bio !== "") {
+      document.getElementById("bio").textContent =
+        bio;
+      document.getElementById("aboutText").textContent =
+        bio;
+    }
+    document.getElementById("message").textContent =
+      "Profile updated successfully.";
+  };
+</script>
 </body>
 </html>
