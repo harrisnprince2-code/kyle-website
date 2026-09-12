@@ -3,863 +3,557 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kyle | Member Dashboard</title>
+
+  <title>Kyle | Dashboard</title>
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
+
     body {
-      min-height: 100vh;
-      font-family: Arial, Helvetica, sans-serif;
+      background: #050505;
       color: white;
-      background:
-        radial-gradient(
-          circle at 80% 0%,
-          rgba(100, 10, 45, 0.25),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 0% 70%,
-          rgba(70, 5, 30, 0.18),
-          transparent 30%
-        ),
-        #030303;
+      min-height: 100vh;
     }
-    /* =========================
-       HEADER
-    ========================= */
-    header {
-      height: 78px;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      height: 80px;
       padding: 0 6%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: rgba(3, 3, 3, 0.92);
-      border-bottom: 1px solid rgba(120, 20, 55, 0.35);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(15px);
+      justify-content: space-between;
+      background: #050505;
+      border-bottom: 1px solid #241216;
     }
+
     .logo {
-      font-size: 24px;
-      font-weight: bold;
-      letter-spacing: 8px;
-    }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-    }
-    .member {
-      color: #777;
-      font-size: 12px;
-    }
-    .logout {
-      color: #a52a50;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      transition: 0.3s ease;
-    }
-    .logout:hover {
-      color: #ffffff;
-    }
-    /* =========================
-       DASHBOARD
-    ========================= */
-    .dashboard {
-      width: 88%;
-      max-width: 1250px;
-      margin: auto;
-      padding: 70px 0;
-    }
-    .welcome {
-      color: #922047;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 5px;
-      margin-bottom: 15px;
-    }
-    .intro {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 30px;
-      margin-bottom: 45px;
-    }
-    .intro h1 {
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 0.95;
-      letter-spacing: -3px;
-    }
-    .intro-text {
-      max-width: 400px;
-      color: #777;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-    /* =========================
-       PREMIUM PROFILE CARD
-    ========================= */
-    .dashboard-profile-card {
-      position: relative;
-      width: 100%;
-      margin-bottom: 30px;
-      padding: 30px;
-      border-radius: 20px;
-      overflow: hidden;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(65, 5, 27, 0.85),
-          rgba(8, 8, 8, 0.98)
-        );
-      border: 1px solid rgba(141, 29, 69, 0.55);
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45);
-      transition: 0.35s ease;
-    }
-    .dashboard-profile-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(150, 30, 75, 0.8);
-      box-shadow:
-        0 25px 70px rgba(60, 3, 25, 0.4);
-    }
-    .dashboard-profile-card::before {
-      content: "";
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      right: -130px;
-      top: -170px;
-      border-radius: 50%;
-      background: rgba(141, 29, 69, 0.22);
-      filter: blur(45px);
-    }
-    /* PROFILE HEADER */
-    .profile-card-header {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    /* AVATAR */
-    .profile-avatar-large {
-      width: 82px;
-      height: 82px;
-      min-width: 82px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        linear-gradient(
-          145deg,
-          #8d1d45,
-          #3d071b 55%,
-          #16030b
-        );
-      border: 2px solid rgba(255, 255, 255, 0.12);
-      box-shadow:
-        0 0 0 6px rgba(141, 29, 69, 0.08),
-        0 10px 30px rgba(0, 0, 0, 0.45);
-      font-size: 13px;
+      font-size: 25px;
       font-weight: bold;
       letter-spacing: 2px;
     }
-    /* PROFILE TITLE */
-    .profile-card-title {
-      flex: 1;
-    }
-    .profile-overline {
-      display: block;
-      margin-bottom: 6px;
-      color: #a52a50;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 2.5px;
-    }
-    .profile-card-title h2 {
-      margin: 0;
-      font-size: 28px;
-      letter-spacing: -0.5px;
-    }
-    .profile-card-title p {
-      margin-top: 7px;
-      color: #888;
-      font-size: 13px;
-    }
-    /* ACTIVE */
-    .profile-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 12px;
-      border-radius: 30px;
-      border: 1px solid rgba(130, 25, 65, 0.5);
-      background: rgba(0, 0, 0, 0.25);
-      color: #a52a50;
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-    }
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #a52a50;
-      box-shadow:
-        0 0 10px rgba(165, 42, 80, 0.8);
-    }
-    /* DIVIDER */
-    .profile-card-divider {
-      position: relative;
-      z-index: 2;
-      height: 1px;
-      margin: 25px 0;
-      background:
-        linear-gradient(
-          90deg,
-          rgba(141, 29, 69, 0.55),
-          rgba(141, 29, 69, 0.05)
-        );
-    }
-    /* PROFILE DETAILS */
-    .profile-card-details {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-    .profile-detail {
-      padding: 16px;
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .detail-label {
-      display: block;
-      margin-bottom: 7px;
-      color: #777;
-      font-size: 9px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-    }
-    .profile-detail strong {
-      color: #fff;
-      font-size: 11px;
-      letter-spacing: 0.5px;
-    }
-    /* PROFILE BUTTON */
-    .profile-view-button {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 22px;
-      padding: 15px 18px;
-      border-radius: 9px;
-      border: 1px solid rgba(141, 29, 69, 0.65);
-      background:
-        linear-gradient(
-          90deg,
-          rgba(141, 29, 69, 0.35),
-          rgba(61, 7, 27, 0.25)
-        );
+
+    .logout-btn {
+      background: transparent;
       color: white;
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      transition: 0.3s ease;
+      border: 1px solid #8b3949;
+      padding: 10px 18px;
+      border-radius: 5px;
+      cursor: pointer;
     }
-    .profile-view-button:hover {
-      background:
-        linear-gradient(
-          90deg,
-          #68112f,
-          #3d071b
-        );
-      border-color: #8d1d45;
+
+    .logout-btn:hover {
+      background: #8b3949;
     }
-    .profile-arrow {
-      font-size: 20px;
-      transition: 0.3s ease;
+
+    /* MAIN */
+    .dashboard-container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 45px auto;
     }
-    .profile-view-button:hover .profile-arrow {
-      transform: translateX(5px);
+
+    .welcome {
+      margin-bottom: 30px;
     }
-    /* =========================
-       DASHBOARD GRID
-    ========================= */
-    .grid {
-      display: grid;
-      grid-template-columns:
-        repeat(3, 1fr);
-      gap: 20px;
-    }
-    .card {
-      min-height: 245px;
-      padding: 32px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 20px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(65, 5, 27, 0.32),
-          rgba(8, 8, 8, 0.92)
-        );
-      border: 1px solid rgba(120, 20, 55, 0.3);
-      transition: 0.35s ease;
-    }
-    .card::after {
-      content: "";
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      right: -60px;
-      bottom: -60px;
-      border-radius: 50%;
-      background: rgba(120, 15, 55, 0.12);
-      filter: blur(25px);
-    }
-    .card:hover {
-      transform: translateY(-7px);
-      border-color:
-        rgba(150, 30, 75, 0.65);
-      box-shadow:
-        0 25px 70px rgba(60, 3, 25, 0.35);
-    }
-    .number {
-      color: #751438;
-      font-size: 11px;
-      letter-spacing: 3px;
-    }
-    .card h2 {
-      margin-top: 55px;
-      margin-bottom: 13px;
-      font-size: 24px;
-    }
-    .card p {
-      color: #858585;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-    .card-link {
-      display: inline-block;
-      margin-top: 22px;
-      color: #a52a50;
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .card-link:hover {
-      color: white;
-    }
-    /* =========================
-       MEMBERSHIP
-    ========================= */
-    .profile {
-      margin-top: 25px;
-      padding: 35px;
-      border-radius: 20px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(70, 5, 28, 0.25),
-          rgba(7, 7, 7, 0.9)
-        );
-      border: 1px solid rgba(120, 20, 55, 0.3);
-    }
-    .profile-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
-    .profile h2 {
-      font-size: 22px;
+
+    .welcome h1 {
+      font-size: 32px;
       margin-bottom: 8px;
     }
-    .profile p {
-      color: #777;
+
+    .welcome p {
+      color: #aaa;
+    }
+
+    /* PROFILE CARD */
+    .profile-card {
+      background: #0d0d0d;
+      border: 1px solid #241216;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+
+    .profile-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* CLOUDINARY PROFILE PHOTO */
+    .profile-photo {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #8b3949;
+      background: #181818;
+      display: none;
+    }
+
+    .profile-details h2 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .profile-details p {
+      color: #999;
       font-size: 14px;
     }
-    .status {
-      padding: 9px 15px;
-      border: 1px solid rgba(130, 25, 65, 0.5);
-      border-radius: 30px;
-      color: #a52a50;
-      font-size: 11px;
-      letter-spacing: 1px;
+
+    .edit-profile {
+      background: #8b3949;
+      padding: 10px 17px;
+      border-radius: 5px;
+      font-size: 14px;
     }
-    /* =========================
-       FOOTER
-    ========================= */
-    footer {
+
+    .edit-profile:hover {
+      background: #a64658;
+    }
+
+    /* GRID */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .dashboard-card {
+      background: #0d0d0d;
+      border: 1px solid #241216;
+      border-radius: 12px;
+      padding: 25px;
+      transition: 0.3s;
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-3px);
+      border-color: #8b3949;
+    }
+
+    .dashboard-card h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .dashboard-card p {
+      color: #999;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .card-btn {
+      display: inline-block;
+      background: #8b3949;
+      padding: 10px 16px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .card-btn:hover {
+      background: #a64658;
+    }
+
+    /* FOOTER */
+    .footer {
       text-align: center;
-      padding: 40px 20px;
-      color: #444;
-      font-size: 11px;
-      border-top:
-        1px solid rgba(100, 15, 45, 0.2);
+      color: #777;
+      margin-top: 50px;
+      padding: 25px;
+      border-top: 1px solid #241216;
+      font-size: 13px;
     }
-    /* =========================
-       MOBILE
-    ========================= */
-    @media (max-width: 800px) {
-      .dashboard {
+
+    /* MOBILE */
+    @media (max-width: 700px) {
+
+      .navbar {
+        padding: 0 5%;
+      }
+
+      .dashboard-container {
         width: 90%;
-        padding: 55px 0;
+        margin: 30px auto;
       }
-      .intro {
-        flex-direction: column;
-        align-items: flex-start;
+
+      .welcome h1 {
+        font-size: 27px;
       }
-      .grid {
-        grid-template-columns: 1fr;
-      }
-      .header-right .member {
-        display: none;
-      }
+
       .profile-card-header {
         align-items: flex-start;
       }
-      .profile-status {
-        display: none;
+
+      .profile-info {
+        gap: 12px;
       }
-      .profile-card-details {
+
+      .profile-photo {
+        width: 65px;
+        height: 65px;
+      }
+
+      .edit-profile {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+
+      .dashboard-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
-<body>
-  <!-- HEADER -->
-  <header>
-    <div class="logo">
-      KYLE
-    </div>
-    <div class="header-right">
-      <span class="member">
-        MEMBER
-      </span>
-      <a href="index.html" class="logout">
-        LOG OUT
-      </a>
-    </div>
-  </header>
-  <!-- DASHBOARD -->
-  <main class="dashboard">
-    <p class="welcome">
-      PRIVATE MEMBER AREA
-    </p>
-    <div class="intro">
-      <div>
-        <h1>
-          Welcome<br>
-          Back.
-        </h1>
-      </div>
-      <p class="intro-text">
-        Your personal space for exclusive content,
-        community updates, special announcements,
-        and everything happening around Kyle.
-      </p>
-    </div>
-    <!-- =========================
-         MAIN PROFILE
-    ========================= -->
-    <div class="dashboard-profile-card">
-      <div class="profile-card-header">
-      <div class="profile-avatar-large" id="profileAvatar">
-  FAN
-</div>
-        </div>
-        <div class="profile-card-title">
-          <span class="profile-overline">
-            OFFICIAL COMMUNITY
-          </span>
-          <h2 id="dashboardName">
-  My Profile
-</h2>
 
-<p id="dashboardEmail">
-  Your personal fan account
-</p>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo">KYLE</div>
+
+    <button class="logout-btn" id="logoutBtn">
+      Log Out
+    </button>
+  </nav>
+
+
+  <!-- DASHBOARD -->
+  <main class="dashboard-container">
+
+    <!-- WELCOME -->
+    <section class="welcome">
+      <h1>Welcome back, <span id="welcomeName">Fan</span> 👋</h1>
+      <p>Your private Kyle Fuller fan community dashboard.</p>
+    </section>
+
+
+    <!-- PROFILE -->
+    <section class="profile-card">
+
+      <div class="profile-card-header">
+
+        <div class="profile-info">
+
+          <!-- CLOUDINARY PHOTO -->
+          <img
+            id="profileAvatar"
+            class="profile-photo"
+            src=""
+            alt="Profile Picture"
+          >
+
+          <div class="profile-details">
+            <h2 id="profileName">Fan</h2>
+            <p id="profileEmail">Loading...</p>
+          </div>
+
         </div>
-        <div class="profile-status">
-          <span class="status-dot"></span>
-          ACTIVE
-        </div>
+
+        <a href="profile.html" class="edit-profile">
+          Edit Profile
+        </a>
+
       </div>
-      <div class="profile-card-divider"></div>
-      <div class="profile-card-details">
-        <div class="profile-detail">
-          <span class="detail-label">
-            MEMBERSHIP
-          </span>
-          <strong>
-            OFFICIAL FAN
-          </strong>
-        </div>
-        <div class="profile-detail">
-          <span class="detail-label">
-            ACCOUNT
-          </span>
-         <strong id="dashboardAccount">
-  FAN MEMBER
-</strong>
-        </div>
-        <div class="profile-detail">
-          <span class="detail-label">
-            COMMUNITY
-          </span>
-          <strong>
-            KYLE OFFICIAL
-          </strong>
-        </div>
-      </div>
-      <a
-        href="profile.html"
-        class="profile-view-button"
-      >
-        <span>
-          VIEW MY PROFILE
-        </span>
-        <span class="profile-arrow">
-          →
-        </span>
-      </a>
-    </div>
-    <!-- =========================
-         DASHBOARD CARDS
-    ========================= -->
-    <div class="grid">
-      <!-- 01 -->
-      <div class="card">
-        <span class="number">
-          01
-        </span>
-        <h2>
-          Latest Updates
-        </h2>
+
+    </section>
+
+
+    <!-- DASHBOARD CARDS -->
+    <section class="dashboard-grid">
+
+      <div class="dashboard-card">
+        <h3>Latest Updates</h3>
         <p>
-          Stay updated with the newest news,
-          announcements and exclusive moments.
+          Stay updated with the latest news, announcements,
+          photos and activities from Kyle.
         </p>
-        <a
-          href="updates.html"
-          class="card-link"
-        >
-          VIEW UPDATES →
+
+        <a href="updates.html" class="card-btn">
+          View Updates
         </a>
       </div>
-      <!-- 02 -->
-      <div class="card">
-        <span class="number">
-          02
-        </span>
-        <h2>
-          Exclusive Content
-        </h2>
+
+
+      <div class="dashboard-card">
+        <h3>Exclusive Content</h3>
         <p>
-          Explore special photos, videos and
-          content reserved for members.
+          Access exclusive photos, videos and special
+          content available to community members.
         </p>
-        <a
-          href="exclusive.html"
-          class="card-link"
-        >
-          EXPLORE CONTENT →
+
+        <a href="exclusive.html" class="card-btn">
+          View Exclusive
         </a>
       </div>
-      <!-- 03 -->
-      <div class="card">
-        <span class="number">
-          03
-        </span>
-        <h2>
-          Community
-        </h2>
+
+
+      <div class="dashboard-card">
+        <h3>Fan Community</h3>
         <p>
-          Connect with other members and
-          be part of the official community.
+          Connect with other fans, join conversations
+          and share your thoughts with the community.
         </p>
-        <a
-          href="chat.html"
-          class="card-link"
-        >
-          FAN CHAT →
+
+        <a href="chat.html" class="card-btn">
+          Enter Community
         </a>
       </div>
-      <!-- 04 -->
-      <div class="card">
-        <span class="number">
-          04
-        </span>
-        <h2>
-          Messages
-        </h2>
+
+
+      <div class="dashboard-card">
+        <h3>Messages</h3>
         <p>
-          Keep up with important messages,
-          announcements and community news.
+          Chat privately with other members of the
+          Kyle Fuller fan community.
         </p>
-        <a
-          href="#"
-          class="card-link"
-        >
-          VIEW MESSAGES →
+
+        <a href="chat.html" class="card-btn">
+          Open Messages
         </a>
       </div>
-      <!-- 05 -->
-      <div class="card">
-        <span class="number">
-          05
-        </span>
-        <h2>
-          Events
-        </h2>
+
+
+      <div class="dashboard-card">
+        <h3>Events</h3>
         <p>
-          Discover upcoming events, appearances
-          and special community experiences.
+          See upcoming events, fan activities and
+          important community announcements.
         </p>
-        <a
-          href="#"
-          class="card-link"
-        >
-          VIEW EVENTS →
+
+        <a href="index.html#events" class="card-btn">
+          View Events
         </a>
       </div>
-      <!-- 06 -->
-      <div class="card">
-        <span class="number">
-          06
-        </span>
-        <h2>
-          Settings
-        </h2>
+
+
+      <div class="dashboard-card">
+        <h3>My Profile</h3>
         <p>
-          Manage your profile and personalize
-          your member experience.
+          Update your name, profile picture and
+          other community information.
         </p>
-        <a
-          href="profile.html"
-          class="card-link"
-        >
-          MY PROFILE →
+
+        <a href="profile.html" class="card-btn">
+          Manage Profile
         </a>
       </div>
-    </div>
-    <!-- MEMBERSHIP -->
-    <div class="profile">
-      <div class="profile-top">
-        <div>
-          <h2>
-            Your Membership
-          </h2>
-          <p>
-            You are currently viewing the official
-            Kyle member dashboard.
-          </p>
-        </div>
-        <div class="status">
-          ACTIVE MEMBER
-        </div>
-      </div>
-    </div>
+
+    </section>
+
   </main>
-  <footer>
-    © 2026 Kyle. Official Website.
+
+
+  <footer class="footer">
+    © 2026 Kyle Fuller Official Web — Active Fan Member
   </footer>
+
+
+  <!-- FIREBASE -->
   <script type="module">
 
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
-  import {
-    getAuth,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 
-  import {
-    getFirestore,
-    doc,
-    getDoc
-  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-
-  const firebaseConfig = {
-
-    apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
-
-    authDomain: "kyle-official-website.firebaseapp.com",
-
-    projectId: "kyle-official-website",
-
-    storageBucket: "kyle-official-website.firebasestorage.app",
-
-    messagingSenderId: "547868923755",
-
-    appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
-
-    measurementId: "G-799CW529X9"
-
-  };
+    import {
+      getFirestore,
+      doc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
-  const app = initializeApp(firebaseConfig);
+    /* FIREBASE CONFIG */
 
-  const auth = getAuth(app);
-
-  const db = getFirestore(app);
-
-
-  onAuthStateChanged(auth, async function(user) {
-
-    if (!user) {
-
-      window.location.href = "login.html";
-
-      return;
-
-    }
+    const firebaseConfig = {
+      apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijykmu57GkVZo4",
+      authDomain: "kyle-official-website.firebaseapp.com",
+      projectId: "kyle-official-website",
+      storageBucket: "kyle-official-website.firebasestorage.app",
+      messagingSenderId: "547868923755",
+      appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+      measurementId: "G-799CW529X9"
+    };
 
 
-    /* GET BASIC ACCOUNT INFORMATION */
+    const app = initializeApp(firebaseConfig);
 
-    const email = user.email || "";
+    const auth = getAuth(app);
 
-    let name = user.displayName || "";
-
-
-    /* GET PROFILE FROM FIRESTORE */
-
-    try {
-
-      const userRef = doc(
-        db,
-        "users",
-        user.uid
-      );
-
-      const userSnap = await getDoc(userRef);
+    const db = getFirestore(app);
 
 
-      if (userSnap.exists()) {
+    /* ELEMENTS */
 
-        const userData = userSnap.data();
+    const welcomeName =
+      document.getElementById("welcomeName");
 
-        if (userData.name) {
+    const profileName =
+      document.getElementById("profileName");
 
-          name = userData.name;
+    const profileEmail =
+      document.getElementById("profileEmail");
 
+    const profileAvatar =
+      document.getElementById("profileAvatar");
+
+    const logoutBtn =
+      document.getElementById("logoutBtn");
+
+
+    /* AUTH STATE */
+
+    onAuthStateChanged(auth, async (user) => {
+
+      if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+      }
+
+
+      console.log("Logged in user:", user.uid);
+
+
+      try {
+
+        /*
+          Get the user's information
+          from Firestore
+        */
+
+        const userRef =
+          doc(db, "users", user.uid);
+
+        const userSnap =
+          await getDoc(userRef);
+
+
+        if (userSnap.exists()) {
+
+          const data =
+            userSnap.data();
+
+
+          /* NAME */
+
+          const name =
+            data.name ||
+            user.displayName ||
+            "Fan";
+
+
+          welcomeName.textContent = name;
+
+          profileName.textContent = name;
+
+
+          /* EMAIL */
+
+          profileEmail.textContent =
+            data.email ||
+            user.email ||
+            "Member";
+
+
+          /*
+            CLOUDINARY PROFILE PHOTO
+
+            Your Cloudinary URL is saved as:
+            profileImage
+
+            inside:
+            users/{uid}
+          */
+
+          if (data.profileImage) {
+
+            profileAvatar.src =
+              data.profileImage;
+
+            profileAvatar.style.display =
+              "block";
+
+          } else {
+
+            profileAvatar.style.display =
+              "none";
+          }
+
+        } else {
+
+          welcomeName.textContent =
+            user.displayName || "Fan";
+
+          profileName.textContent =
+            user.displayName || "Fan";
+
+          profileEmail.textContent =
+            user.email || "Member";
+
+          profileAvatar.style.display =
+            "none";
         }
+
+      } catch (error) {
+
+        console.error(
+          "Error loading profile:",
+          error
+        );
 
       }
 
-    } catch (error) {
-
-      console.error(
-        "Could not load profile:",
-        error
-      );
-
-    }
+    });
 
 
-    /* FALLBACK NAME */
+    /* LOG OUT */
 
-    if (!name) {
+    logoutBtn.addEventListener("click", async () => {
 
-      name =
-        email.split("@")[0] ||
-        "Fan Member";
+      try {
 
-    }
+        await signOut(auth);
 
+        window.location.href =
+          "login.html";
 
-    /* DISPLAY NAME */
+      } catch (error) {
 
-    const dashboardName =
-      document.getElementById(
-        "dashboardName"
-      );
+        console.error(
+          "Logout error:",
+          error
+        );
 
-    if (dashboardName) {
+      }
 
-      dashboardName.textContent = name;
+    });
 
-    }
-
-
-    /* DISPLAY EMAIL */
-
-    const dashboardEmail =
-      document.getElementById(
-        "dashboardEmail"
-      );
-
-    if (dashboardEmail) {
-
-      dashboardEmail.textContent = email;
-
-    }
-
-
-    /* ACCOUNT TYPE */
-
-    const dashboardAccount =
-      document.getElementById(
-        "dashboardAccount"
-      );
-
-    if (dashboardAccount) {
-
-      dashboardAccount.textContent =
-        "FAN MEMBER";
-
-    }
-
-
-    /* PROFILE AVATAR */
-
-    const profileAvatar =
-      document.getElementById(
-        "profileAvatar"
-      );
-
-
-    if (profileAvatar) {
-
-      const initials =
-        name
-          .trim()
-          .split(/\s+/)
-          .map(word => word.charAt(0))
-          .join("")
-          .substring(0, 2)
-          .toUpperCase();
-
-
-      profileAvatar.textContent =
-        initials || "FM";
-
-    }
-
-  });
-
-</script>
+  </script>
 
 </body>
 </html>
