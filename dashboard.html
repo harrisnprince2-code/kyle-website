@@ -683,12 +683,20 @@
   </footer>
   <script type="module">
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import {
+    initializeApp
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
 
   import {
     getAuth,
     onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    getDoc
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 
   const firebaseConfig = {
@@ -714,8 +722,10 @@
 
   const auth = getAuth(app);
 
+  const db = getFirestore(app);
 
-  onAuthStateChanged(auth, function(user) {
+
+  onAuthStateChanged(auth, async function(user) {
 
     if (!user) {
 
@@ -726,29 +736,130 @@
     }
 
 
+    /* GET BASIC ACCOUNT INFORMATION */
+
     const email = user.email || "";
 
-    const name =
-      email.split("@")[0] || "Fan Member";
+    let name = user.displayName || "";
 
 
-    document.getElementById("dashboardName").textContent =
-      name;
+    /* GET PROFILE FROM FIRESTORE */
+
+    try {
+
+      const userRef = doc(
+        db,
+        "users",
+        user.uid
+      );
+
+      const userSnap = await getDoc(userRef);
 
 
-    document.getElementById("dashboardEmail").textContent =
-      email;
+      if (userSnap.exists()) {
+
+        const userData = userSnap.data();
+
+        if (userData.name) {
+
+          name = userData.name;
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Could not load profile:",
+        error
+      );
+
+    }
 
 
-    document.getElementById("dashboardAccount").textContent =
-      "FAN MEMBER";
+    /* FALLBACK NAME */
+
+    if (!name) {
+
+      name =
+        email.split("@")[0] ||
+        "Fan Member";
+
+    }
 
 
-    document.getElementById("profileAvatar").textContent =
-      name.substring(0, 2).toUpperCase();
+    /* DISPLAY NAME */
+
+    const dashboardName =
+      document.getElementById(
+        "dashboardName"
+      );
+
+    if (dashboardName) {
+
+      dashboardName.textContent = name;
+
+    }
+
+
+    /* DISPLAY EMAIL */
+
+    const dashboardEmail =
+      document.getElementById(
+        "dashboardEmail"
+      );
+
+    if (dashboardEmail) {
+
+      dashboardEmail.textContent = email;
+
+    }
+
+
+    /* ACCOUNT TYPE */
+
+    const dashboardAccount =
+      document.getElementById(
+        "dashboardAccount"
+      );
+
+    if (dashboardAccount) {
+
+      dashboardAccount.textContent =
+        "FAN MEMBER";
+
+    }
+
+
+    /* PROFILE AVATAR */
+
+    const profileAvatar =
+      document.getElementById(
+        "profileAvatar"
+      );
+
+
+    if (profileAvatar) {
+
+      const initials =
+        name
+          .trim()
+          .split(/\s+/)
+          .map(word => word.charAt(0))
+          .join("")
+          .substring(0, 2)
+          .toUpperCase();
+
+
+      profileAvatar.textContent =
+        initials || "FM";
+
+    }
 
   });
 
 </script>
+
 </body>
 </html>
