@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     body {
@@ -39,7 +39,7 @@
     .logo {
       font-size: 25px;
       font-weight: bold;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
     }
 
     .logout-btn {
@@ -49,6 +49,7 @@
       padding: 10px 18px;
       border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     .logout-btn:hover {
@@ -62,6 +63,7 @@
       margin: 45px auto;
     }
 
+    /* WELCOME */
     .welcome {
       margin-bottom: 30px;
     }
@@ -72,7 +74,8 @@
     }
 
     .welcome p {
-      color: #aaa;
+      color: #999;
+      font-size: 15px;
     }
 
     /* PROFILE CARD */
@@ -95,12 +98,14 @@
       display: flex;
       align-items: center;
       gap: 18px;
+      min-width: 0;
     }
 
     /* CLOUDINARY PROFILE PHOTO */
     .profile-photo {
-      width: 75px;
-      height: 75px;
+      width: 78px;
+      height: 78px;
+      min-width: 78px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #8b3949;
@@ -108,14 +113,20 @@
       display: none;
     }
 
+    .profile-details {
+      min-width: 0;
+    }
+
     .profile-details h2 {
       font-size: 22px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
+      word-break: break-word;
     }
 
     .profile-details p {
       color: #999;
       font-size: 14px;
+      word-break: break-word;
     }
 
     .edit-profile {
@@ -123,13 +134,15 @@
       padding: 10px 17px;
       border-radius: 5px;
       font-size: 14px;
+      white-space: nowrap;
+      transition: 0.3s;
     }
 
     .edit-profile:hover {
       background: #a64658;
     }
 
-    /* GRID */
+    /* DASHBOARD GRID */
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -150,8 +163,8 @@
     }
 
     .dashboard-card h3 {
-      margin-bottom: 10px;
       font-size: 20px;
+      margin-bottom: 10px;
     }
 
     .dashboard-card p {
@@ -166,6 +179,7 @@
       padding: 10px 16px;
       border-radius: 5px;
       font-size: 14px;
+      transition: 0.3s;
     }
 
     .card-btn:hover {
@@ -209,6 +223,15 @@
       .profile-photo {
         width: 65px;
         height: 65px;
+        min-width: 65px;
+      }
+
+      .profile-details h2 {
+        font-size: 18px;
+      }
+
+      .profile-details p {
+        font-size: 12px;
       }
 
       .edit-profile {
@@ -227,11 +250,18 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="logo">KYLE</div>
 
-    <button class="logout-btn" id="logoutBtn">
+    <div class="logo">
+      KYLE
+    </div>
+
+    <button
+      class="logout-btn"
+      id="logoutBtn"
+    >
       Log Out
     </button>
+
   </nav>
 
 
@@ -240,8 +270,16 @@
 
     <!-- WELCOME -->
     <section class="welcome">
-      <h1>Welcome back, <span id="welcomeName">Fan</span> 👋</h1>
-      <p>Your private Kyle Fuller fan community dashboard.</p>
+
+      <h1>
+        Welcome back,
+        <span id="welcomeName">Fan</span> 👋
+      </h1>
+
+      <p>
+        Your private Kyle Fuller fan community dashboard.
+      </p>
+
     </section>
 
 
@@ -252,7 +290,7 @@
 
         <div class="profile-info">
 
-          <!-- CLOUDINARY PHOTO -->
+          <!-- CLOUDINARY PROFILE IMAGE -->
           <img
             id="profileAvatar"
             class="profile-photo"
@@ -261,13 +299,23 @@
           >
 
           <div class="profile-details">
-            <h2 id="profileName">Fan</h2>
-            <p id="profileEmail">Loading...</p>
+
+            <h2 id="profileName">
+              Fan
+            </h2>
+
+            <p id="profileEmail">
+              Loading...
+            </p>
+
           </div>
 
         </div>
 
-        <a href="profile.html" class="edit-profile">
+        <a
+          href="profile.html"
+          class="edit-profile"
+        >
           Edit Profile
         </a>
 
@@ -279,81 +327,135 @@
     <!-- DASHBOARD CARDS -->
     <section class="dashboard-grid">
 
+      <!-- UPDATES -->
       <div class="dashboard-card">
-        <h3>Latest Updates</h3>
+
+        <h3>
+          Latest Updates
+        </h3>
+
         <p>
-          Stay updated with the latest news, announcements,
-          photos and activities from Kyle.
+          Stay updated with the latest news,
+          announcements, photos and activities from Kyle.
         </p>
 
-        <a href="updates.html" class="card-btn">
+        <a
+          href="updates.html"
+          class="card-btn"
+        >
           View Updates
         </a>
+
       </div>
 
 
+      <!-- EXCLUSIVE -->
       <div class="dashboard-card">
-        <h3>Exclusive Content</h3>
+
+        <h3>
+          Exclusive Content
+        </h3>
+
         <p>
           Access exclusive photos, videos and special
           content available to community members.
         </p>
 
-        <a href="exclusive.html" class="card-btn">
+        <a
+          href="exclusive.html"
+          class="card-btn"
+        >
           View Exclusive
         </a>
+
       </div>
 
 
+      <!-- COMMUNITY -->
       <div class="dashboard-card">
-        <h3>Fan Community</h3>
+
+        <h3>
+          Fan Community
+        </h3>
+
         <p>
           Connect with other fans, join conversations
           and share your thoughts with the community.
         </p>
 
-        <a href="chat.html" class="card-btn">
+        <a
+          href="chat.html"
+          class="card-btn"
+        >
           Enter Community
         </a>
+
       </div>
 
 
+      <!-- MESSAGES -->
       <div class="dashboard-card">
-        <h3>Messages</h3>
+
+        <h3>
+          Messages
+        </h3>
+
         <p>
           Chat privately with other members of the
           Kyle Fuller fan community.
         </p>
 
-        <a href="chat.html" class="card-btn">
+        <a
+          href="chat.html"
+          class="card-btn"
+        >
           Open Messages
         </a>
+
       </div>
 
 
+      <!-- EVENTS -->
       <div class="dashboard-card">
-        <h3>Events</h3>
+
+        <h3>
+          Events
+        </h3>
+
         <p>
           See upcoming events, fan activities and
           important community announcements.
         </p>
 
-        <a href="index.html#events" class="card-btn">
+        <a
+          href="index.html#events"
+          class="card-btn"
+        >
           View Events
         </a>
+
       </div>
 
 
+      <!-- PROFILE -->
       <div class="dashboard-card">
-        <h3>My Profile</h3>
+
+        <h3>
+          My Profile
+        </h3>
+
         <p>
           Update your name, profile picture and
           other community information.
         </p>
 
-        <a href="profile.html" class="card-btn">
+        <a
+          href="profile.html"
+          class="card-btn"
+        >
           Manage Profile
         </a>
+
       </div>
 
     </section>
@@ -361,6 +463,7 @@
   </main>
 
 
+  <!-- FOOTER -->
   <footer class="footer">
     © 2026 Kyle Fuller Official Web — Active Fan Member
   </footer>
@@ -371,39 +474,74 @@
 
     import {
       initializeApp
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 
     import {
       getAuth,
       onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+      signOut,
+      setPersistence,
+      browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
     import {
       getFirestore,
       doc,
       getDoc
-    } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+    } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
     /* FIREBASE CONFIG */
 
     const firebaseConfig = {
-      apiKey: "AIzaSyATyGLNPuSu3GMxWjFBijykmu57GkVZo4",
-      authDomain: "kyle-official-website.firebaseapp.com",
-      projectId: "kyle-official-website",
-      storageBucket: "kyle-official-website.firebasestorage.app",
-      messagingSenderId: "547868923755",
-      appId: "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
-      measurementId: "G-799CW529X9"
+
+      apiKey:
+        "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
+
+      authDomain:
+        "kyle-official-website.firebaseapp.com",
+
+      projectId:
+        "kyle-official-website",
+
+      storageBucket:
+        "kyle-official-website.firebasestorage.app",
+
+      messagingSenderId:
+        "547868923755",
+
+      appId:
+        "1:547868923755:web:a85ffecce9bf9cc6ff5e2e",
+
+      measurementId:
+        "G-799CW529X9"
     };
 
 
-    const app = initializeApp(firebaseConfig);
+    /* INITIALIZE FIREBASE */
 
-    const auth = getAuth(app);
+    const app =
+      initializeApp(firebaseConfig);
 
-    const db = getFirestore(app);
+
+    const auth =
+      getAuth(app);
+
+
+    const db =
+      getFirestore(app);
+
+
+    /*
+      KEEP LOGIN SESSION PERSISTENT
+    */
+
+    await setPersistence(
+      auth,
+      browserLocalPersistence
+    );
 
 
     /* ELEMENTS */
@@ -424,134 +562,188 @@
       document.getElementById("logoutBtn");
 
 
-    /* AUTH STATE */
+    /*
+      CHECK AUTHENTICATION
+    */
 
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(
+      auth,
+      async (user) => {
 
-      if (!user) {
+        console.log(
+          "Dashboard auth state:",
+          user
+        );
 
-        window.location.href = "login.html";
-
-        return;
-      }
-
-
-      console.log("Logged in user:", user.uid);
-
-
-      try {
 
         /*
-          Get the user's information
-          from Firestore
+          If there is no logged-in user,
+          return to login.
         */
 
-        const userRef =
-          doc(db, "users", user.uid);
+        if (!user) {
 
-        const userSnap =
-          await getDoc(userRef);
+          window.location.href =
+            "login.html";
 
-
-        if (userSnap.exists()) {
-
-          const data =
-            userSnap.data();
+          return;
+        }
 
 
-          /* NAME */
+        try {
 
-          const name =
-            data.name ||
-            user.displayName ||
-            "Fan";
+          /*
+            Get the user's Firestore document.
+          */
+
+          const userRef =
+            doc(
+              db,
+              "users",
+              user.uid
+            );
 
 
-          welcomeName.textContent = name;
-
-          profileName.textContent = name;
-
-
-          /* EMAIL */
-
-          profileEmail.textContent =
-            data.email ||
-            user.email ||
-            "Member";
+          const userSnap =
+            await getDoc(userRef);
 
 
           /*
-            CLOUDINARY PROFILE PHOTO
-
-            Your Cloudinary URL is saved as:
-            profileImage
-
-            inside:
-            users/{uid}
+            FIRESTORE USER EXISTS
           */
 
-          if (data.profileImage) {
+          if (userSnap.exists()) {
 
-            profileAvatar.src =
-              data.profileImage;
+            const data =
+              userSnap.data();
 
-            profileAvatar.style.display =
-              "block";
+
+            /* NAME */
+
+            const name =
+              data.name ||
+              user.displayName ||
+              "Fan";
+
+
+            welcomeName.textContent =
+              name;
+
+
+            profileName.textContent =
+              name;
+
+
+            /* EMAIL */
+
+            profileEmail.textContent =
+              data.email ||
+              user.email ||
+              "Member";
+
+
+            /*
+              CLOUDINARY PROFILE IMAGE
+
+              Your profile upload saves
+              the Cloudinary URL as:
+
+              profileImage
+
+              inside:
+
+              users/{uid}
+            */
+
+            if (
+              data.profileImage &&
+              typeof data.profileImage === "string"
+            ) {
+
+              profileAvatar.src =
+                data.profileImage;
+
+              profileAvatar.style.display =
+                "block";
+
+            } else {
+
+              profileAvatar.style.display =
+                "none";
+            }
+
 
           } else {
+
+            /*
+              If Firestore profile doesn't
+              exist, still keep the user
+              logged into the dashboard.
+            */
+
+            welcomeName.textContent =
+              user.displayName ||
+              "Fan";
+
+
+            profileName.textContent =
+              user.displayName ||
+              "Fan";
+
+
+            profileEmail.textContent =
+              user.email ||
+              "Member";
+
 
             profileAvatar.style.display =
               "none";
           }
 
-        } else {
 
-          welcomeName.textContent =
-            user.displayName || "Fan";
+        } catch (error) {
 
-          profileName.textContent =
-            user.displayName || "Fan";
+          console.error(
+            "Error loading dashboard profile:",
+            error
+          );
 
-          profileEmail.textContent =
-            user.email || "Member";
-
-          profileAvatar.style.display =
-            "none";
         }
 
-      } catch (error) {
+      }
+    );
 
-        console.error(
-          "Error loading profile:",
-          error
-        );
+
+    /*
+      LOG OUT
+    */
+
+    logoutBtn.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          await signOut(auth);
+
+          window.location.href =
+            "login.html";
+
+        } catch (error) {
+
+          console.error(
+            "Logout error:",
+            error
+          );
+
+          alert(
+            "Unable to log out. Please try again."
+          );
+
+        }
 
       }
-
-    });
-
-
-    /* LOG OUT */
-
-    logoutBtn.addEventListener("click", async () => {
-
-      try {
-
-        await signOut(auth);
-
-        window.location.href =
-          "login.html";
-
-      } catch (error) {
-
-        console.error(
-          "Logout error:",
-          error
-        );
-
-      }
-
-    });
+    );
 
   </script>
 
