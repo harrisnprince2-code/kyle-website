@@ -494,6 +494,15 @@
         {
           merge: true
         }
+        await setDoc(
+  doc(db, "publicProfiles", currentUser.uid),
+  {
+    uid: currentUser.uid,
+    name: name,
+    bio: bio
+  },
+  { merge: true }
+);
       );
       /* UPDATE PAGE */
       document.getElementById(
