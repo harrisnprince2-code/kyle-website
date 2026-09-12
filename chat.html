@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kyle Fuller | Fan Chat</title>
 <style>
 * {
@@ -14,12 +14,12 @@ html,
 body {
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #050505;
   color: #fff;
-  overflow: hidden;
 }
 button,
 input {
@@ -29,16 +29,19 @@ input {
    APP
 ========================= */
 .chat-app {
-  display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
+  min-height: 100%;
+  display: flex;
   overflow: hidden;
+  background: #050505;
 }
 /* =========================
-   SIDEBAR
+   LEFT PANEL
 ========================= */
 .sidebar {
-  width: 310px;
+  width: 330px;
+  height: 100%;
   background: #0b0b0b;
   border-right: 1px solid #241216;
   display: flex;
@@ -55,7 +58,7 @@ input {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 1px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 .brand span {
   color: #8b3949;
@@ -75,8 +78,8 @@ input {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  font-weight: 700;
   color: #fff;
+  font-weight: 700;
 }
 .avatar img {
   width: 100%;
@@ -85,12 +88,12 @@ input {
   display: block;
 }
 .chat-user-name {
-  font-weight: 700;
   font-size: 15px;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 .chat-user-status {
-  color: #aaa;
+  color: #888;
   font-size: 12px;
 }
 /* =========================
@@ -100,8 +103,8 @@ input {
   display: flex;
   gap: 5px;
   padding: 8px;
-  border-bottom: 1px solid #241216;
   background: #090909;
+  border-bottom: 1px solid #241216;
   flex-shrink: 0;
 }
 .side-tab {
@@ -115,46 +118,102 @@ input {
   cursor: pointer;
   font-weight: 800;
   font-size: 11px;
-  white-space: nowrap;
 }
 .side-tab.active {
-  color: #fff;
   background: #6f2d3b;
   border-color: #8b3949;
+  color: #fff;
 }
 /* =========================
-   TAB CONTENT
+   MAIN AREA
 ========================= */
-.sidebar-content {
+.main-area {
   flex: 1;
+  min-width: 0;
   min-height: 0;
-  overflow-y: auto;
-  position: relative;
-}
-/*
- IMPORTANT:
- Every section is completely hidden
- unless it has the active class.
-*/
-.sidebar-section {
-  display: none !important;
-  width: 100%;
-}
-.sidebar-section.active {
-  display: block !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #050505;
 }
 /* =========================
-   MEMBERS / INBOX
+   HEADER
 ========================= */
-.member-card,
-.inbox-card {
+.chat-header {
+  height: 78px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
+  gap: 13px;
+  padding: 0 22px;
+  background: #090909;
+  border-bottom: 1px solid #241216;
+}
+.chat-header-title {
+  font-size: 16px;
+  font-weight: 800;
+}
+.chat-status {
+  color: #777;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.back-btn {
+  display: none;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 5px;
+}
+/* =========================
+   ONE CONTENT AREA
+========================= */
+.content-panel {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+/* Every view occupies the exact same space */
+.app-view {
+  display: none;
   width: 100%;
-  gap: 10px;
-  padding: 13px 16px;
+  height: 100%;
+  min-height: 0;
+}
+.app-view.active {
+  display: flex;
+}
+/* =========================
+   LIST VIEWS
+========================= */
+.list-view {
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.list-title {
+  padding: 18px 20px 12px;
+  color: #aaa;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+}
+.member-card,
+.inbox-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
   border-bottom: 1px solid #181818;
   cursor: pointer;
+  background: transparent;
+  color: #fff;
+  text-align: left;
 }
 .member-card:hover,
 .inbox-card:hover {
@@ -175,8 +234,8 @@ input {
 }
 .member-email,
 .inbox-last {
-  font-size: 12px;
   color: #888;
+  font-size: 12px;
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -184,65 +243,42 @@ input {
 }
 .open-btn {
   flex-shrink: 0;
-  background: #8b3949;
   border: 0;
-  color: #fff;
-  padding: 7px 10px;
   border-radius: 7px;
-  font-size: 11px;
+  background: #8b3949;
+  color: #fff;
+  padding: 8px 11px;
+  font-size: 10px;
+  font-weight: 700;
   cursor: pointer;
 }
 .empty-side {
   color: #777;
   text-align: center;
-  padding: 30px 15px;
+  padding: 40px 20px;
   font-size: 13px;
 }
 /* =========================
-   MAIN CHAT
+   CHAT VIEWS
 ========================= */
-.main-chat {
-  flex: 1;
-  min-width: 0;
-  min-height: 0;
-  display: flex;
+.chat-view {
   flex-direction: column;
-  background: #050505;
+  min-height: 0;
+  overflow: hidden;
 }
-.chat-header {
-  height: 78px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 0 22px;
-  border-bottom: 1px solid #241216;
-  background: #090909;
-  flex-shrink: 0;
-}
-.chat-header-title {
-  font-weight: 800;
-  font-size: 16px;
-}
-.chat-status {
-  color: #777;
-  font-size: 12px;
-  margin-top: 4px;
-}
-/* =========================
-   MESSAGES
-========================= */
 .messages {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 22px;
 }
 .message-wrapper {
+  width: 100%;
   display: flex;
+  align-items: flex-start;
   gap: 10px;
   margin-bottom: 18px;
-  align-items: flex-start;
-  width: 100%;
 }
 .message-wrapper.mine {
   flex-direction: row-reverse;
@@ -280,12 +316,13 @@ input {
 .message-bubble {
   display: inline-block;
   max-width: 100%;
-  background: #171717;
-  border: 1px solid #252525;
   padding: 11px 14px;
   border-radius: 14px;
-  line-height: 1.45;
+  background: #171717;
+  border: 1px solid #252525;
+  color: #fff;
   font-size: 14px;
+  line-height: 1.45;
   text-align: left;
   word-break: break-word;
   overflow-wrap: anywhere;
@@ -300,6 +337,7 @@ input {
   margin-top: 5px;
 }
 .empty-chat {
+  width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
@@ -313,10 +351,11 @@ input {
    COMPOSER
 ========================= */
 .composer {
-  padding: 14px 18px;
-  border-top: 1px solid #241216;
-  background: #090909;
   flex-shrink: 0;
+  padding: 12px 18px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  background: #090909;
+  border-top: 1px solid #241216;
 }
 .composer-form {
   display: flex;
@@ -326,39 +365,48 @@ input {
 .composer-input {
   flex: 1;
   min-width: 0;
+  height: 46px;
+  padding: 0 15px;
+  border-radius: 12px;
+  border: 1px solid #292929;
+  outline: none;
   background: #111;
   color: #fff;
-  border: 1px solid #292929;
-  border-radius: 12px;
-  padding: 13px 15px;
-  outline: none;
-  font-size: 14px;
+  font-size: 16px;
+}
+.composer-input::placeholder {
+  color: #666;
 }
 .composer-input:focus {
   border-color: #8b3949;
 }
 .send-btn {
+  height: 46px;
   flex-shrink: 0;
+  padding: 0 19px;
   border: 0;
+  border-radius: 12px;
   background: #8b3949;
   color: #fff;
-  padding: 0 20px;
-  border-radius: 12px;
   font-weight: 700;
   cursor: pointer;
+}
+.send-btn:disabled {
+  opacity: .5;
 }
 /* =========================
    MOBILE
 ========================= */
 @media (max-width: 800px) {
   .chat-app {
+    display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
   }
   .sidebar {
     width: 100%;
     height: auto;
-    max-height: 235px;
+    flex-shrink: 0;
     border-right: 0;
     border-bottom: 1px solid #241216;
   }
@@ -369,46 +417,29 @@ input {
     display: none;
   }
   .current-user {
-    justify-content: center;
+    justify-content: flex-start;
   }
   .sidebar-tabs {
-    gap: 6px;
-    padding: 8px;
+    padding: 7px;
   }
   .side-tab {
     padding: 11px 3px;
     font-size: 10px;
   }
-  .sidebar-content {
-    width: 100%;
-    max-height: 115px;
-    overflow-y: auto;
-  }
-  .member-card,
-  .inbox-card {
-    min-height: 58px;
-    padding: 10px 12px;
-  }
-  .member-name,
-  .inbox-name {
-    font-size: 13px;
-  }
-  .member-email,
-  .inbox-last {
-    font-size: 11px;
-  }
-  .open-btn {
-    padding: 7px 9px;
-    font-size: 9px;
-  }
-  .main-chat {
+  .main-area {
     width: 100%;
     flex: 1;
     min-height: 0;
   }
   .chat-header {
-    height: 64px;
-    padding: 0 14px;
+    height: 62px;
+    padding: 0 12px;
+  }
+  .chat-header-title {
+    font-size: 15px;
+  }
+  .back-btn {
+    display: none;
   }
   .messages {
     padding: 15px 12px;
@@ -419,36 +450,44 @@ input {
   .message-bubble {
     font-size: 13px;
   }
+  .member-card,
+  .inbox-card {
+    padding: 13px 14px;
+  }
   .composer {
-    padding: 9px;
+    padding: 8px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
   }
   .composer-form {
     gap: 7px;
   }
   .composer-input {
-    padding: 12px;
+    height: 44px;
+    font-size: 16px;
+    padding: 0 12px;
   }
   .send-btn {
+    height: 44px;
     padding: 0 14px;
+    font-size: 11px;
   }
 }
 @media (max-width: 480px) {
-  .sidebar {
-    max-height: 225px;
+  .avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
   }
   .sidebar-tabs {
     gap: 5px;
-    padding: 7px;
+    padding: 6px;
   }
   .side-tab {
     padding: 10px 2px;
     font-size: 9px;
   }
-  .sidebar-content {
-    max-height: 105px;
-  }
   .chat-header {
-    height: 60px;
+    height: 58px;
   }
   .messages {
     padding: 12px 10px;
@@ -466,147 +505,187 @@ input {
     font-size: 12px;
   }
   .composer {
-    padding: 8px;
-  }
-  .composer-input {
-    font-size: 13px;
+    padding: 7px;
+    padding-bottom: calc(7px + env(safe-area-inset-bottom));
   }
   .send-btn {
     padding: 0 12px;
-    font-size: 11px;
   }
 }
 </style>
 </head>
 <body>
 <div class="chat-app">
-  <!-- SIDEBAR -->
+  <!-- =========================
+       LEFT / TOP NAVIGATION
+  ========================== -->
   <aside class="sidebar">
-<div class="sidebar-top">
-  <div class="brand">
-    KYLE <span>FULLER</span>
-  </div>
-  <div class="current-user">
-    <div class="avatar" id="sidebarAvatar">
-      <span>?</span>
-    </div>
-    <div>
-      <div class="chat-user-name" id="sidebarName">
-        Loading...
+    <div class="sidebar-top">
+      <div class="brand">
+        KYLE <span>FULLER</span>
       </div>
-      <div class="chat-user-status" id="sidebarStatus">
-        Live fan discussion
+      <div class="current-user">
+        <div class="avatar" id="sidebarAvatar">
+          <span>?</span>
+        </div>
+        <div>
+          <div class="chat-user-name" id="sidebarName">
+            Loading...
+          </div>
+          <div class="chat-user-status" id="sidebarStatus">
+            Live fan community
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<!-- TABS -->
-<div class="sidebar-tabs">
-  <button
-    type="button"
-    class="side-tab active"
-    id="communityTab"
-    data-tab="community"
-  >
-    COMMUNITY
-  </button>
-  <button
-    type="button"
-    class="side-tab"
-    id="membersTab"
-    data-tab="members"
-  >
-    MEMBERS
-  </button>
-  <button
-    type="button"
-    class="side-tab"
-    id="inboxTab"
-    data-tab="inbox"
-  >
-    INBOX
-  </button>
-</div>
-<!-- ONLY ONE OF THESE CAN BE ACTIVE -->
-<div class="sidebar-content">
-  <div
-    class="sidebar-section active"
-    id="communitySection"
-  >
-    <div class="empty-side">
-      Live fan discussion
+    <!-- TABS -->
+    <div class="sidebar-tabs">
+      <button
+        type="button"
+        class="side-tab active"
+        data-tab="community"
+      >
+        COMMUNITY
+      </button>
+      <button
+        type="button"
+        class="side-tab"
+        data-tab="members"
+      >
+        MEMBERS
+      </button>
+      <button
+        type="button"
+        class="side-tab"
+        data-tab="inbox"
+      >
+        INBOX
+      </button>
     </div>
-  </div>
-  <div
-    class="sidebar-section"
-    id="membersSection"
-  >
-    <div class="empty-side">
-      Loading members...
-    </div>
-  </div>
-  <div
-    class="sidebar-section"
-    id="inboxSection"
-  >
-    <div class="empty-side">
-      Loading inbox...
-    </div>
-  </div>
-</div>
   </aside>
-  <!-- MAIN CHAT -->
-  <main class="main-chat">
-<header class="chat-header">
-  <div class="avatar" id="headerAvatar">
-    <span>KF</span>
-  </div>
-  <div>
-    <div
-      class="chat-header-title"
-      id="chatTitle"
-    >
-      Kyle Fuller Community
+  <!-- =========================
+       ONE MAIN CONTENT AREA
+  ========================== -->
+  <main class="main-area">
+    <!-- HEADER -->
+    <header class="chat-header">
+      <button
+        type="button"
+        class="back-btn"
+        id="backButton"
+      >
+        ←
+      </button>
+      <div
+        class="avatar"
+        id="headerAvatar"
+      >
+        <span>KF</span>
+      </div>
+      <div>
+        <div
+          class="chat-header-title"
+          id="chatTitle"
+        >
+          Kyle Fuller Community
+        </div>
+        <div
+          class="chat-status"
+          id="chatStatus"
+        >
+          Live fan discussion
+        </div>
+      </div>
+    </header>
+    <!-- =========================
+         SHARED CONTENT PANEL
+    ========================== -->
+    <div class="content-panel">
+      <!-- COMMUNITY -->
+      <section
+        class="app-view chat-view active"
+        id="communityView"
+      >
+        <div
+          class="messages"
+          id="communityMessages"
+        >
+          <div class="empty-chat">
+            Loading community...
+          </div>
+        </div>
+      </section>
+      <!-- MEMBERS -->
+      <section
+        class="app-view list-view"
+        id="membersView"
+      >
+        <div class="list-title">
+          Fan Members
+        </div>
+        <div id="membersList">
+          <div class="empty-side">
+            Loading members...
+          </div>
+        </div>
+      </section>
+      <!-- INBOX -->
+      <section
+        class="app-view list-view"
+        id="inboxView"
+      >
+        <div class="list-title">
+          Private Messages
+        </div>
+        <div id="inboxList">
+          <div class="empty-side">
+            Loading inbox...
+          </div>
+        </div>
+      </section>
+      <!-- PRIVATE CHAT -->
+      <section
+        class="app-view chat-view"
+        id="privateView"
+      >
+        <div
+          class="messages"
+          id="privateMessages"
+        >
+          <div class="empty-chat">
+            Loading conversation...
+          </div>
+        </div>
+      </section>
     </div>
+    <!-- =========================
+         COMPOSER
+    ========================== -->
     <div
-      class="chat-status"
-      id="chatStatus"
+      class="composer"
+      id="composer"
     >
-      Live fan discussion
+      <form
+        class="composer-form"
+        id="messageForm"
+      >
+        <input
+          class="composer-input"
+          id="messageInput"
+          type="text"
+          placeholder="Write a message..."
+          autocomplete="off"
+          enterkeyhint="send"
+        >
+        <button
+          class="send-btn"
+          id="sendButton"
+          type="submit"
+        >
+          SEND
+        </button>
+      </form>
     </div>
-  </div>
-</header>
-<!-- MESSAGES -->
-<div
-  class="messages"
-  id="messagesBox"
->
-  <div class="empty-chat">
-    Loading chat...
-  </div>
-</div>
-<!-- COMPOSER -->
-<div class="composer">
-  <form
-    class="composer-form"
-    id="messageForm"
-  >
-    <input
-      class="composer-input"
-      id="messageInput"
-      type="text"
-      placeholder="Write a message..."
-      autocomplete="off"
-    >
-    <button
-      class="send-btn"
-      id="sendButton"
-      type="submit"
-    >
-      SEND
-    </button>
-  </form>
-</div>
   </main>
 </div>
 <script type="module">
@@ -649,9 +728,12 @@ const firebaseConfig = {
   measurementId:
     "G-799CW529X9"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const app =
+  initializeApp(firebaseConfig);
+const auth =
+  getAuth(app);
+const db =
+  getFirestore(app);
 /* =========================
    ELEMENTS
 ========================= */
@@ -667,29 +749,47 @@ const chatTitle =
   document.getElementById("chatTitle");
 const chatStatus =
   document.getElementById("chatStatus");
-const messagesBox =
-  document.getElementById("messagesBox");
+const composer =
+  document.getElementById("composer");
 const messageForm =
   document.getElementById("messageForm");
 const messageInput =
   document.getElementById("messageInput");
 const sendButton =
   document.getElementById("sendButton");
-const communitySection =
-  document.getElementById("communitySection");
-const membersSection =
-  document.getElementById("membersSection");
-const inboxSection =
-  document.getElementById("inboxSection");
+const backButton =
+  document.getElementById("backButton");
+const communityView =
+  document.getElementById("communityView");
+const membersView =
+  document.getElementById("membersView");
+const inboxView =
+  document.getElementById("inboxView");
+const privateView =
+  document.getElementById("privateView");
+const communityMessages =
+  document.getElementById("communityMessages");
+const privateMessages =
+  document.getElementById("privateMessages");
+const membersList =
+  document.getElementById("membersList");
+const inboxList =
+  document.getElementById("inboxList");
 /* =========================
    STATE
 ========================= */
 let currentUser = null;
 let currentUserProfile = {};
-let unsubscribeMessages = null;
+let currentPrivateUser = null;
+let currentView = "community";
+let previousListView = "members";
+let unsubscribeCommunity = null;
 let unsubscribeMembers = null;
 let unsubscribeInbox = null;
-let currentPrivateUser = null;
+let unsubscribePrivate = null;
+/* =========================
+   URL
+========================= */
 const urlParams =
   new URLSearchParams(
     window.location.search
@@ -787,61 +887,143 @@ function messageAvatarHTML(profile, name) {
   `;
 }
 /* =========================
-   TAB SYSTEM
+   STOP LISTENERS
 ========================= */
-function setActiveTab(tab) {
-  /*
-    First hide EVERYTHING.
-    This is the important fix.
-  */
-  communitySection.classList.remove("active");
-  membersSection.classList.remove("active");
-  inboxSection.classList.remove("active");
-  document
-    .querySelectorAll(".side-tab")
-    .forEach(button => {
-      button.classList.remove("active");
-    });
-  /*
-    Then show ONLY the selected section.
-  */
-  if (tab === "community") {
-    communitySection.classList.add("active");
-    document
-      .getElementById("communityTab")
-      .classList.add("active");
-  }
-  if (tab === "members") {
-    membersSection.classList.add("active");
-    document
-      .getElementById("membersTab")
-      .classList.add("active");
-  }
-  if (tab === "inbox") {
-    inboxSection.classList.add("active");
-    document
-      .getElementById("inboxTab")
-      .classList.add("active");
+function stopCommunityListener() {
+  if (unsubscribeCommunity) {
+    unsubscribeCommunity();
+    unsubscribeCommunity = null;
   }
 }
-/*
-  Use real click listeners instead
-  of inline onclick.
-  This is more reliable on phones.
-*/
+function stopMembersListener() {
+  if (unsubscribeMembers) {
+    unsubscribeMembers();
+    unsubscribeMembers = null;
+  }
+}
+function stopInboxListener() {
+  if (unsubscribeInbox) {
+    unsubscribeInbox();
+    unsubscribeInbox = null;
+  }
+}
+function stopPrivateListener() {
+  if (unsubscribePrivate) {
+    unsubscribePrivate();
+    unsubscribePrivate = null;
+  }
+}
+/* =========================
+   VIEW SYSTEM
+========================= */
+function showView(viewName) {
+  currentView = viewName;
+  communityView.classList.remove("active");
+  membersView.classList.remove("active");
+  inboxView.classList.remove("active");
+  privateView.classList.remove("active");
+  document
+    .querySelectorAll(".side-tab")
+    .forEach(tab => {
+      tab.classList.remove("active");
+    });
+  composer.style.display = "none";
+  backButton.style.display = "none";
+  if (viewName === "community") {
+    communityView.classList.add("active");
+    document
+      .querySelector('[data-tab="community"]')
+      .classList.add("active");
+    chatTitle.textContent =
+      "Kyle Fuller Community";
+    chatStatus.textContent =
+      "Live fan discussion";
+    sidebarStatus.textContent =
+      "Live fan discussion";
+    headerAvatar.innerHTML =
+      `<span>KF</span>`;
+    composer.style.display =
+      "block";
+    openCommunityListener();
+  }
+  if (viewName === "members") {
+    membersView.classList.add("active");
+    document
+      .querySelector('[data-tab="members"]')
+      .classList.add("active");
+    chatTitle.textContent =
+      "Fan Members";
+    chatStatus.textContent =
+      "Members of the community";
+    sidebarStatus.textContent =
+      "Fan members";
+    headerAvatar.innerHTML =
+      `<span>👥</span>`;
+    loadMembers();
+  }
+  if (viewName === "inbox") {
+    inboxView.classList.add("active");
+    document
+      .querySelector('[data-tab="inbox"]')
+      .classList.add("active");
+    chatTitle.textContent =
+      "Inbox";
+    chatStatus.textContent =
+      "Private conversations";
+    sidebarStatus.textContent =
+      "Private messages";
+    headerAvatar.innerHTML =
+      `<span>✉</span>`;
+    loadInbox();
+  }
+  if (viewName === "private") {
+    privateView.classList.add("active");
+    backButton.style.display =
+      "block";
+    composer.style.display =
+      "block";
+    openPrivateChat(
+      currentPrivateUser?.uid
+    );
+  }
+}
+/* =========================
+   TABS
+========================= */
 document
   .querySelectorAll(".side-tab")
   .forEach(button => {
     button.addEventListener(
       "click",
-      function(event) {
+      event => {
         event.preventDefault();
         const tab =
-          this.dataset.tab;
-        setActiveTab(tab);
+          button.dataset.tab;
+        if (tab === "community") {
+          showView("community");
+        }
+        if (tab === "members") {
+          showView("members");
+        }
+        if (tab === "inbox") {
+          showView("inbox");
+        }
       }
     );
   });
+/* =========================
+   BACK BUTTON
+========================= */
+backButton.addEventListener(
+  "click",
+  () => {
+    stopPrivateListener();
+    currentPrivateUser = null;
+    showView(
+      previousListView || "members"
+    );
+  }
+);
 /* =========================
    CURRENT USER
 ========================= */
@@ -901,105 +1083,14 @@ async function loadCurrentUser() {
   }
 }
 /* =========================
-   COMMUNITY MESSAGES
+   COMMUNITY
 ========================= */
-async function renderCommunityMessages(snapshot) {
-  messagesBox.innerHTML = "";
-  if (snapshot.empty) {
-    messagesBox.innerHTML = `
-      <div class="empty-chat">
-        No messages yet.<br>
-        Be the first fan to say hello!
-      </div>
-    `;
+function openCommunityListener() {
+  stopPrivateListener();
+  if (unsubscribeCommunity) {
     return;
   }
-  for (
-    const messageDoc
-    of snapshot.docs
-  ) {
-    const data =
-      messageDoc.data();
-    let profile = {};
-    try {
-      if (data.senderId) {
-        const userDoc =
-          await getDoc(
-            doc(
-              db,
-              "users",
-              data.senderId
-            )
-          );
-        if (userDoc.exists()) {
-          profile =
-            userDoc.data();
-        }
-      }
-    } catch (error) {
-      console.error(
-        "Sender profile error:",
-        error
-      );
-    }
-    const senderName =
-      data.senderName ||
-      profile.name ||
-      "Fan";
-    const wrapper =
-      document.createElement("div");
-    wrapper.className =
-      "message-wrapper" +
-      (
-        data.senderId ===
-        currentUser.uid
-          ? " mine"
-          : ""
-      );
-    wrapper.innerHTML = `
-      ${messageAvatarHTML(
-        profile,
-        senderName
-      )}
-      <div class="message-content">
-        <div class="sender-name">
-          ${escapeHTML(senderName)}
-        </div>
-        <div class="message-bubble">
-          ${escapeHTML(
-            data.text || ""
-          )}
-        </div>
-        <div class="message-time">
-          ${formatTime(
-            data.createdAt
-          )}
-        </div>
-      </div>
-    `;
-    messagesBox.appendChild(wrapper);
-  }
-  messagesBox.scrollTop =
-    messagesBox.scrollHeight;
-}
-/* =========================
-   COMMUNITY CHAT
-========================= */
-function openCommunityChat() {
-  currentPrivateUser = null;
-  chatTitle.textContent =
-    "Kyle Fuller Community";
-  chatStatus.textContent =
-    "Live fan discussion";
-  sidebarStatus.textContent =
-    "Live fan discussion";
-  headerAvatar.innerHTML =
-    `<span>KF</span>`;
-  if (unsubscribeMessages) {
-    unsubscribeMessages();
-    unsubscribeMessages = null;
-  }
-  messagesBox.innerHTML = `
+  communityMessages.innerHTML = `
     <div class="empty-chat">
       Loading messages...
     </div>
@@ -1015,388 +1106,111 @@ function openCommunityChat() {
         "asc"
       )
     );
-  unsubscribeMessages =
+  unsubscribeCommunity =
     onSnapshot(
       messagesQuery,
       async snapshot => {
-        try {
-          await renderCommunityMessages(
-            snapshot
-          );
-          chatStatus.textContent =
-            "Live fan discussion";
-          sidebarStatus.textContent =
-            "Live fan discussion";
-        } catch (error) {
-          console.error(
-            "Message display error:",
-            error
-          );
-          messagesBox.innerHTML = `
+        communityMessages.innerHTML = "";
+        if (snapshot.empty) {
+          communityMessages.innerHTML = `
             <div class="empty-chat">
-              Unable to display messages.
+              No messages yet.<br>
+              Be the first fan to say hello!
             </div>
           `;
+          return;
         }
+        for (
+          const messageDoc
+          of snapshot.docs
+        ) {
+          const data =
+            messageDoc.data();
+          let profile = {};
+          try {
+            if (data.senderId) {
+              const userDoc =
+                await getDoc(
+                  doc(
+                    db,
+                    "users",
+                    data.senderId
+                  )
+                );
+              if (userDoc.exists()) {
+                profile =
+                  userDoc.data();
+              }
+            }
+          } catch (error) {
+            console.error(
+              "Profile error:",
+              error
+            );
+          }
+          const senderName =
+            data.senderName ||
+            profile.name ||
+            "Fan";
+          const wrapper =
+            document.createElement(
+              "div"
+            );
+          wrapper.className =
+            "message-wrapper" +
+            (
+              data.senderId ===
+              currentUser.uid
+                ? " mine"
+                : ""
+            );
+          wrapper.innerHTML = `
+            ${messageAvatarHTML(
+              profile,
+              senderName
+            )}
+            <div class="message-content">
+              <div class="sender-name">
+                ${escapeHTML(senderName)}
+              </div>
+              <div class="message-bubble">
+                ${escapeHTML(
+                  data.text || ""
+                )}
+              </div>
+              <div class="message-time">
+                ${formatTime(
+                  data.createdAt
+                )}
+              </div>
+            </div>
+          `;
+          communityMessages.appendChild(
+            wrapper
+          );
+        }
+        communityMessages.scrollTop =
+          communityMessages.scrollHeight;
       },
       error => {
         console.error(
-          "Community chat error:",
+          "Community error:",
           error
         );
-        messagesBox.innerHTML = `
+        communityMessages.innerHTML = `
           <div class="empty-chat">
-            Unable to load messages.
+            Unable to load community chat.
           </div>
         `;
-        chatStatus.textContent =
-          "Chat unavailable";
       }
     );
 }
-/* =========================
-   PRIVATE CHAT
-========================= */
-async function openPrivateChat(uid) {
-  if (!currentUser) {
-    return;
-  }
-  if (
-    !uid ||
-    uid === currentUser.uid
-  ) {
-    openCommunityChat();
-    return;
-  }
-  if (unsubscribeMessages) {
-    unsubscribeMessages();
-    unsubscribeMessages = null;
-  }
-  try {
-    const userDoc =
-      await getDoc(
-        doc(
-          db,
-          "users",
-          uid
-        )
-      );
-    if (!userDoc.exists()) {
-      chatTitle.textContent =
-        "Member not found";
-      chatStatus.textContent =
-        "This member does not exist";
-      return;
-    }
-    const otherUser =
-      userDoc.data();
-    currentPrivateUser = {
-      uid: uid,
-      ...otherUser
-    };
-    const otherName =
-      otherUser.name ||
-      otherUser.displayName ||
-      "Fan";
-    chatTitle.textContent =
-      otherName;
-    chatStatus.textContent =
-      "Private conversation";
-    sidebarStatus.textContent =
-      "Private conversation";
-    if (otherUser.profileImage) {
-      headerAvatar.innerHTML =
-        `<img
-          src="${escapeHTML(
-            otherUser.profileImage
-          )}"
-          alt="${escapeHTML(
-            otherName
-          )}"
-        >`;
-    } else {
-      headerAvatar.innerHTML =
-        `<span>${escapeHTML(
-          getInitials(otherName)
-        )}</span>`;
-    }
-    const conversationId =
-      [
-        currentUser.uid,
-        uid
-      ]
-        .sort()
-        .join("_");
-    const conversationRef =
-      doc(
-        db,
-        "conversations",
-        conversationId
-      );
-    const conversationSnap =
-      await getDoc(
-        conversationRef
-      );
-    if (!conversationSnap.exists()) {
-      await setDoc(
-        conversationRef,
-        {
-          participants: [
-            currentUser.uid,
-            uid
-          ],
-          createdAt:
-            serverTimestamp(),
-          updatedAt:
-            serverTimestamp(),
-          lastMessage: ""
-        }
-      );
-    }
-    messagesBox.innerHTML = `
-      <div class="empty-chat">
-        Loading conversation...
-      </div>
-    `;
-    const privateMessagesQuery =
-      query(
-        collection(
-          db,
-          "conversations",
-          conversationId,
-          "messages"
-        ),
-        orderBy(
-          "createdAt",
-          "asc"
-        )
-      );
-    unsubscribeMessages =
-      onSnapshot(
-        privateMessagesQuery,
-        async snapshot => {
-          messagesBox.innerHTML = "";
-          if (snapshot.empty) {
-            messagesBox.innerHTML = `
-              <div class="empty-chat">
-                Start your private conversation with
-                ${escapeHTML(otherName)}.
-              </div>
-            `;
-            return;
-          }
-          for (
-            const messageDoc
-            of snapshot.docs
-          ) {
-            const data =
-              messageDoc.data();
-            let profile = {};
-            try {
-              if (data.senderId) {
-                const senderDoc =
-                  await getDoc(
-                    doc(
-                      db,
-                      "users",
-                      data.senderId
-                    )
-                  );
-                if (senderDoc.exists()) {
-                  profile =
-                    senderDoc.data();
-                }
-              }
-            } catch (error) {
-              console.error(
-                "Sender profile error:",
-                error
-              );
-            }
-            const senderName =
-              data.senderName ||
-              profile.name ||
-              (
-                data.senderId ===
-                currentUser.uid
-                  ? "You"
-                  : otherName
-              );
-            const wrapper =
-              document.createElement(
-                "div"
-              );
-            wrapper.className =
-              "message-wrapper" +
-              (
-                data.senderId ===
-                currentUser.uid
-                  ? " mine"
-                  : ""
-              );
-            wrapper.innerHTML = `
-              ${messageAvatarHTML(
-                profile,
-                senderName
-              )}
-              <div class="message-content">
-                <div class="sender-name">
-                  ${escapeHTML(senderName)}
-                </div>
-                <div class="message-bubble">
-                  ${escapeHTML(
-                    data.text || ""
-                  )}
-                </div>
-                <div class="message-time">
-                  ${formatTime(
-                    data.createdAt
-                  )}
-                </div>
-              </div>
-            `;
-            messagesBox.appendChild(
-              wrapper
-            );
-          }
-          messagesBox.scrollTop =
-            messagesBox.scrollHeight;
-        },
-        error => {
-          console.error(
-            "Private chat error:",
-            error
-          );
-          messagesBox.innerHTML = `
-            <div class="empty-chat">
-              Unable to load this conversation.
-            </div>
-          `;
-          chatStatus.textContent =
-            "Chat unavailable";
-        }
-      );
-  } catch (error) {
-    console.error(
-      "Private chat error:",
-      error
-    );
-    chatTitle.textContent =
-      "Private Chat";
-    chatStatus.textContent =
-      "Unable to open chat";
-  }
-}
-/* =========================
-   SEND MESSAGE
-========================= */
-messageForm.addEventListener(
-  "submit",
-  async event => {
-    event.preventDefault();
-    const text =
-      messageInput.value.trim();
-    if (
-      !text ||
-      !currentUser
-    ) {
-      return;
-    }
-    sendButton.disabled = true;
-    try {
-      const senderName =
-        currentUserProfile.name ||
-        currentUser.displayName ||
-        currentUser.email?.split("@")[0] ||
-        "Fan";
-      if (currentPrivateUser) {
-        const conversationId =
-          [
-            currentUser.uid,
-            currentPrivateUser.uid
-          ]
-            .sort()
-            .join("_");
-        await addDoc(
-          collection(
-            db,
-            "conversations",
-            conversationId,
-            "messages"
-          ),
-          {
-            senderId:
-              currentUser.uid,
-            senderName:
-              senderName,
-            text:
-              text,
-            createdAt:
-              serverTimestamp()
-          }
-        );
-        await setDoc(
-          doc(
-            db,
-            "conversations",
-            conversationId
-          ),
-          {
-            participants: [
-              currentUser.uid,
-              currentPrivateUser.uid
-            ],
-            lastMessage:
-              text,
-            updatedAt:
-              serverTimestamp()
-          },
-          {
-            merge: true
-          }
-        );
-      } else {
-        await addDoc(
-          collection(
-            db,
-            "messages"
-          ),
-          {
-            senderId:
-              currentUser.uid,
-            senderName:
-              senderName,
-            text:
-              text,
-            createdAt:
-              serverTimestamp()
-          }
-        );
-      }
-      messageInput.value = "";
-    } catch (error) {
-      console.error(
-        "Send message error:",
-        error
-      );
-      alert(
-        "Message could not be sent. Please try again."
-      );
-    } finally {
-      sendButton.disabled = false;
-      messageInput.focus();
-    }
-  }
-);
 /* =========================
    MEMBERS
 ========================= */
 function loadMembers() {
-  if (unsubscribeMembers) {
-    unsubscribeMembers();
-    unsubscribeMembers = null;
-  }
-  membersSection.innerHTML = `
+  stopMembersListener();
+  membersList.innerHTML = `
     <div class="empty-side">
       Loading members...
     </div>
@@ -1412,7 +1226,7 @@ function loadMembers() {
     onSnapshot(
       usersQuery,
       snapshot => {
-        membersSection.innerHTML = "";
+        membersList.innerHTML = "";
         const users =
           snapshot.docs
             .map(item => ({
@@ -1425,7 +1239,7 @@ function loadMembers() {
                 currentUser.uid
             );
         if (users.length === 0) {
-          membersSection.innerHTML = `
+          membersList.innerHTML = `
             <div class="empty-side">
               No other members yet.
             </div>
@@ -1464,27 +1278,21 @@ function loadMembers() {
               MESSAGE
             </button>
           `;
-          function openMemberChat() {
-            window.location.href =
-              "chat.html?with=" +
-              encodeURIComponent(
-                user.id
-              );
-          }
-          card
-            .querySelector(".open-btn")
-            .addEventListener(
-              "click",
-              event => {
-                event.stopPropagation();
-                openMemberChat();
-              }
-            );
           card.addEventListener(
             "click",
-            openMemberChat
+            () => {
+              previousListView =
+                "members";
+              currentPrivateUser = {
+                uid: user.id,
+                ...user
+              };
+              showPrivateUser(
+                currentPrivateUser
+              );
+            }
           );
-          membersSection.appendChild(
+          membersList.appendChild(
             card
           );
         });
@@ -1494,9 +1302,266 @@ function loadMembers() {
           "Members error:",
           error
         );
-        membersSection.innerHTML = `
+        membersList.innerHTML = `
           <div class="empty-side">
             Unable to load members.
+          </div>
+        `;
+      }
+    );
+}
+/* =========================
+   OPEN PRIVATE USER
+========================= */
+async function showPrivateUser(user) {
+  currentPrivateUser =
+    user;
+  privateView.classList.add(
+    "active"
+  );
+  communityView.classList.remove(
+    "active"
+  );
+  membersView.classList.remove(
+    "active"
+  );
+  inboxView.classList.remove(
+    "active"
+  );
+  document
+    .querySelectorAll(".side-tab")
+    .forEach(tab => {
+      tab.classList.remove("active");
+    });
+  backButton.style.display =
+    "block";
+  composer.style.display =
+    "block";
+  const name =
+    user.name ||
+    user.displayName ||
+    user.email?.split("@")[0] ||
+    "Fan";
+  chatTitle.textContent =
+    name;
+  chatStatus.textContent =
+    "Private conversation";
+  sidebarStatus.textContent =
+    "Private conversation";
+  headerAvatar.innerHTML =
+    user.profileImage
+      ? `<img
+          src="${escapeHTML(
+            user.profileImage
+          )}"
+          alt="${escapeHTML(name)}"
+        >`
+      : `<span>${escapeHTML(
+          getInitials(name)
+        )}</span>`;
+  await openPrivateChat(
+    user.uid
+  );
+}
+/* =========================
+   PRIVATE CHAT
+========================= */
+async function openPrivateChat(uid) {
+  if (!uid || !currentUser) {
+    return;
+  }
+  stopPrivateListener();
+  const userDoc =
+    await getDoc(
+      doc(
+        db,
+        "users",
+        uid
+      )
+    );
+  if (!userDoc.exists()) {
+    privateMessages.innerHTML = `
+      <div class="empty-chat">
+        Member not found.
+      </div>
+    `;
+    return;
+  }
+  const otherUser =
+    userDoc.data();
+  currentPrivateUser = {
+    uid,
+    ...otherUser
+  };
+  const otherName =
+    otherUser.name ||
+    otherUser.displayName ||
+    "Fan";
+  chatTitle.textContent =
+    otherName;
+  chatStatus.textContent =
+    "Private conversation";
+  headerAvatar.innerHTML =
+    otherUser.profileImage
+      ? `<img
+          src="${escapeHTML(
+            otherUser.profileImage
+          )}"
+          alt="${escapeHTML(otherName)}"
+        >`
+      : `<span>${escapeHTML(
+          getInitials(otherName)
+        )}</span>`;
+  const conversationId =
+    [
+      currentUser.uid,
+      uid
+    ]
+      .sort()
+      .join("_");
+  const conversationRef =
+    doc(
+      db,
+      "conversations",
+      conversationId
+    );
+  const conversationSnap =
+    await getDoc(
+      conversationRef
+    );
+  if (!conversationSnap.exists()) {
+    await setDoc(
+      conversationRef,
+      {
+        participants: [
+          currentUser.uid,
+          uid
+        ],
+        createdAt:
+          serverTimestamp(),
+        updatedAt:
+          serverTimestamp(),
+        lastMessage: ""
+      }
+    );
+  }
+  privateMessages.innerHTML = `
+    <div class="empty-chat">
+      Loading conversation...
+    </div>
+  `;
+  const privateQuery =
+    query(
+      collection(
+        db,
+        "conversations",
+        conversationId,
+        "messages"
+      ),
+      orderBy(
+        "createdAt",
+        "asc"
+      )
+    );
+  unsubscribePrivate =
+    onSnapshot(
+      privateQuery,
+      async snapshot => {
+        privateMessages.innerHTML = "";
+        if (snapshot.empty) {
+          privateMessages.innerHTML = `
+            <div class="empty-chat">
+              Start your private conversation with
+              ${escapeHTML(otherName)}.
+            </div>
+          `;
+          return;
+        }
+        for (
+          const messageDoc
+          of snapshot.docs
+        ) {
+          const data =
+            messageDoc.data();
+          let profile = {};
+          try {
+            if (data.senderId) {
+              const senderDoc =
+                await getDoc(
+                  doc(
+                    db,
+                    "users",
+                    data.senderId
+                  )
+                );
+              if (senderDoc.exists()) {
+                profile =
+                  senderDoc.data();
+              }
+            }
+          } catch (error) {
+            console.error(
+              "Private profile error:",
+              error
+            );
+          }
+          const senderName =
+            data.senderName ||
+            profile.name ||
+            (
+              data.senderId ===
+              currentUser.uid
+                ? "You"
+                : otherName
+            );
+          const wrapper =
+            document.createElement(
+              "div"
+            );
+          wrapper.className =
+            "message-wrapper" +
+            (
+              data.senderId ===
+              currentUser.uid
+                ? " mine"
+                : ""
+            );
+          wrapper.innerHTML = `
+            ${messageAvatarHTML(
+              profile,
+              senderName
+            )}
+            <div class="message-content">
+              <div class="sender-name">
+                ${escapeHTML(senderName)}
+              </div>
+              <div class="message-bubble">
+                ${escapeHTML(
+                  data.text || ""
+                )}
+              </div>
+              <div class="message-time">
+                ${formatTime(
+                  data.createdAt
+                )}
+              </div>
+            </div>
+          `;
+          privateMessages.appendChild(
+            wrapper
+          );
+        }
+        privateMessages.scrollTop =
+          privateMessages.scrollHeight;
+      },
+      error => {
+        console.error(
+          "Private chat error:",
+          error
+        );
+        privateMessages.innerHTML = `
+          <div class="empty-chat">
+            Unable to load conversation.
           </div>
         `;
       }
@@ -1506,11 +1571,8 @@ function loadMembers() {
    INBOX
 ========================= */
 function loadInbox() {
-  if (unsubscribeInbox) {
-    unsubscribeInbox();
-    unsubscribeInbox = null;
-  }
-  inboxSection.innerHTML = `
+  stopInboxListener();
+  inboxList.innerHTML = `
     <div class="empty-side">
       Loading inbox...
     </div>
@@ -1531,9 +1593,9 @@ function loadInbox() {
     onSnapshot(
       inboxQuery,
       async snapshot => {
-        inboxSection.innerHTML = "";
+        inboxList.innerHTML = "";
         if (snapshot.empty) {
-          inboxSection.innerHTML = `
+          inboxList.innerHTML = `
             <div class="empty-side">
               No private messages yet.
             </div>
@@ -1623,27 +1685,21 @@ function loadInbox() {
               OPEN
             </button>
           `;
-          function openInboxChat() {
-            window.location.href =
-              "chat.html?with=" +
-              encodeURIComponent(
-                otherUid
-              );
-          }
           card.addEventListener(
             "click",
-            openInboxChat
+            () => {
+              previousListView =
+                "inbox";
+              currentPrivateUser = {
+                uid: otherUid,
+                ...otherUser
+              };
+              showPrivateUser(
+                currentPrivateUser
+              );
+            }
           );
-          card
-            .querySelector(".open-btn")
-            .addEventListener(
-              "click",
-              event => {
-                event.stopPropagation();
-                openInboxChat();
-              }
-            );
-          inboxSection.appendChild(
+          inboxList.appendChild(
             card
           );
         }
@@ -1653,7 +1709,7 @@ function loadInbox() {
           "Inbox error:",
           error
         );
-        inboxSection.innerHTML = `
+        inboxList.innerHTML = `
           <div class="empty-side">
             Unable to load inbox.
           </div>
@@ -1662,14 +1718,127 @@ function loadInbox() {
     );
 }
 /* =========================
-   AUTHENTICATION
+   SEND MESSAGE
+========================= */
+messageForm.addEventListener(
+  "submit",
+  async event => {
+    event.preventDefault();
+    const text =
+      messageInput.value.trim();
+    if (
+      !text ||
+      !currentUser
+    ) {
+      return;
+    }
+    sendButton.disabled =
+      true;
+    try {
+      const senderName =
+        currentUserProfile.name ||
+        currentUser.displayName ||
+        currentUser.email?.split("@")[0] ||
+        "Fan";
+      /* PRIVATE MESSAGE */
+      if (
+        currentPrivateUser &&
+        currentView === "private"
+      ) {
+        const conversationId =
+          [
+            currentUser.uid,
+            currentPrivateUser.uid
+          ]
+            .sort()
+            .join("_");
+        await addDoc(
+          collection(
+            db,
+            "conversations",
+            conversationId,
+            "messages"
+          ),
+          {
+            senderId:
+              currentUser.uid,
+            senderName:
+              senderName,
+            text:
+              text,
+            createdAt:
+              serverTimestamp()
+          }
+        );
+        await setDoc(
+          doc(
+            db,
+            "conversations",
+            conversationId
+          ),
+          {
+            participants: [
+              currentUser.uid,
+              currentPrivateUser.uid
+            ],
+            lastMessage:
+              text,
+            updatedAt:
+              serverTimestamp()
+          },
+          {
+            merge: true
+          }
+        );
+      }
+      /* COMMUNITY MESSAGE */
+      else if (
+        currentView === "community"
+      ) {
+        await addDoc(
+          collection(
+            db,
+            "messages"
+          ),
+          {
+            senderId:
+              currentUser.uid,
+            senderName:
+              senderName,
+            text:
+              text,
+            createdAt:
+              serverTimestamp()
+          }
+        );
+      }
+      messageInput.value = "";
+    } catch (error) {
+      console.error(
+        "Send message error:",
+        error
+      );
+      alert(
+        "Message could not be sent. Please try again."
+      );
+    } finally {
+      sendButton.disabled =
+        false;
+      messageInput.focus();
+    }
+  }
+);
+/* =========================
+   AUTH
 ========================= */
 onAuthStateChanged(
   auth,
   async user => {
     console.log(
-      "Firebase auth state:",
-      user ? user.uid : "NO USER"
+      "Firebase auth:",
+      user
+        ? user.uid
+        : "NO USER"
     );
     if (!user) {
       window.location.href =
@@ -1679,24 +1848,49 @@ onAuthStateChanged(
     currentUser =
       user;
     await loadCurrentUser();
-    loadMembers();
-    loadInbox();
     /*
-      If the URL contains ?with=UID,
-      open that private conversation.
+      If someone opened:
+      chat.html?with=UID
+      open that person's private chat.
     */
     if (privateUid) {
-      await openPrivateChat(
-        privateUid
-      );
+      try {
+        const userDoc =
+          await getDoc(
+            doc(
+              db,
+              "users",
+              privateUid
+            )
+          );
+        if (userDoc.exists()) {
+          previousListView =
+            "members";
+          currentPrivateUser = {
+            uid: privateUid,
+            ...userDoc.data()
+          };
+          showPrivateUser(
+            currentPrivateUser
+          );
+        } else {
+          showView(
+            "members"
+          );
+        }
+      } catch (error) {
+        console.error(
+          error
+        );
+        showView(
+          "members"
+        );
+      }
     } else {
-      openCommunityChat();
+      showView(
+        "community"
+      );
     }
-    /*
-      Always start the sidebar
-      with exactly ONE active section.
-    */
-    setActiveTab("community");
   }
 );
 </script>
