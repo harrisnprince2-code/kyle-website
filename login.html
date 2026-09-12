@@ -93,7 +93,6 @@
       border-radius: 5px;
       outline: none;
       font-size: 14px;
-      transition: 0.3s;
     }
     .form-group input:focus {
       border-color: #8e1d43;
@@ -135,17 +134,20 @@
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow:
-        0 12px 35px rgba(70,5,30,0.3);
     }
     .submit-btn:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       background:
         linear-gradient(
           135deg,
           #5a0c28,
           #941e49
         );
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
     .divider {
       display: flex;
@@ -174,11 +176,6 @@
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 5px;
       cursor: pointer;
-      transition: 0.3s;
-    }
-    .social-login button:hover {
-      border-color: rgba(130,20,55,0.5);
-      color: white;
     }
     .back {
       display: block;
@@ -194,6 +191,17 @@
     #signup {
       display: none;
     }
+    .error-message {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px;
+      border-radius: 6px;
+      background: rgba(150, 20, 50, 0.15);
+      border: 1px solid rgba(150, 20, 50, 0.35);
+      color: #e68a9e;
+      font-size: 12px;
+      text-align: center;
+    }
     @media (max-width: 500px) {
       .login-container {
         padding: 35px 25px;
@@ -208,58 +216,42 @@
   <p>OFFICIAL WEBSITE</p>
 </div>
 <div class="tabs">
-  <button
-    id="loginTab"
-    class="active"
-    onclick="showLogin()">
+  <button id="loginTab" class="active" onclick="showLogin()">
     Login
   </button>
-  <button
-    id="signupTab"
-    onclick="showSignup()">
+  <button id="signupTab" onclick="showSignup()">
     Sign Up
   </button>
 </div>
+<div id="errorMessage" class="error-message"></div>
 <!-- LOGIN -->
-<form
-  id="login"
-  onsubmit="loginUser(event)"
->
+<form id="login">
   <div class="form-group">
-    <label>
-      Email Address
-    </label>
+    <label>Email Address</label>
     <input
       type="email"
       id="loginEmail"
       placeholder="Enter your email"
+      autocomplete="email"
       required
     >
   </div>
   <div class="form-group">
-    <label>
-      Password
-    </label>
+    <label>Password</label>
     <input
       type="password"
       id="loginPassword"
       placeholder="Enter your password"
+      autocomplete="current-password"
       required
     >
   </div>
   <div class="options">
     <label class="remember">
-      <input
-        type="checkbox"
-        id="rememberMe"
-      >
+      <input type="checkbox" id="rememberMe">
       Remember me
     </label>
-    <a
-      href="#"
-      class="forgot"
-      onclick="return false;"
-    >
+    <a href="#" class="forgot" onclick="return false;">
       Forgot password?
     </a>
   </div>
@@ -274,38 +266,37 @@
 <!-- SIGN UP -->
 <form id="signup">
   <div class="form-group">
-    <label>
-      Full Name
-    </label>
+    <label>Full Name</label>
     <input
       type="text"
+      id="signupName"
       placeholder="Enter your name"
       required
     >
   </div>
   <div class="form-group">
-    <label>
-      Email Address
-    </label>
+    <label>Email Address</label>
     <input
       type="email"
+      id="signupEmail"
       placeholder="Enter your email"
       required
     >
   </div>
   <div class="form-group">
-    <label>
-      Create Password
-    </label>
+    <label>Create Password</label>
     <input
       type="password"
+      id="signupPassword"
       placeholder="Create a password"
+      minlength="6"
       required
     >
   </div>
   <button
     type="submit"
     class="submit-btn"
+    id="signupButton"
   >
     CREATE ACCOUNT
   </button>
@@ -314,17 +305,10 @@
   OR CONTINUE WITH
 </div>
 <div class="social-login">
-  <button type="button">
-    Google
-  </button>
-  <button type="button">
-    Apple
-  </button>
+  <button type="button">Google</button>
+  <button type="button">Apple</button>
 </div>
-<a
-  href="index.html"
-  class="back"
->
+<a href="index.html" class="back">
   ← Back to website
 </a>
   </div>
@@ -347,6 +331,7 @@
       setDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    /* FIREBASE CONFIG */
     const firebaseConfig = {
       apiKey:
         "AIzaSyATyGLNPuSu3GMxWjFBijyk2mu57GkVZo4",
@@ -363,70 +348,61 @@
       measurementId:
         "G-799CW529X9"
     };
-    const app =
-      initializeApp(firebaseConfig);
-    const auth =
-      getAuth(app);
-    const db =
-      getFirestore(app);
-    /*
-      IMPORTANT:
-      Keep Firebase login persistent
-      when moving between pages.
-    */
-    setPersistence(
+    /* INITIALIZE FIREBASE */
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    /* KEEP USER LOGGED IN */
+    await setPersistence(
       auth,
       browserLocalPersistence
-    )
-    .catch(error => {
-      console.error(
-        "Auth persistence error:",
-        error
-      );
-    });
+    );
+    /* ERROR MESSAGE */
+    function showError(message) {
+      const box =
+        document.getElementById("errorMessage");
+      box.textContent = message;
+      box.style.display = "block";
+    }
+    function clearError() {
+      const box =
+        document.getElementById("errorMessage");
+      box.textContent = "";
+      box.style.display = "none";
+    }
     /* LOGIN / SIGNUP TABS */
-    window.showLogin =
-      function(){
-        document
-          .getElementById("login")
-          .style.display =
-          "block";
-        document
-          .getElementById("signup")
-          .style.display =
-          "none";
-        document
-          .getElementById("loginTab")
-          .classList
-          .add("active");
-        document
-          .getElementById("signupTab")
-          .classList
-          .remove("active");
-      };
-    window.showSignup =
-      function(){
-        document
-          .getElementById("login")
-          .style.display =
-          "none";
-        document
-          .getElementById("signup")
-          .style.display =
-          "block";
-        document
-          .getElementById("loginTab")
-          .classList
-          .remove("active");
-        document
-          .getElementById("signupTab")
-          .classList
-          .add("active");
-      };
+    window.showLogin = function() {
+      clearError();
+      document.getElementById("login").style.display =
+        "block";
+      document.getElementById("signup").style.display =
+        "none";
+      document.getElementById("loginTab").classList.add(
+        "active"
+      );
+      document.getElementById("signupTab").classList.remove(
+        "active"
+      );
+    };
+    window.showSignup = function() {
+      clearError();
+      document.getElementById("login").style.display =
+        "none";
+      document.getElementById("signup").style.display =
+        "block";
+      document.getElementById("loginTab").classList.remove(
+        "active"
+      );
+      document.getElementById("signupTab").classList.add(
+        "active"
+      );
+    };
     /* LOGIN */
-    window.loginUser =
-      async function(event){
+    document
+      .getElementById("login")
+      .addEventListener("submit", async function(event) {
         event.preventDefault();
+        clearError();
         const email =
           document
             .getElementById("loginEmail")
@@ -437,141 +413,158 @@
             .getElementById("loginPassword")
             .value;
         const loginButton =
-          document
-            .getElementById("loginButton");
-        loginButton.disabled =
-          true;
+          document.getElementById("loginButton");
+        loginButton.disabled = true;
         loginButton.textContent =
           "LOGGING IN...";
-        try{
-          /*
-            Remember me:
-            local persistence keeps the
-            Firebase login available across
-            dashboard/chat/profile pages.
-          */
-          await setPersistence(
-            auth,
-            browserLocalPersistence
-          );
+        try {
           await signInWithEmailAndPassword(
             auth,
             email,
             password
           );
           /*
-            Firebase has successfully
-            authenticated the user.
+            Login successful.
+            Firebase has now stored the
+            authenticated session locally.
           */
-          window.location.href =
-            "dashboard.html";
-        }catch(error){
-          console.error(
-            "Login error:",
-            error
-          );
-          alert(
-            "Login failed: " +
-            error.message
-          );
-          loginButton.disabled =
-            false;
+          loginButton.textContent =
+            "SUCCESS ✓";
+          /*
+            Small delay allows Firebase
+            to finish updating the session
+            before changing pages.
+          */
+          setTimeout(function() {
+            window.location.replace(
+              "dashboard.html"
+            );
+          }, 300);
+        } catch (error) {
+          console.error("Firebase login error:", error);
+          let message =
+            "Login failed. Please check your email and password.";
+          if (
+            error.code ===
+            "auth/invalid-credential"
+          ) {
+            message =
+              "Incorrect email or password.";
+          }
+          if (
+            error.code ===
+            "auth/user-not-found"
+          ) {
+            message =
+              "No account was found with this email.";
+          }
+          if (
+            error.code ===
+            "auth/wrong-password"
+          ) {
+            message =
+              "Incorrect password.";
+          }
+          if (
+            error.code ===
+            "auth/invalid-email"
+          ) {
+            message =
+              "Please enter a valid email address.";
+          }
+          if (
+            error.code ===
+            "auth/too-many-requests"
+          ) {
+            message =
+              "Too many attempts. Please wait and try again.";
+          }
+          showError(message);
+          loginButton.disabled = false;
           loginButton.textContent =
             "LOGIN";
         }
-      };
+      });
     /* SIGN UP */
     document
       .getElementById("signup")
-      .addEventListener(
-        "submit",
-        async function(event){
-          event.preventDefault();
-          const inputs =
-            document.querySelectorAll(
-              "#signup input"
-            );
-          const name =
-            inputs[0]
-              .value
-              .trim();
-          const email =
-            inputs[1]
-              .value
-              .trim();
-          const password =
-            inputs[2]
-              .value;
-          try{
-            const userCredential =
-              await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-              );
-            const user =
-              userCredential.user;
-            await updateProfile(
-              user,
-              {
-                displayName:name
-              }
-            );
-            await setDoc(
-              doc(
-                db,
-                "users",
-                user.uid
-              ),
-              {
-                name:name,
-                email:email,
-                bio:"",
-                createdAt:
-                  serverTimestamp()
-              }
-            );
-            await setDoc(
-              doc(
-                db,
-                "publicProfiles",
-                user.uid
-              ),
-              {
-                uid:user.uid,
-                name:name,
-                bio:"",
-                createdAt:
-                  serverTimestamp()
-              }
-            );
-            /*
-              Make sure the newly-created
-              account also stays logged in.
-            */
-            await setPersistence(
+      .addEventListener("submit", async function(event) {
+        event.preventDefault();
+        clearError();
+        const name =
+          document
+            .getElementById("signupName")
+            .value
+            .trim();
+        const email =
+          document
+            .getElementById("signupEmail")
+            .value
+            .trim();
+        const password =
+          document
+            .getElementById("signupPassword")
+            .value;
+        const signupButton =
+          document.getElementById("signupButton");
+        signupButton.disabled = true;
+        signupButton.textContent =
+          "CREATING ACCOUNT...";
+        try {
+          const userCredential =
+            await createUserWithEmailAndPassword(
               auth,
-              browserLocalPersistence
+              email,
+              password
             );
-            alert(
-              "Account created successfully! Welcome, " +
-              name +
-              "."
-            );
-            window.location.href =
-              "dashboard.html";
-          }catch(error){
-            console.error(
-              "Signup error:",
-              error
-            );
-            alert(
-              "Sign up failed: " +
-              error.message
-            );
-          }
+          const user =
+            userCredential.user;
+          await updateProfile(
+            user,
+            {
+              displayName: name
+            }
+          );
+          await setDoc(
+            doc(db, "users", user.uid),
+            {
+              name: name,
+              email: email,
+              bio: "",
+              createdAt: serverTimestamp()
+            }
+          );
+          await setDoc(
+            doc(db, "publicProfiles", user.uid),
+            {
+              uid: user.uid,
+              name: name,
+              bio: "",
+              createdAt: serverTimestamp()
+            }
+          );
+          alert(
+            "Account created successfully! Welcome, " +
+            name +
+            "."
+          );
+          window.location.replace(
+            "dashboard.html"
+          );
+        } catch (error) {
+          console.error(
+            "Firebase signup error:",
+            error
+          );
+          showError(
+            "Sign up failed: " +
+            error.message
+          );
+          signupButton.disabled = false;
+          signupButton.textContent =
+            "CREATE ACCOUNT";
         }
-      );
+      });
   </script>
 </body>
 </html>
