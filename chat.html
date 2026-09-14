@@ -2473,16 +2473,23 @@ backButton.addEventListener(
       Back goes to dashboard
     */
 
-    if(
-      currentView === "community" ||
-      currentView === "inbox" ||
-      currentView === "members"
-    ){
+  if(currentView === "community"){
 
-      window.location.href =
-        "dashboard.html";
+  openInbox();
 
-    }
+  return;
+
+}
+
+if(
+  currentView === "inbox" ||
+  currentView === "members"
+){
+
+  window.location.href =
+    "dashboard.html";
+
+}
 
   }
 );
